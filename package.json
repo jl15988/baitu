@@ -2,7 +2,7 @@
   "name": "bai-tools",
   "version": "1.0.0",
   "description": "A small and comprehensive front-end toolkit.",
-  "main": "/src/index.ts",
+  "main": "/lib/bai-tools.js",
   "scripts": {
     "build": "webpack"
   },
