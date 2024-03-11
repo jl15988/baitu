@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "ES6",
+    "target": "ES2017",
+    "outDir": "lib",
+    "declaration": true,
+    "declarationDir": "types"
+  }
+}

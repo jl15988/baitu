@@ -1,6 +1,6 @@
 class DateUtil {
-    toDate(dateTime: any): Date {
-        let date: Date;
+    toDate(dateTime) {
+        let date;
         // 若传入时间为假值，则取当前时间
         if (!dateTime) {
             date = new Date()
@@ -25,18 +25,18 @@ class DateUtil {
         return date;
     }
 
-    format(date: any, format?: string) {
+    format(date, format) {
         if (!format) {
             format = "yyyy-MM-dd HH:mm:ss"
         }
-        const newDate: Date = this.toDate(date);
+        const newDate = this.toDate(date);
         const timeSource = {
-            'y': date.getFullYear().toString(), // 年
-            'm': (date.getMonth() + 1).toString().padStart(2, '0'), // 月
-            'd': date.getDate().toString().padStart(2, '0'), // 日
-            'h': date.getHours().toString().padStart(2, '0'), // 时
-            'M': date.getMinutes().toString().padStart(2, '0'), // 分
-            's': date.getSeconds().toString().padStart(2, '0') // 秒
+            'y': newDate.getFullYear().toString(), // 年
+            'M': (newDate.getMonth() + 1).toString().padStart(2, '0'), // 月
+            'd': newDate.getDate().toString().padStart(2, '0'), // 日
+            'H': newDate.getHours().toString().padStart(2, '0'), // 时
+            'm': newDate.getMinutes().toString().padStart(2, '0'), // 分
+            's': newDate.getSeconds().toString().padStart(2, '0') // 秒
             // 有其他格式化字符需求可以继续添加，必须转化成字符串
         }
         for (const key in timeSource) {
