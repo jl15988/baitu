@@ -7,7 +7,7 @@ module.exports = {
     entry: './src/index.ts',
     //output输出---因为修改的属性较多，所依使用对象形式更改
     output: {
-        filename: 'bai-tools.js',//默认情况下创建的文件名
+        filename: 'baitu.js',//默认情况下创建的文件名
         path: path.resolve(__dirname, 'lib')
     },
     resolve: {

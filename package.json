@@ -1,18 +1,20 @@
 {
-  "name": "bai-tools",
+  "name": "baitu",
   "version": "1.0.0",
   "description": "A small and comprehensive front-end toolkit.",
-  "main": "/lib/bai-tools.js",
+  "main": "/lib/baitu.js",
   "scripts": {
     "build": "webpack"
   },
   "typings": "types/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/jl15988/bai-tools.git"
+    "url": "https://gitee.com/jl15988/baitu.git"
   },
   "keywords": [
-    "bai-tools"
+    "bai-tools",
+    "jl15988",
+    "baitu"
   ],
   "author": "jl15988",
   "license": "MIT",
