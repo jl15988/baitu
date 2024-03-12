@@ -1,6 +1,24 @@
-import DateTime from "./DateTime";
+import DateTime, {DateField} from "./DateTime";
+import NumberUtil from "../number/NumberUtil";
 
 class DateUtil {
+
+    /**
+     * 秒毫秒值
+     */
+    static readonly secondsMillis: number = 1000;
+    /**
+     * 分钟毫秒值
+     */
+    static readonly minutesMillis: number = this.secondsMillis * 60;
+    /**
+     * 小时毫秒值
+     */
+    static readonly hoursMillis: number = this.minutesMillis * 60;
+    /**
+     * 天毫秒值
+     */
+    static readonly dayMillis: number = this.hoursMillis * 24;
 
     /**
      * 获取当前Date日期
@@ -71,7 +89,7 @@ class DateUtil {
      * HH:mm
      * HH(时/点)mm分
      * HH(时/点)
-     * @param dateTime
+     * @param dateTime 日期
      */
     parse(dateTime: string | number | Date | DateTime): Date {
         if (!dateTime) {
@@ -147,6 +165,11 @@ class DateUtil {
         return new DateTime(this.parse(dateTime));
     }
 
+    /**
+     * 格式化日期，默认格式：yyyy-MM-dd HH:mm:ss
+     * @param date 日期
+     * @param format 格式
+     */
     format(date: string | number | Date | DateTime, format?: string): string {
         if (!format) {
             format = "yyyy-MM-dd HH:mm:ss"
@@ -167,6 +190,58 @@ class DateUtil {
             if (new RegExp("(" + k + ")").test(format))
                 format = format.replace(RegExp.$1, (RegExp.$1.length == 1) ? (timeSource[k]) : (("00" + timeSource[k]).substr(("" + timeSource[k]).length)));
         return format;
+    }
+
+    /**
+     * 获取当月天数
+     * @param date 日期
+     */
+    daysOfMonth(date: Date | DateTime): number {
+        return new DateTime(date).daysOfMonth();
+    }
+
+    /**
+     * 获取日期1减日期2的差值
+     */
+    compare(date1: Date | DateTime, date2: Date | DateTime, dateField?: DateField): number {
+        const time1 = date1.getTime();
+        const time2 = date2.getTime();
+        const diff = time1 - time2;
+        let result = diff;
+        if (DateField.SECONDS === dateField) {
+            result = diff / DateUtil.secondsMillis;
+        } else if (DateField.MINUTES === dateField) {
+            result = diff / DateUtil.minutesMillis;
+        } else if (DateField.HOURS === dateField) {
+            result = diff / DateUtil.hoursMillis;
+        } else if (DateField.DAY === dateField) {
+            result = diff / DateUtil.dayMillis;
+        } else if (DateField.MONTH === dateField || DateField.YEAR) {
+            const month1 = date1.getMonth();
+            const month2 = date2.getMonth();
+            const day1 = date1.getDate();
+            const day2 = date2.getDate();
+            const days = this.daysOfMonth(date2);
+            result = (day1 - day2) / days;
+            if (month1 !== month2) {
+                result += month1 - month2;
+            }
+        } else if (DateField.YEAR === dateField) {
+            const year1 = date1.getFullYear();
+            const year2 = date2.getFullYear();
+            result = result / 12 + year1 - year2;
+        } else {
+            return diff;
+        }
+        return NumberUtil.fixed(result, 1);
+    }
+
+    /**
+     * 根据日期获取年龄
+     * @param date 日期
+     */
+    age(date: Date | DateTime): number {
+        return NumberUtil.floor(this.compare(new Date(), date, DateField.YEAR));
     }
 }
 

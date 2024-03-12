@@ -1,5 +1,21 @@
-import DateTime from "./DateTime";
+import DateTime, { DateField } from "./DateTime";
 declare class DateUtil {
+    /**
+     * 秒毫秒值
+     */
+    static readonly secondsMillis: number;
+    /**
+     * 分钟毫秒值
+     */
+    static readonly minutesMillis: number;
+    /**
+     * 小时毫秒值
+     */
+    static readonly hoursMillis: number;
+    /**
+     * 天毫秒值
+     */
+    static readonly dayMillis: number;
     /**
      * 获取当前Date日期
      */
@@ -54,7 +70,7 @@ declare class DateUtil {
      * HH:mm
      * HH(时/点)mm分
      * HH(时/点)
-     * @param dateTime
+     * @param dateTime 日期
      */
     parse(dateTime: string | number | Date | DateTime): Date;
     /**
@@ -62,7 +78,26 @@ declare class DateUtil {
      * @param dateTime
      */
     toDateTime(dateTime: string | number | Date | DateTime): DateTime;
+    /**
+     * 格式化日期，默认格式：yyyy-MM-dd HH:mm:ss
+     * @param date 日期
+     * @param format 格式
+     */
     format(date: string | number | Date | DateTime, format?: string): string;
+    /**
+     * 获取当月天数
+     * @param date 日期
+     */
+    daysOfMonth(date: Date | DateTime): number;
+    /**
+     * 获取日期1减日期2的差值
+     */
+    compare(date1: Date | DateTime, date2: Date | DateTime, dateField?: DateField): number;
+    /**
+     * 根据日期获取年龄
+     * @param date 日期
+     */
+    age(date: Date | DateTime): number;
 }
 declare const _default: DateUtil;
 export default _default;

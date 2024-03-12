@@ -87,7 +87,11 @@ class DateTime extends Date {
         return new DateTime(values.year, values.month, values.day);
     }
 
-    format(format: string) {
+    /**
+     * 格式化日期，默认格式：yyyy-MM-dd HH:mm:ss
+     * @param format 格式
+     */
+    format(format?: string) {
         return DateUtil.format(this, format);
     }
 
@@ -225,6 +229,27 @@ class DateTime extends Date {
             newDateTime.setSeconds(values.seconds = Number(offset));
         }
         return newDateTime;
+    }
+
+    /**
+     * 获取当月天数
+     */
+    daysOfMonth(): number {
+        return new Date(this.getFullYear(), this.getMonth() + 1, 0).getDate();
+    }
+
+    /**
+     * 获取当前日期与指定日期之间的差值，当前-参数
+     */
+    compare(date: Date | DateTime, dateField: DateField): number {
+        return DateUtil.compare(this, date, dateField);
+    }
+
+    /**
+     * 获取当前日期年龄
+     */
+    age(): number {
+        return DateUtil.age(this);
     }
 }
 

@@ -40,7 +40,11 @@ declare class DateTime extends Date {
      * @returns {DateTime}
      */
     toDate(): DateTime;
-    format(format: string): string;
+    /**
+     * 格式化日期，默认格式：yyyy-MM-dd HH:mm:ss
+     * @param format 格式
+     */
+    format(format?: string): string;
     /**
      * 格式化当前日期为年-月-日
      * @returns {string}
@@ -103,5 +107,17 @@ declare class DateTime extends Date {
      * @returns {DateTime}
      */
     offset(type: DateField, offset: number): DateTime;
+    /**
+     * 获取当月天数
+     */
+    daysOfMonth(): number;
+    /**
+     * 获取当前日期与指定日期之间的差值，当前-参数
+     */
+    compare(date: Date | DateTime, dateField: DateField): number;
+    /**
+     * 获取当前日期年龄
+     */
+    age(): number;
 }
 export default DateTime;
