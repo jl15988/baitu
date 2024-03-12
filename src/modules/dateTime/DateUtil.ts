@@ -1,53 +1,171 @@
+import DateTime from "./DateTime";
+
 class DateUtil {
-    toDate(dateTime) {
-        let date;
-        // 若传入时间为假值，则取当前时间
-        if (!dateTime) {
-            date = new Date()
-        }
-        // 若为unix秒时间戳，则转为毫秒时间戳（逻辑有点奇怪，但不敢改，以保证历史兼容）
-        else if (/^\d{10}$/.test(dateTime?.toString().trim())) {
-            date = new Date(dateTime * 1000)
-        }
-        // 若用户传入字符串格式时间戳，new Date无法解析，需做兼容
-        else if (typeof dateTime === 'string' && /^\d+$/.test(dateTime.trim())) {
-            date = new Date(Number(dateTime))
-        }
-            // 处理平台性差异，在Safari/Webkit中，new Date仅支持/作为分割符的字符串时间
-        // 处理 '2022-07-10 01:02:03'，跳过 '2022-07-10T01:02:03'
-        else if (typeof dateTime === 'string' && dateTime.includes('-') && !dateTime.includes('T')) {
-            date = new Date(dateTime.replace(/-/g, '/'))
-        }
-        // 其他都认为符合 RFC 2822 规范
-        else {
-            date = new Date(dateTime)
-        }
-        return date;
+
+    /**
+     * 获取当前Date日期
+     */
+    date(): Date {
+        return new Date();
     }
 
-    format(date, format) {
+    /**
+     * 获取当前DateTime日期
+     */
+    dateTime(): DateTime {
+        return new DateTime();
+    }
+
+    /**
+     * 获取当前时间戳
+     */
+    now(): number {
+        return Date.now();
+    }
+
+    /**
+     * 获取当前时间，格式：yyyy-MM-dd HH:mm:ss
+     */
+    formatNow(): string {
+        return this.format(new Date());
+    }
+
+    /**
+     * 获取当前日期，格式：yyyy-MM-dd
+     */
+    formatToDate(): string {
+        return this.format(new Date(), "yyyy-MM-dd");
+    }
+
+    /**
+     * 将特定格式转为DateTime
+     * 支持格式：
+     * yyyy年MM月dd日HH(时/点)mm分ss秒
+     * yyyy年MM月dd日 HH(时/点)mm分ss秒
+     * yyyy年MM月dd日HH(时/点)mm分
+     * yyyy年MM月dd日HH(时/点)
+     * yyyy年MM月dd日
+     * yyyy年MM月
+     * yyyy年
+     * yyyyMMddHHmmss
+     * yyyyMMddHHmm
+     * 不支持yyyyMMddHH，将判定为10位的时间戳
+     * yyyyMMdd
+     * 不支持yyyyMM
+     * yyyy
+     * yyyy-MM-dd HH:mm:ss
+     * yyyy/MM/dd HH:mm:ss
+     * yyyy.MM.dd HH:mm:ss
+     * yyyy-MM-ddTHH:mm:ss
+     * yyyy-MM-dd HH:mm
+     * yyyy/MM/dd HH:mm
+     * yyyy.MM.dd HH:mm
+     * yyyy-MM-dd
+     * yyyy/MM/dd
+     * yyyy.MM.dd
+     * yyyy-MM
+     * yyyy/MM
+     * yyyy.MM
+     * HH:mm:ss
+     * HH(时/点)mm分ss秒
+     * HH:mm
+     * HH(时/点)mm分
+     * HH(时/点)
+     * @param dateTime
+     */
+    parse(dateTime: string | number | Date | DateTime): Date {
+        if (!dateTime) {
+            return new DateTime();
+        }
+        if (typeof dateTime === "string") {
+            const dateTimeReg = /年|月|日|点|时|分|秒/g;
+            const onlyTime = !/年/g.test(dateTime) && /时|点|:/g.test(dateTime);
+            let newDateTime = dateTime.replace(dateTimeReg, "").trim();
+            const length = newDateTime.length;
+            let year = "", month = "", day = "", hour = "", min = "", second = "";
+            if (onlyTime) {
+                newDateTime = newDateTime.replace(/:/g, "");
+                for (let i = 1; i <= newDateTime.length; i++) {
+                    const val = newDateTime[i - 1];
+                    if (i <= 2) {
+                        hour += val;
+                    } else if (i <= 4) {
+                        min += val;
+                    } else if (i <= 6) {
+                        second += val;
+                    }
+                }
+                return new DateTime(1970, 0, 1, Number(hour), Number(min), Number(second));
+            }
+            if (length === "yyyyMMddHHmmss".length
+                || length === "yyyyMMddHHmm".length
+                || length === "yyyyMMdd".length
+                || (dateTimeReg.test(dateTime) && (length === "yyyyMMddHH".length || length === "yyyyMM".length))) {
+                for (let i = 1; i <= newDateTime.length; i++) {
+                    const val = newDateTime[i - 1];
+                    if (i <= 4) {
+                        year += val;
+                    } else if (i <= 6) {
+                        month += val;
+                    } else if (i <= 8) {
+                        day += val;
+                    } else if (i <= 10) {
+                        hour += val;
+                    } else if (i <= 12) {
+                        min += val;
+                    } else if (i <= 14) {
+                        second += val;
+                    }
+                }
+                return new DateTime(Number(year), month === "" ? 0 : Number(month) - 1, Number(day) || 1, Number(hour), Number(min), Number(second));
+            }
+            newDateTime = dateTime.replace(/日|秒/g, "").trim();
+            newDateTime = newDateTime.replace(/年|月/g, "/").trim();
+            newDateTime = newDateTime.replace(/点|时|分/g, ":").trim();
+            if (/^\d+$/.test(newDateTime.trim()) && (length === 13 || length === 10)) {
+                if (length === 10) {
+                    return new DateTime(Number(newDateTime) * 1000);
+                }
+                return new DateTime(Number(newDateTime));
+            }
+            // 处理平台性差异，在Safari/Webkit中，new Date仅支持/作为分割符的字符串时间
+            // 处理 '2022-07-10 01:02:03'，跳过 '2022-07-10T01:02:03'
+            if (newDateTime.includes('-') && !newDateTime.includes('T')) {
+                return new DateTime(newDateTime.replace(/-/g, '/'));
+            }
+            return new DateTime(newDateTime);
+        }
+
+        return new DateTime(dateTime);
+    }
+
+    /**
+     * 将参数转为DateTime类型
+     * @param dateTime
+     */
+    toDateTime(dateTime: string | number | Date | DateTime): DateTime {
+        return new DateTime(this.parse(dateTime));
+    }
+
+    format(date: string | number | Date | DateTime, format?: string): string {
         if (!format) {
             format = "yyyy-MM-dd HH:mm:ss"
         }
-        const newDate = this.toDate(date);
+        const newDate = this.parse(date);
         const timeSource = {
-            'y': newDate.getFullYear().toString(), // 年
-            'M': (newDate.getMonth() + 1).toString().padStart(2, '0'), // 月
-            'd': newDate.getDate().toString().padStart(2, '0'), // 日
-            'H': newDate.getHours().toString().padStart(2, '0'), // 时
-            'm': newDate.getMinutes().toString().padStart(2, '0'), // 分
-            's': newDate.getSeconds().toString().padStart(2, '0') // 秒
-            // 有其他格式化字符需求可以继续添加，必须转化成字符串
+            "M+": newDate.getMonth() + 1,     //月份
+            "d+": newDate.getDate(),     //日
+            "H+": newDate.getHours(),     //小时
+            "m+": newDate.getMinutes(),     //分
+            "s+": newDate.getSeconds(),     //秒
+            "q+": Math.floor((newDate.getMonth() + 3) / 3), //季度
+            "S": newDate.getMilliseconds()    //毫秒
         }
-        for (const key in timeSource) {
-            const [ret] = new RegExp(`${key}+`).exec(format) || [];
-            if (ret) {
-                // 年可能只需展示两位
-                const beginIndex = key === 'y' && ret.length === 2 ? 2 : 0;
-                format = format.replace(ret, timeSource[key].slice(beginIndex));
-            }
-        }
-
+        if (/(y+)/.test(format))
+            format = format.replace(RegExp.$1, (newDate.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (let k in timeSource)
+            if (new RegExp("(" + k + ")").test(format))
+                format = format.replace(RegExp.$1, (RegExp.$1.length == 1) ? (timeSource[k]) : (("00" + timeSource[k]).substr(("" + timeSource[k]).length)));
         return format;
     }
 }

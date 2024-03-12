@@ -3,31 +3,58 @@ import DateUtil from "./DateUtil";
 /**
  * 日期属性
  */
-export class DateField {
-    static readonly YEAR: "year"
-    static readonly MONTH: "month"
-    static readonly DAY: "day"
-    static readonly WEEK: "week"
-    static readonly HOURS: "hours"
-    static readonly MINUTES: "minutes"
-    static readonly SECONDS: "seconds"
+export enum DateField {
+    YEAR = "year",
+    MONTH = "month",
+    DAY = "day",
+    WEEK = "week",
+    HOURS = "hours",
+    MINUTES = "minutes",
+    SECONDS = "seconds"
 }
 
 /**
  * 周数
  */
-export const WeekDay = {
-    SUN: 0,
-    MON: 1,
-    TUE: 2,
-    WED: 3,
-    THUR: 4,
-    FRI: 5,
-    SAT: 6
+export enum WeekDay {
+    SUN = 0,
+    MON = 1,
+    TUE = 2,
+    WED = 3,
+    THUR = 4,
+    FRI = 5,
+    SAT = 6
 }
 
 class DateTime extends Date {
     firstWeek = 0;
+
+    static readonly DateField = DateField;
+    static readonly WeekDay = WeekDay;
+
+    static create(): DateTime;
+    static create(value: number | string): DateTime;
+    static create(year: number, monthIndex: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number): DateTime;
+
+    static create(...args) {
+        switch (args.length) {
+            case 1:
+                return new DateTime(args[0]);
+            case 2:
+                return new DateTime(args[0], args[1]);
+            case 3:
+                return new DateTime(args[0], args[1], args[2]);
+            case 4:
+                return new DateTime(args[0], args[1], args[2], args[3]);
+            case 5:
+                return new DateTime(args[0], args[1], args[2], args[3], args[4]);
+            case 6:
+                return new DateTime(args[0], args[1], args[2], args[3], args[4], args[5]);
+            default:
+                return new DateTime();
+        }
+    }
+
 
     /**
      * 日期年，月，日，周，时，分，秒对象数据，与Date的get获取的一致
@@ -60,20 +87,24 @@ class DateTime extends Date {
         return new DateTime(values.year, values.month, values.day);
     }
 
+    format(format: string) {
+        return DateUtil.format(this, format);
+    }
+
     /**
      * 格式化当前日期为年-月-日
      * @returns {string}
      */
-    formatDate(): DateTime {
-        return DateUtil.format(this, "yyyy-MM-dd");
+    formatDate(): string {
+        return this.format("yyyy-MM-dd");
     }
 
     /**
      * 格式化当前日期为年-月-日 时:分:秒
      * @returns {string}
      */
-    formatDateTime(): DateTime {
-        return DateUtil.format(this, "yyyy-MM-dd HH:mm:ss");
+    formatDateTime(): string {
+        return this.format("yyyy-MM-dd HH:mm:ss");
     }
 
     /**
@@ -156,10 +187,7 @@ class DateTime extends Date {
      * 设置周开始周数
      * @param type 周数，见：{@link WeekDay}
      */
-    setFirstWeek(type): void {
-        if (!Object.values(WeekDay).includes(type)) {
-            return;
-        }
+    setFirstWeek(type: WeekDay): void {
         this.firstWeek = type;
     }
 

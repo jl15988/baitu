@@ -1,29 +1,34 @@
 /**
  * 日期属性
  */
-export declare class DateField {
-    static readonly YEAR: "year";
-    static readonly MONTH: "month";
-    static readonly DAY: "day";
-    static readonly WEEK: "week";
-    static readonly HOURS: "hours";
-    static readonly MINUTES: "minutes";
-    static readonly SECONDS: "seconds";
+export declare enum DateField {
+    YEAR = "year",
+    MONTH = "month",
+    DAY = "day",
+    WEEK = "week",
+    HOURS = "hours",
+    MINUTES = "minutes",
+    SECONDS = "seconds"
 }
 /**
  * 周数
  */
-export declare const WeekDay: {
-    SUN: number;
-    MON: number;
-    TUE: number;
-    WED: number;
-    THUR: number;
-    FRI: number;
-    SAT: number;
-};
+export declare enum WeekDay {
+    SUN = 0,
+    MON = 1,
+    TUE = 2,
+    WED = 3,
+    THUR = 4,
+    FRI = 5,
+    SAT = 6
+}
 declare class DateTime extends Date {
     firstWeek: number;
+    static readonly DateField: typeof DateField;
+    static readonly WeekDay: typeof WeekDay;
+    static create(): DateTime;
+    static create(value: number | string): DateTime;
+    static create(year: number, monthIndex: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number): DateTime;
     /**
      * 日期年，月，日，周，时，分，秒对象数据，与Date的get获取的一致
      */
@@ -35,16 +40,17 @@ declare class DateTime extends Date {
      * @returns {DateTime}
      */
     toDate(): DateTime;
+    format(format: string): string;
     /**
      * 格式化当前日期为年-月-日
      * @returns {string}
      */
-    formatDate(): DateTime;
+    formatDate(): string;
     /**
      * 格式化当前日期为年-月-日 时:分:秒
      * @returns {string}
      */
-    formatDateTime(): DateTime;
+    formatDateTime(): string;
     /**
      * 获取当前日期当天开始时间
      * @returns {DateTime}
@@ -89,7 +95,7 @@ declare class DateTime extends Date {
      * 设置周开始周数
      * @param type 周数，见：{@link WeekDay}
      */
-    setFirstWeek(type: any): void;
+    setFirstWeek(type: WeekDay): void;
     /**
      * 日期偏移操作
      * @param type 偏移类型，见：{@link DateField}

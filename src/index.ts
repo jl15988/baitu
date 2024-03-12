@@ -1,11 +1,18 @@
-import DateTime from "./modules/dateTime/DateTime";
+import DateTime, {DateField, WeekDay} from "./modules/dateTime/DateTime";
+import DateUtil from "./modules/dateTime/DateUtil";
 
 if (window) {
     window["DateTime"] = DateTime;
+    window["DateField"] = DateField;
+    window["WeekDay"] = WeekDay;
+    window["DateUtil"] = DateUtil;
 }
 
-const BaiTu = {
-    DateTime
+class Baitu {
+    readonly DateTime = DateTime
+    readonly DateUtil = DateUtil
+    readonly DateField = DateField
+    readonly WeekDay = WeekDay
 }
 
-export default BaiTu;
+export default new Baitu();

@@ -1,6 +1,7 @@
 {
   "name": "baitu",
-  "version": "1.0.0",
+  "private": false,
+  "version": "1.0.0-t5",
   "description": "A small and comprehensive front-end toolkit.",
   "main": "/lib/baitu.js",
   "scripts": {
