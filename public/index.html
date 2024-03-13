@@ -8,14 +8,15 @@
 <input type="file" id="input">
 <script src="../lib/baitu.js"></script>
 <script>
+    console.log(Baitu.ObjectUtil.isEmpty(["1"]))
+
+
     const input = document.querySelector("#input");
     input.onchange = async () => {
         const file = input.files[0];
         if (file) {
             try {
-                const type = await Baitu.FileUtil.getTypeByte(file);
-                console.log(await Baitu.FileUtil.getHexString(file))
-                console.log('File type:', type);
+                Baitu.FileUtil.download(file);
             } catch (error) {
                 console.error('Error reading file:', error);
             }

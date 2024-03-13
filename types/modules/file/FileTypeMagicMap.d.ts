@@ -1,4 +1,7 @@
-declare const FileTypeMap: {
+/**
+ * 文件类型魔数映射
+ */
+declare const FileTypeMagicMap: {
     ffd8ff: string;
     "89504e47": string;
     "4749463837": string;
@@ -48,4 +51,4 @@ declare const FileTypeMap: {
     E3828596: string;
     "2E7261FD": string;
 };
-export default FileTypeMap;
+export default FileTypeMagicMap;

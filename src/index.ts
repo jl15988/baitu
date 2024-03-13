@@ -7,6 +7,10 @@ import Num from "./modules/number/Num";
 import Throttle from "./modules/common/Throttle";
 import Debounce from "./modules/common/Debounce";
 import FileUtil from "./modules/file/FileUtil";
+import FileTypeMagicMap from "./modules/file/FileTypeMagicMap";
+import FileTypeMimeMap from "./modules/file/FileTypeMimeMap";
+import HexUtil from "./modules/base/HexUtil";
+import ObjectUtil from "./modules/object/ObjectUtil";
 
 if (window) {
     window["Str"] = Str;
@@ -20,6 +24,10 @@ if (window) {
     window["Throttle"] = Throttle;
     window["Debounce"] = Debounce;
     window["FileUtil"] = FileUtil;
+    window["HexUtil"] = HexUtil;
+    window["FileTypeMagicMap"] = FileTypeMagicMap;
+    window["FileTypeMimeMap"] = FileTypeMimeMap;
+    window["ObjectUtil"] = ObjectUtil;
 }
 
 class Baitu {
@@ -67,6 +75,22 @@ class Baitu {
      * 文件工具包
      */
     readonly FileUtil = FileUtil;
+    /**
+     * 文件类型魔数映射
+     */
+    readonly FileTypeMagicMap = FileTypeMagicMap;
+    /**
+     * 文件类型MIME映射
+     */
+    readonly FileTypeMimeMap = FileTypeMimeMap;
+    /**
+     * 16进制工具包
+     */
+    readonly HexUtil = HexUtil;
+    /**
+     * 对象工具包
+     */
+    readonly ObjectUtil = ObjectUtil;
 }
 
 export default new Baitu();

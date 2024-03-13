@@ -1,4 +1,7 @@
-const FileTypeMap = {
+/**
+ * 文件类型魔数映射
+ */
+const FileTypeMagicMap = {
     "ffd8ff": "jpg",
     "89504e47": "png",
     "4749463837": "gif",
@@ -49,4 +52,4 @@ const FileTypeMap = {
     "2E7261FD": "ram"
 }
 
-export default FileTypeMap;
+export default FileTypeMagicMap;
