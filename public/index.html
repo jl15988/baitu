@@ -5,10 +5,22 @@
     <title>Title</title>
 </head>
 <body>
-
+<input type="file" id="input">
 <script src="../lib/baitu.js"></script>
 <script>
-    console.log(new DateTime("1999-01-16").age())
+    const input = document.querySelector("#input");
+    input.onchange = async () => {
+        const file = input.files[0];
+        if (file) {
+            try {
+                const type = await Baitu.FileUtil.getTypeByte(file);
+                console.log(await Baitu.FileUtil.getHexString(file))
+                console.log('File type:', type);
+            } catch (error) {
+                console.error('Error reading file:', error);
+            }
+        }
+    };
 </script>
 </body>
 </html>
