@@ -15,7 +15,7 @@ button.addEventListener('click', () => {
 });
 ```
 
-## 2. 立即执行
+## 2. 最后执行
 
 通过设置immediate参数为false，取消立即执行，将在最后执行
 
