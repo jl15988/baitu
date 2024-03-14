@@ -70,6 +70,7 @@ declare class DateUtil {
      * HH:mm
      * HH(时/点)mm分
      * HH(时/点)
+     * 13位或10位时间戳
      * @param dateTime 日期
      */
     parse(dateTime: string | number | Date | DateTime): Date;
@@ -94,7 +95,7 @@ declare class DateUtil {
      */
     compare(date1: Date | DateTime, date2: Date | DateTime, dateField?: DateField): number;
     /**
-     * 根据日期获取年龄
+     * 根据日期获取年龄（周岁）
      * @param date 日期
      */
     age(date: Date | DateTime): number;

@@ -122,13 +122,16 @@ declare class Baitu {
         "406563686f206f66660d": string;
         "1f8b0800000000000000": string;
         cafebabe0000002e0041: string;
-        "49545346030000006000": string;
+        "49545346030000006000": string; /**
+         * 字符串工具包
+         */
         "04000000010000001300": string;
         d0cf11e0a1b11ae10000: string;
         "6431303a637265617465": string;
         "6D6F6F76": string;
         FF575043: string;
-        CFAD12FEC5FD746F: string; /**
+        CFAD12FEC5FD746F: string;
+        /**
          * 日期属性
          */
         "2142444E": string;
@@ -188,17 +191,18 @@ declare class Baitu {
         its: string;
         jar: string;
         ser: string;
-        class: string; /**
+        class: string;
+        /**
          * 防抖工具
          */
         js: string;
-        json: string;
+        json: string; /**
+         * 文件工具包
+         */
         json5: string;
         jsonml: string;
         jsonld: string;
-        lgr: string; /**
-         * 文件类型MIME映射
-         */
+        lgr: string;
         lostxml: string;
         hqx: string;
         cpt: string;

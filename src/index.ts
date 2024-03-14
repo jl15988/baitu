@@ -27,7 +27,7 @@ if (window) {
     window["HexUtil"] = HexUtil;
     window["FileTypeMagicMap"] = FileTypeMagicMap;
     window["FileTypeMimeMap"] = FileTypeMimeMap;
-    window["ObjectUtil"] = ObjectUtil;
+    window["ObjectUtil.md"] = ObjectUtil;
 }
 
 class Baitu {

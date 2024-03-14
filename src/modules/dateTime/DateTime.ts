@@ -246,7 +246,7 @@ class DateTime extends Date {
     }
 
     /**
-     * 获取当前日期年龄
+     * 获取当前日期年龄（周岁）
      */
     age(): number {
         return DateUtil.age(this);

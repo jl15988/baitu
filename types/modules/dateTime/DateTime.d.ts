@@ -116,7 +116,7 @@ declare class DateTime extends Date {
      */
     compare(date: Date | DateTime, dateField: DateField): number;
     /**
-     * 获取当前日期年龄
+     * 获取当前日期年龄（周岁）
      */
     age(): number;
 }

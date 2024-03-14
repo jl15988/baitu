@@ -9,6 +9,10 @@
 <button id="button">点击</button>
 <script src="../lib/baitu.min.js"></script>
 <script>
+    const date1 = new Date();
+    const date2 = new Date("2023-05-16");
+    console.log(Baitu.DateUtil.compare(date1, date2, Baitu.DateField.DAY));
+
     console.log(Baitu.ObjectUtil.isEmpty(["1"]))
     const button = document.querySelector("#button");
 

@@ -1,10 +1,10 @@
 class ObjectUtil {
 
     /**
-     * 判断任意一种类型数据是否为空：字符串、null、undefined、数组、对象、
+     * 判断任意一种类型数据是否为空：字符串、null、undefined、数组、对象等
      * @param value 数据
      */
-    isEmpty(value) {
+    isEmpty(value: any) {
         // 如果值未定义或者为null，返回true
         if (value == null) {
             return true;
