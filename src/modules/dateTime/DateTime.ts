@@ -26,6 +26,33 @@ export enum WeekDay {
     SAT = 6
 }
 
+/**
+ * 月份属性
+ */
+export enum MonthField {
+    January,
+    February,
+    March,
+    April,
+    May,
+    June,
+    July,
+    August,
+    September,
+    October,
+    November,
+    December
+}
+
+/**
+ * 月份名称
+ */
+export const MonthName = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
+/**
+ * 传统月份名称
+ */
+export const MonthNameTraditional = ["正", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "腊"];
+
 class DateTime extends Date {
     firstWeek = 0;
 
@@ -239,6 +266,21 @@ class DateTime extends Date {
     }
 
     /**
+     * 获取当年天数
+     */
+    daysOfYear(): number {
+        return this.isLeapYear() ? 366 : 365;
+    }
+
+    /**
+     * 是否闰年
+     */
+    isLeapYear(): boolean {
+        const year = this.getFullYear();
+        return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    }
+
+    /**
      * 获取当前日期与指定日期之间的差值，当前-参数
      */
     compare(date: Date | DateTime, dateField: DateField): number {
@@ -250,6 +292,10 @@ class DateTime extends Date {
      */
     age(): number {
         return DateUtil.age(this);
+    }
+
+    chineseMonthName() {
+        return
     }
 }
 
