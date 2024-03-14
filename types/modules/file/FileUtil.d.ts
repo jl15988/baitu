@@ -47,6 +47,12 @@ declare class FileUtil {
      */
     getTypeMagic(file: File): Promise<string>;
     /**
+     * 通过魔数判断是否某种类型
+     * @param file 文件
+     * @param type 文件类型
+     */
+    isTypeMagic(file: File, type: string): Promise<boolean>;
+    /**
      * 将文件下载
      * @param file 文件
      * @param filename 文件名，为空时，取文件原名

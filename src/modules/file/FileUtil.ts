@@ -111,6 +111,21 @@ class FileUtil {
     }
 
     /**
+     * 通过魔数判断是否某种类型
+     * @param file 文件
+     * @param type 文件类型
+     */
+    isTypeMagic(file: File, type: string): Promise<boolean> {
+        return new Promise(((resolve, reject) => {
+            this.getTypeMagic(file).then(res => {
+                resolve(res === type);
+            }).catch(err => {
+                reject(err);
+            });
+        }));
+    }
+
+    /**
      * 将文件下载
      * @param file 文件
      * @param filename 文件名，为空时，取文件原名

@@ -6,9 +6,17 @@
 </head>
 <body>
 <input type="file" id="input">
-<script src="../lib/baitu.js"></script>
+<button id="button">点击</button>
+<script src="../lib/baitu.min.js"></script>
 <script>
     console.log(Baitu.ObjectUtil.isEmpty(["1"]))
+    const button = document.querySelector("#button");
+
+    function click(e) {
+        console.log(e)
+        console.log("1111")
+    }
+    button.addEventListener('click', Baitu.Debounce.with(click, 2000, false))
 
 
     const input = document.querySelector("#input");
@@ -16,7 +24,9 @@
         const file = input.files[0];
         if (file) {
             try {
-                Baitu.FileUtil.download(file);
+                Baitu.FileUtil.isTypeMagic(file, "png").then(res => {
+                    console.log(res)
+                })
             } catch (error) {
                 console.error('Error reading file:', error);
             }
