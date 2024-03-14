@@ -9,6 +9,9 @@
 <button id="button">点击</button>
 <script src="../lib/baitu.min.js"></script>
 <script>
+    const {DateTime} = Baitu.values();
+    console.log(new DateTime())
+
     const date1 = new Date();
     const date2 = new Date("2023-05-16");
     console.log(Baitu.DateUtil.compare(date1, date2, Baitu.DateField.DAY));
@@ -20,7 +23,7 @@
         console.log(e)
         console.log("1111")
     }
-    button.addEventListener('click', Baitu.Debounce.with(click, 2000, false))
+    button.addEventListener('click', Baitu.Debounce.with(click, 2000))
 
 
     const input = document.querySelector("#input");

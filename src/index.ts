@@ -12,24 +12,6 @@ import FileTypeMimeMap from "./modules/file/FileTypeMimeMap";
 import HexUtil from "./modules/base/HexUtil";
 import ObjectUtil from "./modules/object/ObjectUtil";
 
-if (window) {
-    window["Str"] = Str;
-    window["StrUtil"] = StrUtil;
-    window["DateTime"] = DateTime;
-    window["DateField"] = DateField;
-    window["WeekDay"] = WeekDay;
-    window["DateUtil"] = DateUtil;
-    window["Num"] = Num;
-    window["NumberUtil"] = NumberUtil;
-    window["Throttle"] = Throttle;
-    window["Debounce"] = Debounce;
-    window["FileUtil"] = FileUtil;
-    window["HexUtil"] = HexUtil;
-    window["FileTypeMagicMap"] = FileTypeMagicMap;
-    window["FileTypeMimeMap"] = FileTypeMimeMap;
-    window["ObjectUtil.md"] = ObjectUtil;
-}
-
 class Baitu {
     /**
      * 字符串对象
@@ -91,6 +73,29 @@ class Baitu {
      * 对象工具包
      */
     readonly ObjectUtil = ObjectUtil;
+
+    /**
+     * 获取所有工具对象
+     */
+    values() {
+        return {
+            Str,
+            StrUtil,
+            DateTime,
+            DateField,
+            WeekDay,
+            DateUtil,
+            Num,
+            NumberUtil,
+            Throttle,
+            Debounce,
+            FileUtil,
+            HexUtil,
+            FileTypeMagicMap,
+            FileTypeMimeMap,
+            ObjectUtil,
+        }
+    }
 }
 
 export default new Baitu();
