@@ -1,9 +1,16 @@
 # HexUtil - 16进制工具
 
-## 1. encode(str: string)
+## 1. encode
 
 字符串转16进制字符串，仅支持UTF8编码
 
+### 参数
+
+|序号|名称|类型|含义|
+|-|-|-|-|
+|1|str|string|要编码的字符串|
+
+### 示例
 ```js
 const encodeStr = HexUtil.encode("百涂工具");
 console.log("编码：", encodeStr);
@@ -11,10 +18,17 @@ console.log("编码：", encodeStr);
 ```
 
 
-## 2. decode(hex: string)
+
+## 2. decode
 
 十六进制字符串转字符串，仅支持UTF8编码
 
+### 参数
+|序号|名称|类型|含义|
+|-|-|-|-|
+|1|hex|string|要解码的16进制字符串|
+
+### 示例
 ```js
 const decodeStr = HexUtil.decode("e799bee6b682e5b7a5e585b7");
 console.log("解码：", decodeStr);
@@ -22,10 +36,17 @@ console.log("解码：", decodeStr);
 ```
 
 
-## 3. bufferToHex(buffer: ArrayBuffer)
 
-buffer转16进制字符串
+## 3. arrayBufferToHex
 
+原始二进制数据缓冲区转16进制字符串
+
+### 参数
+|序号|名称|类型|含义|
+|-|-|-|-|
+|1|arrayBuffer|ArrayBuffer|原始二进制数据缓冲区|
+
+### 示例
 ```js
 const fileInput = document.querySelector("#file");
 fileInput.onchange = () => {
@@ -34,7 +55,7 @@ fileInput.onchange = () => {
         // 使用FileUtil获取Buffer
         FileUtil.getFileBuffer(file, 100).then(res => {
             // Buffer转Hex
-            const bufferHex = HexUtil.bufferToHex(res);
+            const bufferHex = HexUtil.arrayBufferToHex(res);
             console.log(bufferHex);
         });
     }
@@ -42,10 +63,17 @@ fileInput.onchange = () => {
 ```
 
 
-## 4. uint8ArrayToHex(uint8Array: Uint8Array)
+
+## 4. uint8ArrayToHex
 
 uint8Array转16进制字符串
 
+### 参数
+|序号|名称|类型|含义|
+|-|-|-|-|
+|1|uint8Array|Uint8Array|Uint8Array|
+
+### 示例
 ```js
 const fileInput = document.querySelector("#file");
 fileInput.onchange = () => {
@@ -62,9 +90,15 @@ fileInput.onchange = () => {
 ```
 
 
-## 5. hexToUint8(hex: string)
+
+## 5. hexToUint8Array(hex: string)
 
 16进制字符串转Uint8
+
+### 参数
+|序号|名称|类型|含义|
+|-|-|-|-|
+|1|hex|string|16进制字符串|
 
 ```js
 const fileInput = document.querySelector("#file");

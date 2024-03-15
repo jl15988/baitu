@@ -1105,9 +1105,9 @@ declare class Baitu {
     readonly HexUtil: {
         encode(str: string): string;
         decode(hex: string): string;
-        bufferToHex(buffer: ArrayBuffer): string;
+        arrayBufferToHex(arrayBuffer: ArrayBuffer): string;
         uint8ArrayToHex(uint8Array: Uint8Array): string;
-        hexToUint8(hex: string): Uint8Array;
+        hexToUint8Array(hex: string): Uint8Array;
     };
     /**
      * 对象工具包
@@ -1245,9 +1245,9 @@ declare class Baitu {
         HexUtil: {
             encode(str: string): string;
             decode(hex: string): string;
-            bufferToHex(buffer: ArrayBuffer): string;
+            arrayBufferToHex(arrayBuffer: ArrayBuffer): string;
             uint8ArrayToHex(uint8Array: Uint8Array): string;
-            hexToUint8(hex: string): Uint8Array;
+            hexToUint8Array(hex: string): Uint8Array;
         };
         FileTypeMagicMap: {
             ffd8ff: string;

@@ -1,6 +1,6 @@
 declare class ArrayUtil {
     /**
-     * 将数组循环输出
+     * 将数组循环拼接
      * @param arr 数组
      * @param count 循环次数
      */

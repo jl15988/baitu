@@ -26,7 +26,7 @@
             // 使用FileUtil获取Buffer
             FileUtil.getFileBuffer(file, 100).then(res => {
                 // Buffer转Hex
-                const bufferHex = HexUtil.bufferToHex(res);
+                const bufferHex = HexUtil.arrayBufferToHex(res);
                 console.log(bufferHex);
             });
             // 使用FileUtil获取uint8
@@ -34,7 +34,7 @@
                 console.log("uint8：", uintRes);
                 const uint8Hex = HexUtil.uint8ArrayToHex(uintRes);
                 console.log(uint8Hex);
-                const uint8 = HexUtil.hexToUint8(uint8Hex);
+                const uint8 = HexUtil.hexToUint8Array(uint8Hex);
                 console.log(uint8);
             })
             // 上面的因为是同一个文件，bufferHex和uint8Hex、uintRes和uint8最终结果应该是一致的

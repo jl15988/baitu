@@ -11,9 +11,9 @@ declare class HexUtil {
     decode(hex: string): string;
     /**
      * buffer转16进制字符串
-     * @param buffer 文件Buffer
+     * @param arrayBuffer 原始二进制数据缓冲区
      */
-    bufferToHex(buffer: ArrayBuffer): string;
+    arrayBufferToHex(arrayBuffer: ArrayBuffer): string;
     /**
      * uint8Array转16进制字符串
      * @param uint8Array uint8Array
@@ -23,7 +23,7 @@ declare class HexUtil {
      * 16进制字符串转Uint8
      * @param hex 16进制字符串
      */
-    hexToUint8(hex: string): Uint8Array;
+    hexToUint8Array(hex: string): Uint8Array;
 }
 declare const _default: HexUtil;
 export default _default;

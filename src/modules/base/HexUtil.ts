@@ -17,16 +17,16 @@ class HexUtil {
      */
     decode(hex: string): string {
         const textDecoder = new TextDecoder('utf-8');
-        const uint8Array = this.hexToUint8(hex);
+        const uint8Array = this.hexToUint8Array(hex);
         return textDecoder.decode(uint8Array);
     }
 
     /**
      * buffer转16进制字符串
-     * @param buffer 文件Buffer
+     * @param arrayBuffer 原始二进制数据缓冲区
      */
-    bufferToHex(buffer: ArrayBuffer): string {
-        const uint8Array = new Uint8Array(buffer);
+    arrayBufferToHex(arrayBuffer: ArrayBuffer): string {
+        const uint8Array = new Uint8Array(arrayBuffer);
         return this.uint8ArrayToHex(uint8Array);
     }
 
@@ -43,7 +43,7 @@ class HexUtil {
      * 16进制字符串转Uint8
      * @param hex 16进制字符串
      */
-    hexToUint8(hex: string): Uint8Array {
+    hexToUint8Array(hex: string): Uint8Array {
         // 移除所有空格
         const hexString = hex.replace(/\s/g, '');
 
