@@ -3,7 +3,7 @@
 正则池中包含了常用的多个正则，一般足够使用。如果你有更多需求，不推荐单独再新建正则文件来调用，因为这样难以维护，可以通过add方法添加新的正则，或者创建新的class来继承PatternPoolClass，通过对PatternPool的重新赋值达到统一调用的效果。
 
 ```js
-import {Baitu} from "baitu";
+import Baitu from "baitu";
 
 const {PatternPool, PatternPoolClass, ValidateUtil} = Baitu.values();
 
