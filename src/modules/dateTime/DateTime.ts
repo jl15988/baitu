@@ -44,15 +44,6 @@ export enum MonthField {
     December
 }
 
-/**
- * 月份名称
- */
-export const MonthName = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
-/**
- * 传统月份名称
- */
-export const MonthNameTraditional = ["正", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "腊"];
-
 class DateTime extends Date {
     firstWeek = 0;
 
@@ -292,10 +283,6 @@ class DateTime extends Date {
      */
     age(): number {
         return DateUtil.age(this);
-    }
-
-    chineseMonthName() {
-        return
     }
 }
 

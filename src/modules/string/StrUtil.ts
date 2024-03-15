@@ -31,6 +31,90 @@ class StrUtil {
     isNotEmpty(str: string): boolean {
         return !str;
     }
+
+    /**
+     * 获取需要额外填充的字符串
+     * @param str 字符串
+     * @param len 目标长度
+     * @param pad 要填充的字符串
+     */
+    getPadStr(str: string, len: number, pad?: string) {
+        const padString = pad || ' '; // 如果没有提供填充字符串，则默认为空格
+        const targetLength = len || 0; // 如果没有提供目标长度，则默认为0
+
+        // 如果字符串的长度已经达到或超过目标长度，则直接返回原字符串
+        if (str.length >= targetLength) {
+            return str;
+        }
+
+        // 计算需要填充的字符数
+        let paddingSize = targetLength - str.length;
+
+        // 如果填充字符串的长度大于需要填充的字符数，则只使用填充字符串的一部分
+        return padString.repeat(Math.ceil(paddingSize / padString.length)).slice(0, paddingSize);
+    }
+
+    /**
+     * 在字符串开始填充额外的字符串
+     * @param str 字符串
+     * @param len 目标长度
+     * @param pad 要填充的字符串
+     */
+    padStart(str: string, len: number, pad?: string) {
+        // 在原字符串的头部添加填充字符串
+        return this.getPadStr(str, len, pad) + str;
+    }
+
+    /**
+     * 在字符串结束填充额外的字符串
+     * @param str 字符串
+     * @param len 目标长度
+     * @param pad 要填充的字符串
+     */
+    padEnd(str: string, len: number, pad?: string) {
+        // 在原字符串的尾部添加填充字符串
+        return str + this.getPadStr(str, len, pad);
+    }
+
+    /**
+     * 按长度分割字符串转为数组
+     * @param str 字符串
+     * @param chunkSize 分割长度
+     */
+    chunk(str: string, chunkSize: number) {
+        // const chars = [...str]; // 将字符串转换为字符数组
+        // const result = [];
+        // for (let i = 0; i < chars.length; i += chunkSize) {
+        //     result.push(chars.slice(i, i + chunkSize).join('')); // 提取指定长度的子字符串并推入结果数组
+        // }
+        // return result;
+        const regex = new RegExp('.{1,' + chunkSize + '}', 'g');
+        return str.match(regex) || []; // 如果没有匹配到任何结果，则返回空数组
+    }
+
+    /**
+     * 分割字符串为固定长度数组
+     * @param str 字符串
+     * @param count 数组长度
+     */
+    chunkCount(str: string, count: number) {
+        if (count <= 0) {
+            throw new Error('Count must be a positive integer');
+        }
+
+        const len = str.length;
+        const chunkSize = Math.ceil(len / count); // 计算每个子字符串的平均长度（向上取整）
+        const result = [];
+        let start = 0;
+
+        for (let i = 0; i < count; i++) {
+            let end = Math.min(start + chunkSize, len); // 确保结束位置不超过字符串长度
+            result.push(str.substring(start, end)); // 添加子字符串到结果数组
+            start = end; // 更新起始位置
+        }
+
+        return result;
+    }
 }
 
 export default new StrUtil();

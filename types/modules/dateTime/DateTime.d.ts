@@ -22,6 +22,23 @@ export declare enum WeekDay {
     FRI = 5,
     SAT = 6
 }
+/**
+ * 月份属性
+ */
+export declare enum MonthField {
+    January = 0,
+    February = 1,
+    March = 2,
+    April = 3,
+    May = 4,
+    June = 5,
+    July = 6,
+    August = 7,
+    September = 8,
+    October = 9,
+    November = 10,
+    December = 11
+}
 declare class DateTime extends Date {
     firstWeek: number;
     static readonly DateField: typeof DateField;
@@ -111,6 +128,14 @@ declare class DateTime extends Date {
      * 获取当月天数
      */
     daysOfMonth(): number;
+    /**
+     * 获取当年天数
+     */
+    daysOfYear(): number;
+    /**
+     * 是否闰年
+     */
+    isLeapYear(): boolean;
     /**
      * 获取当前日期与指定日期之间的差值，当前-参数
      */

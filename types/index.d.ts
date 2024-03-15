@@ -3,6 +3,7 @@ import DateTime, { DateField, WeekDay } from "./modules/dateTime/DateTime";
 import Num from "./modules/number/Num";
 import Throttle from "./modules/common/Throttle";
 import Debounce from "./modules/common/Debounce";
+import { PatternPool } from "./modules/common/PatternPool";
 declare class Baitu {
     /**
      * 字符串对象
@@ -16,6 +17,14 @@ declare class Baitu {
         isNotBlank(str: string): boolean;
         isEmpty(str: string): boolean;
         isNotEmpty(str: string): boolean;
+        getPadStr(str: string, len: number, pad?: string): string;
+        padStart(str: string, len: number, pad?: string): string;
+        padEnd(str: string, len: number, pad?: string): string;
+        chunk(str: string, chunkSize: number): RegExpMatchArray | []; /**
+         * 赋值正则池
+         * @param patternPool 正则池
+         */
+        chunkCount(str: string, count: number): any[];
     };
     /**
      * 日期对象
@@ -34,6 +43,8 @@ declare class Baitu {
         toDateTime(dateTime: string | number | DateTime | Date): DateTime;
         format(date: string | number | DateTime | Date, format?: string): string;
         daysOfMonth(date: DateTime | Date): number;
+        daysOfYear(date: DateTime | Date): number;
+        isLeapYear(date: DateTime | Date): boolean;
         compare(date1: DateTime | Date, date2: DateTime | Date, dateField?: DateField): number;
         age(date: DateTime | Date): number;
     };
@@ -70,6 +81,7 @@ declare class Baitu {
      * 文件工具包
      */
     readonly FileUtil: {
+        getMainName(fileName: string): string;
         getTypeSimple(fileName: string): string;
         getFileTypeSimple(file: File): string;
         isTypeSimple(fileName: string, type: string): boolean;
@@ -104,24 +116,23 @@ declare class Baitu {
         "464c5601050000000900": string;
         "00000020667479706d70": string;
         "49443303000000002176": string;
-        "000001ba210001000180": string; /**
-         * 字符串对象
-         */
+        "000001ba210001000180": string;
         "3026b2758e66cf11a6d9": string;
         "52494646e27807005741": string;
         "52494646d07d60074156": string;
         "4d546864000000060001": string;
         "526172211a0700cf9073": string;
         "235468697320636f6e66": string;
-        "504B03040a0000000000": string; /**
-         * 日期属性
+        "504B03040a0000000000": string;
+        /**
+         * 字符串对象
          */
         "504B0304140008000800": string;
-        D0CF11E0A1B11AE10: string; /**
-         * 周数，0到6
-         */
+        D0CF11E0A1B11AE10: string;
         "504B0304": string;
-        "4d5a9000030000000400": string;
+        "4d5a9000030000000400": string; /**
+         * 日期对象
+         */
         "3c25402070616765206c": string;
         "4d616e69666573742d56": string;
         "7061636b616765207765": string;
@@ -132,11 +143,10 @@ declare class Baitu {
         "04000000010000001300": string;
         d0cf11e0a1b11ae10000: string;
         "6431303a637265617465": string;
-        "6D6F6F76": string;
-        FF575043: string;
-        /**
-         * 文件类型MIME映射
+        "6D6F6F76": string; /**
+         * 节流工具
          */
+        FF575043: string;
         CFAD12FEC5FD746F: string;
         "2142444E": string;
         AC9EBD8F: string;
@@ -181,23 +191,16 @@ declare class Baitu {
         exp: string;
         fdt: string;
         pfr: string;
-        geojson: string; /**
-         * 文件类型魔数映射
-         */
+        geojson: string;
         gml: string;
         gpx: string;
         gxf: string;
         gz: string;
         hjson: string;
-        /**
-         * 16进制工具包
-         */
         stk: string;
         ink: string;
         ipfix: string;
-        its: string; /**
-         * 获取所有工具对象
-         */
+        its: string;
         jar: string;
         ser: string;
         class: string;
@@ -1100,7 +1103,8 @@ declare class Baitu {
         encode(str: string): string;
         decode(hex: string): string;
         bufferToHex(buffer: ArrayBuffer): string;
-        unit8ArrayToHex(unit8Array: Uint8Array): string;
+        uint8ArrayToHex(uint8Array: Uint8Array): string;
+        hexToUint8(hex: string): Uint8Array;
     };
     /**
      * 对象工具包
@@ -1108,6 +1112,70 @@ declare class Baitu {
     readonly ObjectUtil: {
         isEmpty(value: any): boolean;
     };
+    /**
+     * 脱敏工具包
+     */
+    readonly DesensitizedUtil: {
+        of(str: string, startIndex?: number, length?: number, pad?: string): string;
+        reserve(str: string, headLen?: number, tailLen?: number, pad?: string): string;
+        /**
+         * 节流工具
+         */
+        with(params: import("./modules/string/DesensitizedUtil").DesensitizedParam): string;
+        mobile(str: string, startIndex?: number, length?: number, pad?: string): string;
+        fullName(str: string, startIndex?: number, length?: number, pad?: string): string;
+        fullName2(str: string): string;
+        idCard(str: string, headLen?: number, tailLen?: number, pad?: string): string;
+        bankAccount(str: string, headLen?: number, tailLen?: number, pad?: string): string;
+        mobileWith(params: import("./modules/string/DesensitizedUtil").DesensitizedParam): string;
+        fullNameWith(params: import("./modules/string/DesensitizedUtil").DesensitizedParam): string;
+        idCardWith(params: import("./modules/string/DesensitizedUtil").DesensitizedReserveParam): string;
+        bankAccountWith(params: import("./modules/string/DesensitizedUtil").DesensitizedReserveParam): string;
+    };
+    /**
+     * 数组工具包
+     */
+    readonly ArrayUtil: {
+        repeat(arr: [string | number], count: number): string;
+    };
+    /**
+     * 正则池
+     */
+    PatternPool: PatternPool;
+    /**
+     * 正则池class
+     */
+    PatternPollClass: typeof PatternPool;
+    /**
+     * 正则工具
+     */
+    readonly ValidateUtil: {
+        validate(str: string, pattern: string | RegExp): boolean;
+        isNumber(str: string): boolean;
+        isChinese(str: string): boolean;
+        isIPV4(str: string): boolean;
+        isIPV6(str: string): boolean;
+        isMoney(str: string): boolean;
+        isEmail(str: string): boolean;
+        isDomainName(str: string): boolean;
+        isMobile(str: string): boolean;
+        isLandline(str: string): boolean;
+        isIdCard(str: string): boolean; /**
+         * 数字对象
+         */
+        isUrlHttp(str: string): boolean;
+        isPlateNumber(str: string): boolean;
+        isDate(str: string): boolean;
+        isTime(str: string): boolean; /**
+         * 文件类型MIME映射
+         */
+        isBlankLine(str: string): boolean;
+    };
+    /**
+     * 赋值正则池
+     * @param patternPool 正则池
+     */
+    setPatternPool(patternPool: PatternPool): void;
     /**
      * 获取所有工具对象
      */
@@ -1118,6 +1186,14 @@ declare class Baitu {
             isNotBlank(str: string): boolean;
             isEmpty(str: string): boolean;
             isNotEmpty(str: string): boolean;
+            getPadStr(str: string, len: number, pad?: string): string;
+            padStart(str: string, len: number, pad?: string): string;
+            padEnd(str: string, len: number, pad?: string): string;
+            chunk(str: string, chunkSize: number): RegExpMatchArray | []; /**
+             * 赋值正则池
+             * @param patternPool 正则池
+             */
+            chunkCount(str: string, count: number): any[];
         };
         DateTime: typeof DateTime;
         DateField: typeof DateField;
@@ -1132,6 +1208,8 @@ declare class Baitu {
             toDateTime(dateTime: string | number | DateTime | Date): DateTime;
             format(date: string | number | DateTime | Date, format?: string): string;
             daysOfMonth(date: DateTime | Date): number;
+            daysOfYear(date: DateTime | Date): number;
+            isLeapYear(date: DateTime | Date): boolean;
             compare(date1: DateTime | Date, date2: DateTime | Date, dateField?: DateField): number;
             age(date: DateTime | Date): number;
         };
@@ -1145,6 +1223,7 @@ declare class Baitu {
         Throttle: typeof Throttle;
         Debounce: typeof Debounce;
         FileUtil: {
+            getMainName(fileName: string): string;
             getTypeSimple(fileName: string): string;
             getFileTypeSimple(file: File): string;
             isTypeSimple(fileName: string, type: string): boolean;
@@ -1160,7 +1239,8 @@ declare class Baitu {
             encode(str: string): string;
             decode(hex: string): string;
             bufferToHex(buffer: ArrayBuffer): string;
-            unit8ArrayToHex(unit8Array: Uint8Array): string;
+            uint8ArrayToHex(uint8Array: Uint8Array): string;
+            hexToUint8(hex: string): Uint8Array;
         };
         FileTypeMagicMap: {
             ffd8ff: string;
@@ -1182,24 +1262,23 @@ declare class Baitu {
             "464c5601050000000900": string;
             "00000020667479706d70": string;
             "49443303000000002176": string;
-            "000001ba210001000180": string; /**
-             * 字符串对象
-             */
+            "000001ba210001000180": string;
             "3026b2758e66cf11a6d9": string;
             "52494646e27807005741": string;
             "52494646d07d60074156": string;
             "4d546864000000060001": string;
             "526172211a0700cf9073": string;
             "235468697320636f6e66": string;
-            "504B03040a0000000000": string; /**
-             * 日期属性
+            "504B03040a0000000000": string;
+            /**
+             * 字符串对象
              */
             "504B0304140008000800": string;
-            D0CF11E0A1B11AE10: string; /**
-             * 周数，0到6
-             */
+            D0CF11E0A1B11AE10: string;
             "504B0304": string;
-            "4d5a9000030000000400": string;
+            "4d5a9000030000000400": string; /**
+             * 日期对象
+             */
             "3c25402070616765206c": string;
             "4d616e69666573742d56": string;
             "7061636b616765207765": string;
@@ -1210,11 +1289,10 @@ declare class Baitu {
             "04000000010000001300": string;
             d0cf11e0a1b11ae10000: string;
             "6431303a637265617465": string;
-            "6D6F6F76": string;
-            FF575043: string;
-            /**
-             * 文件类型MIME映射
+            "6D6F6F76": string; /**
+             * 节流工具
              */
+            FF575043: string;
             CFAD12FEC5FD746F: string;
             "2142444E": string;
             AC9EBD8F: string;
@@ -1256,23 +1334,16 @@ declare class Baitu {
             exp: string;
             fdt: string;
             pfr: string;
-            geojson: string; /**
-             * 文件类型魔数映射
-             */
+            geojson: string;
             gml: string;
             gpx: string;
             gxf: string;
             gz: string;
             hjson: string;
-            /**
-             * 16进制工具包
-             */
             stk: string;
             ink: string;
             ipfix: string;
-            its: string; /**
-             * 获取所有工具对象
-             */
+            its: string;
             jar: string;
             ser: string;
             class: string;
@@ -2170,6 +2241,50 @@ declare class Baitu {
         };
         ObjectUtil: {
             isEmpty(value: any): boolean;
+        };
+        DesensitizedUtil: {
+            of(str: string, startIndex?: number, length?: number, pad?: string): string;
+            reserve(str: string, headLen?: number, tailLen?: number, pad?: string): string;
+            /**
+             * 节流工具
+             */
+            with(params: import("./modules/string/DesensitizedUtil").DesensitizedParam): string;
+            mobile(str: string, startIndex?: number, length?: number, pad?: string): string;
+            fullName(str: string, startIndex?: number, length?: number, pad?: string): string;
+            fullName2(str: string): string;
+            idCard(str: string, headLen?: number, tailLen?: number, pad?: string): string;
+            bankAccount(str: string, headLen?: number, tailLen?: number, pad?: string): string;
+            mobileWith(params: import("./modules/string/DesensitizedUtil").DesensitizedParam): string;
+            fullNameWith(params: import("./modules/string/DesensitizedUtil").DesensitizedParam): string;
+            idCardWith(params: import("./modules/string/DesensitizedUtil").DesensitizedReserveParam): string;
+            bankAccountWith(params: import("./modules/string/DesensitizedUtil").DesensitizedReserveParam): string;
+        };
+        ArrayUtil: {
+            repeat(arr: [string | number], count: number): string;
+        };
+        PatternPool: PatternPool;
+        PatternPollClass: typeof PatternPool;
+        ValidateUtil: {
+            validate(str: string, pattern: string | RegExp): boolean;
+            isNumber(str: string): boolean;
+            isChinese(str: string): boolean;
+            isIPV4(str: string): boolean;
+            isIPV6(str: string): boolean;
+            isMoney(str: string): boolean;
+            isEmail(str: string): boolean;
+            isDomainName(str: string): boolean;
+            isMobile(str: string): boolean;
+            isLandline(str: string): boolean;
+            isIdCard(str: string): boolean; /**
+             * 数字对象
+             */
+            isUrlHttp(str: string): boolean;
+            isPlateNumber(str: string): boolean;
+            isDate(str: string): boolean;
+            isTime(str: string): boolean; /**
+             * 文件类型MIME映射
+             */
+            isBlankLine(str: string): boolean;
         };
     };
 }

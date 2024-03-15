@@ -1,6 +1,11 @@
 # FileUtil - 文件工具
 
-## 1. getTypeSimple(fileName: string)
+## 1. getMainName(fileName: string)
+
+获取主文件名
+
+
+## 2. getTypeSimple(fileName: string)
 
 通过截取文件名称获取文件类型
 
@@ -10,12 +15,12 @@ Baitu.FileUtil.getTypeSimple("abc.png");
 ```
 
 
-## 2. getFileTypeSimple(file: File)
+## 3. getFileTypeSimple(file: File)
 
 通过截取文件名称获取文件类型
 
 
-## 3. isTypeSimple(fileName: string, type: string)
+## 4. isTypeSimple(fileName: string, type: string)
 
 通过截取文件名称判断是否某种类型
 
@@ -25,12 +30,12 @@ Baitu.FileUtil.isTypeSimple("abc.png", "png");
 ```
 
 
-## 4. isFileTypeSimple(file: File, type: string)
+## 5. isFileTypeSimple(file: File, type: string)
 
 通过截取文件名称判断是否某种类型
 
 
-## 5. getHexString(file: File, len?: number)
+## 6. getHexString(file: File, len?: number)
 
 获取文件的16进制字符串，如果文件过大请设置len值，来截取文件，否则可能导致程序卡死
 
@@ -41,7 +46,7 @@ Baitu.FileUtil.getHexString(file).then(res => {
 ```
 
 
-## 6. getFileBuffer(file: File | Blob, len?: number)
+## 7. getFileBuffer(file: File | Blob, len?: number)
 
 获取文件Buffer，可设置len值，来截取文件
 
@@ -52,7 +57,7 @@ Baitu.FileUtil.getFileBuffer(file).then(res => {
 ```
 
 
-## 7. getUnit8Array(file: File, len?: number)
+## 8. getUnit8Array(file: File, len?: number)
 
 获取文件的Unit8数组，可设置len值，来截取文件
 
@@ -63,7 +68,7 @@ Baitu.FileUtil.getUnit8Array(file).then(res => {
 ```
 
 
-## 8. getTypeMagic(file: File)
+## 9. getTypeMagic(file: File)
 
 通过魔数获取文件类型（byte值获取）
 
@@ -76,7 +81,7 @@ Baitu.FileUtil.getTypeMagic(file).then(res => {
 ```
 
 
-## 9. isTypeMagic(file: File, type: string)
+## 10. isTypeMagic(file: File, type: string)
 
 通过魔数判断是否某种类型
 
@@ -87,7 +92,7 @@ Baitu.FileUtil.isTypeMagic(file, "png").then(res => {
 ```
 
 
-## 10. download(file: File, filename?: string, mime?: string)
+## 11. download(file: File, filename?: string, mime?: string)
 
 将文件下载
 

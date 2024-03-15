@@ -1,5 +1,10 @@
 declare class FileUtil {
     /**
+     * 获取主文件名
+     * @param fileName 文件名
+     */
+    getMainName(fileName: string): string;
+    /**
      * 通过截取文件名称获取文件类型
      * @param fileName 文件名称
      */

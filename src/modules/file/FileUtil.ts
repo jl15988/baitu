@@ -4,6 +4,15 @@ import HexUtil from "../base/HexUtil";
 class FileUtil {
 
     /**
+     * 获取主文件名
+     * @param fileName 文件名
+     */
+    getMainName(fileName: string): string {
+        const end = fileName.lastIndexOf(".");
+        return end !== -1 ? fileName.substring(0, end) : fileName;
+    }
+
+    /**
      * 通过截取文件名称获取文件类型
      * @param fileName 文件名称
      */

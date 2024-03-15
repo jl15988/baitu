@@ -91,6 +91,14 @@ declare class DateUtil {
      */
     daysOfMonth(date: Date | DateTime): number;
     /**
+     * 获取当年天数
+     */
+    daysOfYear(date: Date | DateTime): number;
+    /**
+     * 是否闰年
+     */
+    isLeapYear(date: Date | DateTime): boolean;
+    /**
      * 获取日期1减日期2的差值
      */
     compare(date1: Date | DateTime, date2: Date | DateTime, dateField?: DateField): number;

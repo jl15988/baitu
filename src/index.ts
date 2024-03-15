@@ -11,6 +11,10 @@ import FileTypeMagicMap from "./modules/file/FileTypeMagicMap";
 import FileTypeMimeMap from "./modules/file/FileTypeMimeMap";
 import HexUtil from "./modules/base/HexUtil";
 import ObjectUtil from "./modules/object/ObjectUtil";
+import DesensitizedUtil from "./modules/string/DesensitizedUtil";
+import ArrayUtil from "./modules/array/ArrayUtil";
+import patternPoolInstance, {PatternPool} from "./modules/common/PatternPool";
+import ValidateUtil from "./modules/string/ValidateUtil";
 
 class Baitu {
     /**
@@ -73,6 +77,36 @@ class Baitu {
      * 对象工具包
      */
     readonly ObjectUtil = ObjectUtil;
+    /**
+     * 脱敏工具包
+     */
+    readonly DesensitizedUtil = DesensitizedUtil;
+    /**
+     * 数组工具包
+     */
+    readonly ArrayUtil = ArrayUtil;
+    /**
+     * 正则池
+     */
+    PatternPool: PatternPool = patternPoolInstance;
+    /**
+     * 正则池class
+     */
+    PatternPollClass = PatternPool;
+    /**
+     * 正则工具
+     */
+    readonly ValidateUtil = ValidateUtil;
+
+    /**
+     * 赋值正则池
+     * @param patternPool 正则池
+     */
+    setPatternPool(patternPool: PatternPool) {
+        if (patternPool instanceof PatternPool) {
+            this.PatternPool = patternPool;
+        }
+    }
 
     /**
      * 获取所有工具对象
@@ -94,6 +128,11 @@ class Baitu {
             FileTypeMagicMap,
             FileTypeMimeMap,
             ObjectUtil,
+            DesensitizedUtil,
+            ArrayUtil,
+            PatternPool: patternPoolInstance,
+            PatternPollClass: PatternPool,
+            ValidateUtil
         }
     }
 }
