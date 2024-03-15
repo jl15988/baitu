@@ -4,7 +4,7 @@ import HexUtil from "../base/HexUtil";
 class FileUtil {
 
     /**
-     * 获取主文件名
+     * 获取文件主名
      * @param fileName 文件名
      */
     getMainName(fileName: string): string {

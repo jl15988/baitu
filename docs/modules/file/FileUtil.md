@@ -2,7 +2,7 @@
 
 ## 1. getMainName(fileName: string)
 
-获取主文件名
+获取文件主名
 
 
 ## 2. getTypeSimple(fileName: string)
