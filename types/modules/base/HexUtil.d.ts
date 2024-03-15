@@ -15,8 +15,8 @@ declare class HexUtil {
      */
     bufferToHex(buffer: ArrayBuffer): string;
     /**
-     * unit8Array转16进制字符串
-     * @param uint8Array unit8Array
+     * uint8Array转16进制字符串
+     * @param uint8Array uint8Array
      */
     uint8ArrayToHex(uint8Array: Uint8Array): string;
     /**

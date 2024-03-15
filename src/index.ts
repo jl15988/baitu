@@ -109,6 +109,17 @@ class Baitu {
     }
 
     /**
+     * 注入工具方法
+     */
+    putTo(fn: (key, tool) => {}) {
+        if (!fn) return;
+        const values = this.values();
+        for (let key in values) {
+            fn(key, values[key]);
+        }
+    }
+
+    /**
      * 获取所有工具对象
      */
     values() {

@@ -44,7 +44,7 @@ class StrUtil {
 
         // 如果字符串的长度已经达到或超过目标长度，则直接返回原字符串
         if (str.length >= targetLength) {
-            return str;
+            return "";
         }
 
         // 计算需要填充的字符数

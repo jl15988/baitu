@@ -88,7 +88,7 @@ declare class Baitu {
         isFileTypeSimple(file: File, type: string): boolean;
         getHexString(file: File, len?: number): Promise<string>;
         getFileBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
-        getUnit8Array(file: File, len?: number): Promise<Uint8Array>;
+        getUint8Array(file: File, len?: number): Promise<Uint8Array>;
         getTypeMagic(file: File): Promise<string>;
         isTypeMagic(file: File, type: string): Promise<boolean>;
         download(file: File, filename?: string, mime?: string): void;
@@ -228,6 +228,9 @@ declare class Baitu {
         maei: string;
         musd: string;
         mods: string;
+        /**
+         * 获取所有工具对象
+         */
         m21: string;
         mp4s: string;
         doc: string;
@@ -1177,6 +1180,10 @@ declare class Baitu {
      */
     setPatternPool(patternPool: PatternPool): void;
     /**
+     * 注入工具方法
+     */
+    putTo(fn: (key: any, tool: any) => {}): void;
+    /**
      * 获取所有工具对象
      */
     values(): {
@@ -1230,7 +1237,7 @@ declare class Baitu {
             isFileTypeSimple(file: File, type: string): boolean;
             getHexString(file: File, len?: number): Promise<string>;
             getFileBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
-            getUnit8Array(file: File, len?: number): Promise<Uint8Array>;
+            getUint8Array(file: File, len?: number): Promise<Uint8Array>;
             getTypeMagic(file: File): Promise<string>;
             isTypeMagic(file: File, type: string): Promise<boolean>;
             download(file: File, filename?: string, mime?: string): void;
@@ -1371,6 +1378,9 @@ declare class Baitu {
             maei: string;
             musd: string;
             mods: string;
+            /**
+             * 获取所有工具对象
+             */
             m21: string;
             mp4s: string;
             doc: string;

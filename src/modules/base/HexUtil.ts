@@ -31,12 +31,12 @@ class HexUtil {
     }
 
     /**
-     * unit8Array转16进制字符串
-     * @param uint8Array unit8Array
+     * uint8Array转16进制字符串
+     * @param uint8Array uint8Array
      */
     uint8ArrayToHex(uint8Array: Uint8Array): string {
         // 将Uint8Array转换为16进制字符串
-        return Array.from(uint8Array, byte => byte.toString(16)).join('');
+        return Array.from(uint8Array, byte => StrUtil.padStart(byte.toString(16), 2, '0')).join('');
     }
 
     /**

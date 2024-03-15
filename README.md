@@ -33,9 +33,19 @@ Vue.prototype.$btu = Baitu;
 ```
 
 
-## 文档
+通过putTo方法可以快速挂载工具
+```js
+import Baitu from "baitu";
 
-注：所有通过Baitu访问的功能，都可以通过values方法获取，如：
+Baitu.putTo((k, tool) => {
+    Vue.prototype[k] = tool;
+    // 或者
+    window[k] = tool;
+});
+```
+
+
+所有通过Baitu访问的功能，都可以通过values方法获取，如：
 
 ```js
 Baitu.DateTime.create();
@@ -46,6 +56,9 @@ DateTime.create();
 // 或者（前提是可通过new创建实例，部分功能不能通过new创建实例）
 new DateTime();
 ```
+
+
+## 文档
 
 |功能|文档|
 |-|-|

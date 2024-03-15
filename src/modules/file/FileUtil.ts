@@ -82,13 +82,13 @@ class FileUtil {
     }
 
     /**
-     * 获取文件的Unit8数组
+     * 获取文件的Uint8数组
      * @param file 文件
      * @param len 截取文件的长度
      */
-    getUnit8Array(file: File, len?: number): Promise<Uint8Array> {
+    getUint8Array(file: File, len?: number): Promise<Uint8Array> {
         return new Promise(((resolve, reject) => {
-            this.getFileBuffer(file).then(res => {
+            this.getFileBuffer(file, len).then(res => {
                 // @ts-ignore
                 const uint8Array = new Uint8Array(res);
                 resolve(uint8Array);

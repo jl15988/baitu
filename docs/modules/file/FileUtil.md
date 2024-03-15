@@ -57,12 +57,12 @@ Baitu.FileUtil.getFileBuffer(file).then(res => {
 ```
 
 
-## 8. getUnit8Array(file: File, len?: number)
+## 8. getUint8Array(file: File, len?: number)
 
 获取文件的Unit8数组，可设置len值，来截取文件
 
 ```js
-Baitu.FileUtil.getUnit8Array(file).then(res => {
+Baitu.FileUtil.getUint8Array(file).then(res => {
     // res
 })
 ```

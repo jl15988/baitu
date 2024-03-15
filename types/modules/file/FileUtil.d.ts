@@ -1,6 +1,6 @@
 declare class FileUtil {
     /**
-     * 获取主文件名
+     * 获取文件主名
      * @param fileName 文件名
      */
     getMainName(fileName: string): string;
@@ -39,11 +39,11 @@ declare class FileUtil {
      */
     getFileBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
     /**
-     * 获取文件的Unit8数组
+     * 获取文件的Uint8数组
      * @param file 文件
      * @param len 截取文件的长度
      */
-    getUnit8Array(file: File, len?: number): Promise<Uint8Array>;
+    getUint8Array(file: File, len?: number): Promise<Uint8Array>;
     /**
      * 通过魔数获取文件类型（byte值获取）
      * 不总是准确的，因为不是所有的文件类型都有唯一的魔数
