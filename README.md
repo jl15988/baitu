@@ -4,6 +4,8 @@
 
 A small and comprehensive front-end toolkit.
 
+**注意：** 工具仍在开发测试阶段...
+
 ## 介绍
 
 Baitu，意名：百涂、百图、白图，意思为“各种途径”、“白-工具”、“百个工具”，指开发中有多种方式达成目标，而Baitu有多种工具提供支持，一应俱全，一本万利！Baitu由BaiTools谐音而来，bai为本人开发者化名，tools为工具集。
@@ -17,12 +19,17 @@ Baitu，意名：百涂、百图、白图，意思为“各种途径”、“白
 ## 使用
 
 html
-```js
+```html
 // 注意：为了兼容性，建议添加对应版本，如：https://unpkg.com/baitu@1.1.1/lib/baitu.min.js
 <script src="https://unpkg.com/baitu/lib/baitu.min.js"></script>
 <script>
 // your code
 </script>
+```
+
+npm安装
+```sh
+npm install baitu;
 ```
 
 vue2

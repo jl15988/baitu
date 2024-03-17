@@ -232,14 +232,30 @@ class DateUtil {
         } else if (DateField.DAY === dateField) {
             result = diff / DateUtil.dayMillis;
         } else if (DateField.MONTH === dateField || DateField.YEAR) {
-            const month1 = date1.getMonth();
-            const month2 = date2.getMonth();
-            const day1 = date1.getDate();
-            const day2 = date2.getDate();
-            const days = this.daysOfMonth(date2);
-            result = (day1 - day2) / days;
-            if (month1 !== month2) {
-                result += month1 - month2;
+            if (time1 < time2) {
+                const tempDate = date1;
+                date1 = date2;
+                date2 = tempDate;
+            }
+            let tempDate1 = new DateTime(date1);
+            let tempDate2 = new DateTime(date2);
+            const objectValues1 = tempDate1.objectValues();
+            const objectValues2 = tempDate2.objectValues();
+
+            let num = 0;
+            while (tempDate2.getTime() < tempDate1.getTime()) {
+                ++num
+                tempDate2 = tempDate2.offset(DateField.MONTH, 1);
+            }
+            const compareDay = objectValues2.day - objectValues1.day;
+            if (compareDay === 0) {
+                return num;
+            } else if (compareDay < 0) {
+                const monthDays = tempDate1.daysOfMonth()
+                return num - compareDay / monthDays;
+            } else {
+                const monthDays = tempDate2.offset(DateField.MONTH, -1).daysOfMonth();
+                return num - 1 + (monthDays - compareDay) / monthDays;
             }
         } else if (DateField.YEAR === dateField) {
             const year1 = date1.getFullYear();

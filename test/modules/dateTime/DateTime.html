@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DateTime</title>
+</head>
+<body>
+<script src="../../../lib/baitu.min.js"></script>
+<script>
+    const {DateTime, WeekDay, DateField} = Baitu.values();
+    console.log(new DateTime())
+    console.log(DateTime.create())
+    console.log(DateTime.create(1710400022302))
+    console.log(DateTime.create(2024, 3, 14, 15, 7, 30))
+    console.log(DateTime.create(2024, 3, 14))
+    console.log(new Date(2024, 3, 14))
+
+    const nowDateTime = DateTime.create();
+    console.log(nowDateTime.objectValues())
+    console.log(nowDateTime.toDate())
+    console.log(nowDateTime.format('yyyy-MM-dd HH:mm:ss'))
+    console.log(nowDateTime.format('yyyy-MM-dd'))
+    console.log(nowDateTime.format())
+    console.log(nowDateTime.formatDate())
+    console.log(nowDateTime.formatDateTime())
+    console.log(nowDateTime.beginOfDay())
+    console.log(nowDateTime.endOfDay())
+    console.log(nowDateTime.beginOfWeek())
+    console.log(nowDateTime.endOfWeek())
+    nowDateTime.setFirstWeek(WeekDay.MON)
+    console.log(nowDateTime.beginOfWeek())
+    console.log(nowDateTime.endOfWeek())
+    console.log(nowDateTime.beginOfMonth())
+    console.log(nowDateTime.endOfMonth())
+    console.log(nowDateTime.beginOfYear())
+    console.log(nowDateTime.endOfYear())
+    console.log(nowDateTime.offset(DateField.YEAR, 3))
+    const dateTime = DateTime.create(2024, 1, 29, 15, 20, 10);
+    console.log(dateTime.offset(DateField.YEAR, 1))
+    console.log(nowDateTime.offset(DateField.MONTH, 6).formatDate())
+    console.log(nowDateTime.daysOfMonth())
+    console.log(dateTime.daysOfMonth())
+    console.log(nowDateTime.daysOfYear())
+    const dateTime2 = DateTime.create(2023, 0, 29, 15, 20, 10);
+    console.log("11", dateTime2)
+    console.log(dateTime2.daysOfYear())
+    console.log(nowDateTime.isLeapYear())
+    console.log(dateTime2.isLeapYear())
+    console.log(nowDateTime.compare(dateTime2, DateField.MONTH))
+    console.log(nowDateTime.compare(dateTime2, DateField.DAY))
+</script>
+</body>
+</html>

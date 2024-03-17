@@ -4,6 +4,7 @@ import Num from "./modules/number/Num";
 import Throttle from "./modules/common/Throttle";
 import Debounce from "./modules/common/Debounce";
 import { PatternPool } from "./modules/common/PatternPool";
+import Ternary from "./modules/common/Ternary";
 declare class Baitu {
     /**
      * 字符串对象
@@ -17,14 +18,16 @@ declare class Baitu {
         isNotBlank(str: string): boolean;
         isEmpty(str: string): boolean;
         isNotEmpty(str: string): boolean;
+        defaultIfNull(str: string, defaultStr: string): string;
+        defaultIfBlank(str: string, defaultStr: string): string;
+        defaultIfEmpty(str: string, defaultStr: string): string;
+        isAnyBlank(...str: string[]): boolean;
+        isAnyEmpty(...str: string[]): boolean;
         getPadStr(str: string, len: number, pad?: string): string;
         padStart(str: string, len: number, pad?: string): string;
         padEnd(str: string, len: number, pad?: string): string;
-        chunk(str: string, chunkSize: number): RegExpMatchArray | []; /**
-         * 赋值正则池
-         * @param patternPool 正则池
-         */
-        chunkCount(str: string, count: number): any[];
+        chunk(str: string, chunkSize: number): string[];
+        chunkCount(str: string, count: number): string[];
     };
     /**
      * 日期对象
@@ -124,28 +127,29 @@ declare class Baitu {
         "526172211a0700cf9073": string;
         "235468697320636f6e66": string;
         "504B03040a0000000000": string;
-        /**
-         * 字符串对象
-         */
         "504B0304140008000800": string;
         D0CF11E0A1B11AE10: string;
         "504B0304": string;
-        "4d5a9000030000000400": string; /**
-         * 日期对象
-         */
+        "4d5a9000030000000400": string;
         "3c25402070616765206c": string;
         "4d616e69666573742d56": string;
         "7061636b616765207765": string;
+        /**
+         * 日期工具包
+         */
         "406563686f206f66660d": string;
-        "1f8b0800000000000000": string;
+        "1f8b0800000000000000": string; /**
+         * 日期属性
+         */
         cafebabe0000002e0041: string;
         "49545346030000006000": string;
         "04000000010000001300": string;
         d0cf11e0a1b11ae10000: string;
         "6431303a637265617465": string;
-        "6D6F6F76": string; /**
-         * 节流工具
+        /**
+         * 数字工具
          */
+        "6D6F6F76": string;
         FF575043: string;
         CFAD12FEC5FD746F: string;
         "2142444E": string;
@@ -181,6 +185,9 @@ declare class Baitu {
         mpp: string;
         davmount: string;
         dbk: string;
+        /**
+         * 字符串对象
+         */
         dssc: string;
         xdssc: string;
         es: string;
@@ -204,13 +211,19 @@ declare class Baitu {
         jar: string;
         ser: string;
         class: string;
-        js: string;
+        js: string; /**
+         * 16进制工具包
+         */
         json: string;
-        json5: string;
+        json5: string; /**
+         * 对象工具包
+         */
         jsonml: string;
         jsonld: string;
         lgr: string;
-        lostxml: string;
+        lostxml: string; /**
+         * 数组工具包
+         */
         hqx: string;
         cpt: string;
         mads: string;
@@ -228,9 +241,6 @@ declare class Baitu {
         maei: string;
         musd: string;
         mods: string;
-        /**
-         * 获取所有工具对象
-         */
         m21: string;
         mp4s: string;
         doc: string;
@@ -1121,9 +1131,6 @@ declare class Baitu {
     readonly DesensitizedUtil: {
         of(str: string, startIndex?: number, length?: number, pad?: string): string;
         reserve(str: string, headLen?: number, tailLen?: number, pad?: string): string;
-        /**
-         * 节流工具
-         */
         with(params: import("./modules/string/DesensitizedUtil").DesensitizedParam): string;
         mobile(str: string, startIndex?: number, length?: number, pad?: string): string;
         fullName(str: string, startIndex?: number, length?: number, pad?: string): string;
@@ -1139,7 +1146,9 @@ declare class Baitu {
      * 数组工具包
      */
     readonly ArrayUtil: {
-        repeat(arr: [string | number], count: number): string;
+        repeat(arr: (string | number)[], count: number): string;
+        finalItem(arr: any[], defaultItem?: any): any;
+        push(arr: any[], item: any): any[];
     };
     /**
      * 正则池
@@ -1163,17 +1172,16 @@ declare class Baitu {
         isDomainName(str: string): boolean;
         isMobile(str: string): boolean;
         isLandline(str: string): boolean;
-        isIdCard(str: string): boolean; /**
-         * 数字对象
+        isIdCard(str: string): boolean;
+        isUrlHttp(str: string): boolean; /**
+         * 数字工具
          */
-        isUrlHttp(str: string): boolean;
         isPlateNumber(str: string): boolean;
         isDate(str: string): boolean;
-        isTime(str: string): boolean; /**
-         * 文件类型MIME映射
-         */
+        isTime(str: string): boolean;
         isBlankLine(str: string): boolean;
     };
+    readonly Ternary: typeof Ternary;
     /**
      * 赋值正则池
      * @param patternPool 正则池
@@ -1193,14 +1201,16 @@ declare class Baitu {
             isNotBlank(str: string): boolean;
             isEmpty(str: string): boolean;
             isNotEmpty(str: string): boolean;
+            defaultIfNull(str: string, defaultStr: string): string;
+            defaultIfBlank(str: string, defaultStr: string): string;
+            defaultIfEmpty(str: string, defaultStr: string): string;
+            isAnyBlank(...str: string[]): boolean;
+            isAnyEmpty(...str: string[]): boolean;
             getPadStr(str: string, len: number, pad?: string): string;
             padStart(str: string, len: number, pad?: string): string;
             padEnd(str: string, len: number, pad?: string): string;
-            chunk(str: string, chunkSize: number): RegExpMatchArray | []; /**
-             * 赋值正则池
-             * @param patternPool 正则池
-             */
-            chunkCount(str: string, count: number): any[];
+            chunk(str: string, chunkSize: number): string[];
+            chunkCount(str: string, count: number): string[];
         };
         DateTime: typeof DateTime;
         DateField: typeof DateField;
@@ -1277,28 +1287,29 @@ declare class Baitu {
             "526172211a0700cf9073": string;
             "235468697320636f6e66": string;
             "504B03040a0000000000": string;
-            /**
-             * 字符串对象
-             */
             "504B0304140008000800": string;
             D0CF11E0A1B11AE10: string;
             "504B0304": string;
-            "4d5a9000030000000400": string; /**
-             * 日期对象
-             */
+            "4d5a9000030000000400": string;
             "3c25402070616765206c": string;
             "4d616e69666573742d56": string;
             "7061636b616765207765": string;
+            /**
+             * 日期工具包
+             */
             "406563686f206f66660d": string;
-            "1f8b0800000000000000": string;
+            "1f8b0800000000000000": string; /**
+             * 日期属性
+             */
             cafebabe0000002e0041: string;
             "49545346030000006000": string;
             "04000000010000001300": string;
             d0cf11e0a1b11ae10000: string;
             "6431303a637265617465": string;
-            "6D6F6F76": string; /**
-             * 节流工具
+            /**
+             * 数字工具
              */
+            "6D6F6F76": string;
             FF575043: string;
             CFAD12FEC5FD746F: string;
             "2142444E": string;
@@ -1331,6 +1342,9 @@ declare class Baitu {
             mpp: string;
             davmount: string;
             dbk: string;
+            /**
+             * 字符串对象
+             */
             dssc: string;
             xdssc: string;
             es: string;
@@ -1354,13 +1368,19 @@ declare class Baitu {
             jar: string;
             ser: string;
             class: string;
-            js: string;
+            js: string; /**
+             * 16进制工具包
+             */
             json: string;
-            json5: string;
+            json5: string; /**
+             * 对象工具包
+             */
             jsonml: string;
             jsonld: string;
             lgr: string;
-            lostxml: string;
+            lostxml: string; /**
+             * 数组工具包
+             */
             hqx: string;
             cpt: string;
             mads: string;
@@ -1378,9 +1398,6 @@ declare class Baitu {
             maei: string;
             musd: string;
             mods: string;
-            /**
-             * 获取所有工具对象
-             */
             m21: string;
             mp4s: string;
             doc: string;
@@ -2255,9 +2272,6 @@ declare class Baitu {
         DesensitizedUtil: {
             of(str: string, startIndex?: number, length?: number, pad?: string): string;
             reserve(str: string, headLen?: number, tailLen?: number, pad?: string): string;
-            /**
-             * 节流工具
-             */
             with(params: import("./modules/string/DesensitizedUtil").DesensitizedParam): string;
             mobile(str: string, startIndex?: number, length?: number, pad?: string): string;
             fullName(str: string, startIndex?: number, length?: number, pad?: string): string;
@@ -2270,7 +2284,9 @@ declare class Baitu {
             bankAccountWith(params: import("./modules/string/DesensitizedUtil").DesensitizedReserveParam): string;
         };
         ArrayUtil: {
-            repeat(arr: [string | number], count: number): string;
+            repeat(arr: (string | number)[], count: number): string;
+            finalItem(arr: any[], defaultItem?: any): any;
+            push(arr: any[], item: any): any[];
         };
         PatternPool: PatternPool;
         PatternPollClass: typeof PatternPool;
@@ -2285,17 +2301,16 @@ declare class Baitu {
             isDomainName(str: string): boolean;
             isMobile(str: string): boolean;
             isLandline(str: string): boolean;
-            isIdCard(str: string): boolean; /**
-             * 数字对象
+            isIdCard(str: string): boolean;
+            isUrlHttp(str: string): boolean; /**
+             * 数字工具
              */
-            isUrlHttp(str: string): boolean;
             isPlateNumber(str: string): boolean;
             isDate(str: string): boolean;
-            isTime(str: string): boolean; /**
-             * 文件类型MIME映射
-             */
+            isTime(str: string): boolean;
             isBlankLine(str: string): boolean;
         };
+        Ternary: typeof Ternary;
     };
 }
 declare const _default: Baitu;

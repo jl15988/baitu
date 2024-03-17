@@ -39,6 +39,18 @@ export declare enum MonthField {
     November = 10,
     December = 11
 }
+/**
+ * DateTime数据对象
+ */
+export type DateTimeObjectValues = {
+    year: number;
+    month: number;
+    day: number;
+    week: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+};
 declare class DateTime extends Date {
     firstWeek: number;
     static readonly DateField: typeof DateField;
@@ -49,9 +61,7 @@ declare class DateTime extends Date {
     /**
      * 日期年，月，日，周，时，分，秒对象数据，与Date的get获取的一致
      */
-    objectValues(): {
-        [key: string]: number;
-    };
+    objectValues(): DateTimeObjectValues;
     /**
      * 转为年-月-日类型的日期
      * @returns {DateTime}

@@ -12,5 +12,15 @@
     const {ArrayUtil} = Baitu.values();
     const res = ArrayUtil.repeat(['a', 1, 'c'], 3);
     console.log(res);
+
+    const finalItem = ArrayUtil.finalItem(['a', "sa", "", () => {}, 3]);
+    console.log(finalItem)
+
+    const finalItem2 = ArrayUtil.finalItem([], 2);
+    console.log(finalItem2)
+
+    let arr = null;
+    arr = ArrayUtil.push(arr, 2);
+    console.log(arr);
 </script>
 </html>

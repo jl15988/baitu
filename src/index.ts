@@ -15,6 +15,7 @@ import DesensitizedUtil from "./modules/string/DesensitizedUtil";
 import ArrayUtil from "./modules/array/ArrayUtil";
 import patternPoolInstance, {PatternPool} from "./modules/common/PatternPool";
 import ValidateUtil from "./modules/string/ValidateUtil";
+import Ternary from "./modules/common/Ternary";
 
 class Baitu {
     /**
@@ -97,6 +98,7 @@ class Baitu {
      * 正则工具
      */
     readonly ValidateUtil = ValidateUtil;
+    readonly Ternary = Ternary;
 
     /**
      * 赋值正则池
@@ -143,7 +145,8 @@ class Baitu {
             ArrayUtil,
             PatternPool: patternPoolInstance,
             PatternPollClass: PatternPool,
-            ValidateUtil
+            ValidateUtil,
+            Ternary
         }
     }
 }

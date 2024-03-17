@@ -21,7 +21,7 @@ class StrUtil {
      * @param str 字符串
      */
     isEmpty(str: string): boolean {
-        return !str;
+        return str === null || str.length === 0;
     }
 
     /**
@@ -29,7 +29,59 @@ class StrUtil {
      * @param str 字符串
      */
     isNotEmpty(str: string): boolean {
-        return !str;
+        return !this.isEmpty(str);
+    }
+
+    /**
+     * 如果字符串为null返回默认值，否则返回原字符串
+     * @param str 字符串
+     * @param defaultStr 默认值
+     */
+    defaultIfNull(str: string, defaultStr: string): string {
+        if (str === null) {
+            return defaultStr;
+        }
+        return str;
+    }
+
+    /**
+     * 如果字符串为空白字符串返回默认值，否则返回原字符串
+     * @param str 字符串
+     * @param defaultStr 默认值
+     */
+    defaultIfBlank(str: string, defaultStr: string): string {
+        if (this.isBlank(str)) {
+            return defaultStr;
+        }
+        return str;
+    }
+
+    /**
+     * 如果为空字符串返回默认值，否则返回原字符串
+     * @param str 字符串
+     * @param defaultStr 默认值
+     */
+    defaultIfEmpty(str: string, defaultStr: string): string {
+        if (this.isEmpty(str)) {
+            return defaultStr;
+        }
+        return str;
+    }
+
+    /**
+     * 判断多个字符串中是否包含空白字符串
+     * @param str 字符串数组
+     */
+    isAnyBlank(...str: string[]): boolean {
+        return str.every(str => this.isBlank(str));
+    }
+
+    /**
+     * 判断多个字符串中是否包含空字符串
+     * @param str 字符串数组
+     */
+    isAnyEmpty(...str: string[]): boolean {
+        return str.every(str => this.isEmpty(str));
     }
 
     /**
@@ -38,7 +90,7 @@ class StrUtil {
      * @param len 目标长度
      * @param pad 要填充的字符串
      */
-    getPadStr(str: string, len: number, pad?: string) {
+    getPadStr(str: string, len: number, pad?: string): string {
         const padString = pad || ' '; // 如果没有提供填充字符串，则默认为空格
         const targetLength = len || 0; // 如果没有提供目标长度，则默认为0
 
@@ -60,7 +112,7 @@ class StrUtil {
      * @param len 目标长度
      * @param pad 要填充的字符串
      */
-    padStart(str: string, len: number, pad?: string) {
+    padStart(str: string, len: number, pad?: string): string {
         // 在原字符串的头部添加填充字符串
         return this.getPadStr(str, len, pad) + str;
     }
@@ -71,7 +123,7 @@ class StrUtil {
      * @param len 目标长度
      * @param pad 要填充的字符串
      */
-    padEnd(str: string, len: number, pad?: string) {
+    padEnd(str: string, len: number, pad?: string): string {
         // 在原字符串的尾部添加填充字符串
         return str + this.getPadStr(str, len, pad);
     }
@@ -81,7 +133,7 @@ class StrUtil {
      * @param str 字符串
      * @param chunkSize 分割长度
      */
-    chunk(str: string, chunkSize: number) {
+    chunk(str: string, chunkSize: number): string[] {
         // const chars = [...str]; // 将字符串转换为字符数组
         // const result = [];
         // for (let i = 0; i < chars.length; i += chunkSize) {
@@ -97,7 +149,7 @@ class StrUtil {
      * @param str 字符串
      * @param count 数组长度
      */
-    chunkCount(str: string, count: number) {
+    chunkCount(str: string, count: number): string[] {
         if (count <= 0) {
             throw new Error('Count must be a positive integer');
         }

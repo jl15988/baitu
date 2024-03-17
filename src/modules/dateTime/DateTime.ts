@@ -44,6 +44,19 @@ export enum MonthField {
     December
 }
 
+/**
+ * DateTime数据对象
+ */
+export type DateTimeObjectValues = {
+    year: number,
+    month: number,
+    day: number,
+    week: number,
+    hours: number,
+    minutes: number,
+    seconds: number
+}
+
 class DateTime extends Date {
     firstWeek = 0;
 
@@ -77,7 +90,7 @@ class DateTime extends Date {
     /**
      * 日期年，月，日，周，时，分，秒对象数据，与Date的get获取的一致
      */
-    objectValues(): { [key: string]: number } {
+    objectValues(): DateTimeObjectValues {
         const year = this.getFullYear();
         const month = this.getMonth();
         const day = this.getDate();
@@ -225,15 +238,20 @@ class DateTime extends Date {
         const values = newDateTime.objectValues();
         offset = offset || 0;
         if (DateField.YEAR === type) {
+            const tempDateTime = new DateTime(newDateTime);
             newDateTime.setFullYear(values.year + Number(offset));
+            if (newDateTime.getMonth() !== tempDateTime.getMonth()
+                && newDateTime.getFullYear() === tempDateTime.getFullYear()) {
+                // 如果偏移年份后月份不等于原来的月份，则说明月份超出了，取当月最后一天
+                newDateTime.setDate(0);
+            }
         } else if (DateField.MONTH === type) {
             const tempDateTime = new DateTime(newDateTime);
-            tempDateTime.setMonth(values.month + Number(offset));
-            if (tempDateTime.getMonth() !== newDateTime.getMonth() - 1) {
-                // 如果月份-1后，月份不等于上个月数，则说明上个月天数超出了，去上月最后一天
+            newDateTime.setMonth(values.month + Number(offset));
+            if (newDateTime.getMonth() !== tempDateTime.getMonth() + Number(offset)
+                && newDateTime.getFullYear() === tempDateTime.getFullYear()) {
+                // 如果月份-1后，月份不等于上个月数，则说明上个月天数超出了，取上月最后一天
                 newDateTime.setDate(0);
-            } else {
-                newDateTime.setMonth(values.month + Number(offset));
             }
         } else if (DateField.DAY === type) {
             newDateTime.setDate(values.day + Number(offset));

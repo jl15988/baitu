@@ -21,7 +21,7 @@ dateTime = new Baitu.DateTime(2024, 3, 14, 15, 07, 30);
 ```js
 let dateTime = Baitu.DateTime.create();
 dateTime = Baitu.DateTime.create(1710400022302);
-dateTime = Baitu.DateTime.create(2024, 3, 14, 15, 07, 30);
+dateTime = Baitu.DateTime.create(2024, 3, 14, 15, 7, 30);
 ```
 
 ## 2. objectValues()

@@ -20,6 +20,34 @@ declare class StrUtil {
      */
     isNotEmpty(str: string): boolean;
     /**
+     * 如果字符串为null返回默认值，否则返回原字符串
+     * @param str 字符串
+     * @param defaultStr 默认值
+     */
+    defaultIfNull(str: string, defaultStr: string): string;
+    /**
+     * 如果字符串为空白字符串返回默认值，否则返回原字符串
+     * @param str 字符串
+     * @param defaultStr 默认值
+     */
+    defaultIfBlank(str: string, defaultStr: string): string;
+    /**
+     * 如果为空字符串返回默认值，否则返回原字符串
+     * @param str 字符串
+     * @param defaultStr 默认值
+     */
+    defaultIfEmpty(str: string, defaultStr: string): string;
+    /**
+     * 判断多个字符串中是否包含空白字符串
+     * @param str 字符串数组
+     */
+    isAnyBlank(...str: string[]): boolean;
+    /**
+     * 判断多个字符串中是否包含空字符串
+     * @param str 字符串数组
+     */
+    isAnyEmpty(...str: string[]): boolean;
+    /**
      * 获取需要额外填充的字符串
      * @param str 字符串
      * @param len 目标长度
@@ -45,13 +73,13 @@ declare class StrUtil {
      * @param str 字符串
      * @param chunkSize 分割长度
      */
-    chunk(str: string, chunkSize: number): RegExpMatchArray | [];
+    chunk(str: string, chunkSize: number): string[];
     /**
      * 分割字符串为固定长度数组
      * @param str 字符串
      * @param count 数组长度
      */
-    chunkCount(str: string, count: number): any[];
+    chunkCount(str: string, count: number): string[];
 }
 declare const _default: StrUtil;
 export default _default;
