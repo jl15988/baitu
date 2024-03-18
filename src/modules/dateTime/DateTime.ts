@@ -1,4 +1,5 @@
 import DateUtil from "./DateUtil";
+import StrUtil from "../string/StrUtil";
 
 /**
  * 日期属性
@@ -62,6 +63,33 @@ class DateTime extends Date {
 
     static readonly DateField = DateField;
     static readonly WeekDay = WeekDay;
+
+    static new(): DateTime;
+    static new(value: number | string): DateTime;
+    static new(year: number, month: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number): DateTime;
+
+    static new(...args) {
+        let month = null;
+        if (args.length > 1) {
+            month = args[1] - 1;
+        }
+        switch (args.length) {
+            case 1:
+                return new DateTime(args[0]);
+            case 2:
+                return new DateTime(args[0], month);
+            case 3:
+                return new DateTime(args[0], month, args[2]);
+            case 4:
+                return new DateTime(args[0], month, args[2], args[3]);
+            case 5:
+                return new DateTime(args[0], month, args[2], args[3], args[4]);
+            case 6:
+                return new DateTime(args[0], month, args[2], args[3], args[4], args[5]);
+            default:
+                return new DateTime();
+        }
+    }
 
     static create(): DateTime;
     static create(value: number | string): DateTime;
@@ -301,6 +329,13 @@ class DateTime extends Date {
      */
     age(): number {
         return DateUtil.age(this);
+    }
+
+    /**
+     * 年月数
+     */
+    yearMonthNumber() {
+        return parseInt(this.getFullYear() + StrUtil.padStart(String(this.getMonth() + 1), 2, "0"))
     }
 }
 

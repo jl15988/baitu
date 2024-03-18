@@ -55,6 +55,9 @@ declare class DateTime extends Date {
     firstWeek: number;
     static readonly DateField: typeof DateField;
     static readonly WeekDay: typeof WeekDay;
+    static new(): DateTime;
+    static new(value: number | string): DateTime;
+    static new(year: number, month: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number): DateTime;
     static create(): DateTime;
     static create(value: number | string): DateTime;
     static create(year: number, monthIndex: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number): DateTime;
@@ -154,5 +157,9 @@ declare class DateTime extends Date {
      * 获取当前日期年龄（周岁）
      */
     age(): number;
+    /**
+     * 年月数
+     */
+    yearMonthNumber(): number;
 }
 export default DateTime;

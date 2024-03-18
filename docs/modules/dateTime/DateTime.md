@@ -21,7 +21,15 @@ dateTime = new Baitu.DateTime(2024, 3, 14, 15, 07, 30);
 ```js
 let dateTime = Baitu.DateTime.create();
 dateTime = Baitu.DateTime.create(1710400022302);
-dateTime = Baitu.DateTime.create(2024, 3, 14, 15, 7, 30);
+dateTime = Baitu.DateTime.create(2024, 3, 14, 15, 7, 30); // 输出2024-02-14 15:07:30
+```
+
+create方法与new Date参数一致，但这种方式月份参数为月份下标，也就是从零开始，所以我们又提供了new方法，其中的月份参数就是月份名称，不用再对月份额外操作
+
+```js
+let dateTime = Baitu.DateTime.new();
+dateTime = Baitu.DateTime.new(1710400022302);
+dateTime = Baitu.DateTime.new(2024, 3, 14, 15, 7, 30); // 输出2024-03-14 15:07:30
 ```
 
 ## 2. objectValues()

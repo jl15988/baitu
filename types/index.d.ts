@@ -40,7 +40,9 @@ declare class Baitu {
         date(): Date;
         dateTime(): DateTime;
         now(): number;
-        formatNow(): string;
+        formatNow(): string; /**
+         * 字符串对象
+         */
         formatToDate(): string;
         parse(dateTime: string | number | DateTime | Date): Date;
         toDateTime(dateTime: string | number | DateTime | Date): DateTime;
@@ -1219,7 +1221,9 @@ declare class Baitu {
             date(): Date;
             dateTime(): DateTime;
             now(): number;
-            formatNow(): string;
+            formatNow(): string; /**
+             * 字符串对象
+             */
             formatToDate(): string;
             parse(dateTime: string | number | DateTime | Date): Date;
             toDateTime(dateTime: string | number | DateTime | Date): DateTime;

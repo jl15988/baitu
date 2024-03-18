@@ -17,6 +17,10 @@ declare class DateUtil {
      */
     static readonly dayMillis: number;
     /**
+     * 一星期毫秒值
+     */
+    static readonly weekMillis: number;
+    /**
      * 获取当前Date日期
      */
     date(): Date;

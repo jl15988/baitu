@@ -19,6 +19,10 @@ class DateUtil {
      * 天毫秒值
      */
     static readonly dayMillis: number = this.hoursMillis * 24;
+    /**
+     * 一星期毫秒值
+     */
+    static readonly weekMillis: number = this.dayMillis * 7;
 
     /**
      * 获取当前Date日期
@@ -231,8 +235,11 @@ class DateUtil {
             result = diff / DateUtil.hoursMillis;
         } else if (DateField.DAY === dateField) {
             result = diff / DateUtil.dayMillis;
-        } else if (DateField.MONTH === dateField || DateField.YEAR) {
-            if (time1 < time2) {
+        } else if (DateField.WEEK === dateField) {
+            result = diff / DateUtil.weekMillis;
+        } else if (DateField.MONTH === dateField || DateField.YEAR === dateField) {
+            if (diff < 0) {
+                // 若date2大于date1，交换位置
                 const tempDate = date1;
                 date1 = date2;
                 date2 = tempDate;
@@ -242,29 +249,38 @@ class DateUtil {
             const objectValues1 = tempDate1.objectValues();
             const objectValues2 = tempDate2.objectValues();
 
+            // 循环date2月份加1，直到年月数大于date1的年月数，求出相隔月数
             let num = 0;
-            while (tempDate2.getTime() < tempDate1.getTime()) {
+            while (tempDate2.yearMonthNumber() < tempDate1.yearMonthNumber()) {
                 ++num
                 tempDate2 = tempDate2.offset(DateField.MONTH, 1);
             }
-            const compareDay = objectValues2.day - objectValues1.day;
+            // 取天数差值，标识大日期向小日期月份补天数后剩余的天数
+            const compareDay = objectValues1.day - objectValues2.day;
             if (compareDay === 0) {
-                return num;
+                // 天数差值一致，则为最终结果
+                result = num;
             } else if (compareDay < 0) {
-                const monthDays = tempDate1.daysOfMonth()
-                return num - compareDay / monthDays;
-            } else {
+                // 差值小于零，则说明小日期月份天数补全后，大日期月份天数不够了，所以取大日期的上个月
                 const monthDays = tempDate2.offset(DateField.MONTH, -1).daysOfMonth();
-                return num - 1 + (monthDays - compareDay) / monthDays;
+                result = num - 1 + (monthDays + compareDay) / monthDays;
+            } else {
+                // 差值大于零，则直接用差值除大日期月份天数
+                const monthDays = tempDate1.daysOfMonth();
+                result = num + compareDay / monthDays;
             }
-        } else if (DateField.YEAR === dateField) {
-            const year1 = date1.getFullYear();
-            const year2 = date2.getFullYear();
-            result = result / 12 + year1 - year2;
+            // 添加符号
+            if (diff < 0) {
+                result = -result;
+            }
         } else {
-            return diff;
+            return NumberUtil.fixed(diff, 2);
         }
-        return NumberUtil.fixed(result, 1);
+        if (DateField.YEAR === dateField) {
+            // 年份直接用月份除12
+            result = result / 12;
+        }
+        return NumberUtil.fixed(result, 2);
     }
 
     /**
