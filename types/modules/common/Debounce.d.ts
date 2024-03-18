@@ -9,14 +9,13 @@ declare class Debounce {
     /**
      * 创建新的防抖实例
      */
-    static new(): Debounce;
+    static new(name?: string): any;
     /**
      * 全局防抖（无论多长时间，只有最后一次执行达到指定时长才执行）
      * @param fn 方法
      * @param delay 触发时长（间隔时长），单位毫秒，大于此时长将执行方法
-     * @param name 防抖唯一名称
      */
-    static of(fn: Function, delay: number, name?: string): void;
+    static of(fn: Function, delay: number): void;
     /**
      * 实例防抖（无论多长时间，只有最后一次执行达到指定时长才执行）
      * @param fn 方法
@@ -27,9 +26,8 @@ declare class Debounce {
      * 全局闭包防抖，返回方法（无论多长时间，只有最后一次执行达到指定时长才执行）
      * @param fn 方法
      * @param delay 触发时长（间隔时长），单位毫秒，大于此时长将执行方法
-     * @param name 防抖唯一名称
      */
-    static with(fn: Function, delay: number, name?: string): Function;
+    static with(fn: Function, delay: number): Function;
     /**
      * 实例闭包防抖（无论多长时间，只有最后一次执行达到指定时长才执行）
      * @param fn 方法

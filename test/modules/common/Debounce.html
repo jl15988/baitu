@@ -22,9 +22,9 @@
     const ta1 = document.querySelector("#ta1");
     const ta2 = document.querySelector("#ta2");
     bt1.addEventListener('click', () => {
-        Debounce.of(() => {
+        Debounce.new('t1').of(() => {
             ta1.value = "普通用法";
-        }, 2000, 't1')
+        }, 2000)
         Debounce.of(() => {
             ta2.value = "普通用法2";
         }, 3000)
@@ -36,9 +36,9 @@
     //     ta3.value = "闭包用法";
     // }, 3000));
     bt3.addEventListener('click', () => {
-        Debounce.with(() => {
+        Debounce.new('2').with(() => {
             ta3.value = "闭包用法";
-        }, 2000, 'ds')();
+        }, 2000)();
         Debounce.with(() => {
             ta2.value = "闭包用法2";
         }, 3000)();

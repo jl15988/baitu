@@ -8,56 +8,37 @@
 <body>
 <h1>Throttle</h1>
 <h2>1. 普通立即执行（全局节流）</h2>
-<pre>
-    let num = 1;
-    bt1.addEventListener('click', () => {
-        Baitu.Throttle.of(() => {
-            ta1.value = num++;
-        }, 3000)
-    });
-</pre>
 <button id="t1">点击</button>
 <textarea id="ta1"></textarea>
 <h2>2. 最后执行</h2>
-<pre>
-    let num2 = 1;
-    bt2.addEventListener('click', () => {
-        Baitu.Throttle.of(() => {
-            ta2.value = num2++;
-        }, 3000, false)
-    });
-</pre>
 <button id="t2">点击</button>
 <textarea id="ta2"></textarea>
 <h2>3. 闭包方法（全局）</h2>
-<pre>
-    bt3.addEventListener('click', Baitu.Throttle.with((e) => {
-        console.log(e);
-        ta3.value = num3++;
-    }, 3000));
-</pre>
 <button id="t3">点击</button>
 <textarea id="ta3"></textarea>
-<h2>4. 多实例</h2>
-与防抖相同
 </body>
 <script src="../../../lib/baitu.min.js"></script>
 <script>
+    const {Throttle} = Baitu.values();
     let num = 1;
     const bt1 = document.querySelector("#t1");
     const ta1 = document.querySelector("#ta1");
+    const ta2 = document.querySelector("#ta2");
     bt1.addEventListener('click', () => {
-        Baitu.Throttle.of(() => {
+        Throttle.of(() => {
             ta1.value = num++;
+        }, 3000)
+        Throttle.of(() => {
+            console.log(2)
+            ta2.value = num++;
         }, 3000)
     });
 
 
     let num2 = 1;
     const bt2 = document.querySelector("#t2");
-    const ta2 = document.querySelector("#ta2");
     bt2.addEventListener('click', () => {
-        Baitu.Throttle.of(() => {
+        Throttle.of(() => {
             ta2.value = num2++;
         }, 3000, false)
     });
@@ -65,7 +46,7 @@
     let num3 = 1;
     const bt3 = document.querySelector("#t3");
     const ta3 = document.querySelector("#ta3");
-    bt3.addEventListener('click', Baitu.Throttle.with((e) => {
+    bt3.addEventListener('click', Throttle.with((e) => {
         console.log(e);
         ta3.value = num3++;
     }, 3000));

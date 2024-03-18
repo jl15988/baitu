@@ -1,3 +1,6 @@
+/**
+ * 正则池
+ */
 export class PatternPool {
     /**
      * 数字
