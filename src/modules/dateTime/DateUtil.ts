@@ -246,17 +246,15 @@ class DateUtil {
             }
             let tempDate1 = new DateTime(date1);
             let tempDate2 = new DateTime(date2);
-            const objectValues1 = tempDate1.objectValues();
-            const objectValues2 = tempDate2.objectValues();
 
-            // 循环date2月份加1，直到年月数大于date1的年月数，求出相隔月数
-            let num = 0;
-            while (tempDate2.yearMonthNumber() < tempDate1.yearMonthNumber()) {
-                ++num
-                tempDate2 = tempDate2.offset(DateField.MONTH, 1);
-            }
+            // 计算两日期月数差值
+            const year1 = date1.getFullYear();
+            const year2 = date2.getFullYear();
+            const month1 = date1.getMonth() + 1;
+            const month2 = date2.getMonth() + 1;
+            let num = (year1 - year2) * 12 + (month1 - month2);
             // 取天数差值，标识大日期向小日期月份补天数后剩余的天数
-            const compareDay = objectValues1.day - objectValues2.day;
+            const compareDay = date1.getDate() - date2.getDate();
             if (compareDay === 0) {
                 // 天数差值一致，则为最终结果
                 result = num;
