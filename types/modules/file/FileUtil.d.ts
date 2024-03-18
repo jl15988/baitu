@@ -37,7 +37,7 @@ declare class FileUtil {
      * @param file 文件
      * @param len 截取文件的长度
      */
-    getFileBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
+    getArrayBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
     /**
      * 获取文件的Uint8数组
      * @param file 文件

@@ -53,9 +53,9 @@ class FileUtil {
      */
     getHexString(file: File, len?: number): Promise<string> {
         return new Promise((resolve, reject) => {
-            this.getFileBuffer(file, len).then(res => {
+            this.getArrayBuffer(file, len).then(res => {
                 // @ts-ignore
-                resolve(HexUtil.bufferToHex(res));
+                resolve(HexUtil.arrayBufferToHex(res));
             }).catch(err => {
                 reject(err);
             });
@@ -67,7 +67,7 @@ class FileUtil {
      * @param file 文件
      * @param len 截取文件的长度
      */
-    getFileBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer> {
+    getArrayBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer> {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -88,7 +88,7 @@ class FileUtil {
      */
     getUint8Array(file: File, len?: number): Promise<Uint8Array> {
         return new Promise(((resolve, reject) => {
-            this.getFileBuffer(file, len).then(res => {
+            this.getArrayBuffer(file, len).then(res => {
                 // @ts-ignore
                 const uint8Array = new Uint8Array(res);
                 resolve(uint8Array);

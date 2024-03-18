@@ -90,7 +90,7 @@ declare class Baitu {
         isTypeSimple(fileName: string, type: string): boolean;
         isFileTypeSimple(file: File, type: string): boolean;
         getHexString(file: File, len?: number): Promise<string>;
-        getFileBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
+        getArrayBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
         getUint8Array(file: File, len?: number): Promise<Uint8Array>;
         getTypeMagic(file: File): Promise<string>;
         isTypeMagic(file: File, type: string): Promise<boolean>;
@@ -1246,7 +1246,7 @@ declare class Baitu {
             isTypeSimple(fileName: string, type: string): boolean;
             isFileTypeSimple(file: File, type: string): boolean;
             getHexString(file: File, len?: number): Promise<string>;
-            getFileBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
+            getArrayBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
             getUint8Array(file: File, len?: number): Promise<Uint8Array>;
             getTypeMagic(file: File): Promise<string>;
             isTypeMagic(file: File, type: string): Promise<boolean>;
