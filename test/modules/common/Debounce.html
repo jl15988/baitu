@@ -8,81 +8,40 @@
 <body>
 <h1>Debounce</h1>
 <h2>1. 普通用法（全局防抖）</h2>
-<pre>
-    bt1.addEventListener('click', () => {
-        Baitu.Debounce.of(() => {
-            ta1.value = "普通用法";
-        }, 3000)
-    });
-</pre>
 <button id="t1">点击</button>
 <textarea id="ta1"></textarea>
-<h2>2. 多实例化</h2>
-<pre>
-    const de1 = Baitu.Debounce.new();
-    const de2 = Baitu.Debounce.new();
-    bt2.addEventListener('click', () => {
-        de1.of(() => {
-            ta2.value = "第一个";
-        }, 1000)
-        de2.of(() => {
-            ta2_1.value = "第二个";
-        }, 3000)
-    });
-</pre>
-<button id="t2">点击</button>
 <textarea id="ta2"></textarea>
-<textarea id="ta2-1"></textarea>
 <h2>3. 闭包方法（全局）</h2>
-<pre>
-    bt3.addEventListener('click', Baitu.Debounce.with(() => {
-        ta3.value = "闭包用法";
-    }, 3000));
-</pre>
 <button id="t3">点击</button>
 <textarea id="ta3"></textarea>
-<h2>4. 闭包多实例</h2>
-与普通方法相同用法
-<pre>
-    const de3 = Baitu.Debounce.new();
-    const de4 = Baitu.Debounce.new();
-    bt2.addEventListener('click', de3.with(() => {
-        ta2.value = "第一个";
-    }, 1000));
-    bt3.addEventListener('click', de4.with(() => {
-        ta3.value = "第二个";
-    }, 3000));
-</pre>
 </body>
 <script src="../../../lib/baitu.min.js"></script>
 <script>
+    const {Debounce} = Baitu.values();
     const bt1 = document.querySelector("#t1");
     const ta1 = document.querySelector("#ta1");
-    bt1.addEventListener('click', () => {
-        Baitu.Debounce.of(() => {
-            ta1.value = "普通用法";
-        }, 3000)
-    });
-
-
-    const bt2 = document.querySelector("#t2");
     const ta2 = document.querySelector("#ta2");
-    const ta2_1 = document.querySelector("#ta2-1");
-    const de1 = Baitu.Debounce.new();
-    const de2 = Baitu.Debounce.new();
-    bt2.addEventListener('click', () => {
-        de1.of(() => {
-            ta2.value = "第一个";
-        }, 1000)
-        de2.of(() => {
-            ta2_1.value = "第二个";
+    bt1.addEventListener('click', () => {
+        Debounce.of(() => {
+            ta1.value = "普通用法";
+        }, 2000, 't1')
+        Debounce.of(() => {
+            ta2.value = "普通用法2";
         }, 3000)
     });
 
     const bt3 = document.querySelector("#t3");
     const ta3 = document.querySelector("#ta3");
-    bt3.addEventListener('click', Baitu.Debounce.with(() => {
-        ta3.value = "闭包用法";
-    }, 3000));
+    // bt3.addEventListener('click', Debounce.with(() => {
+    //     ta3.value = "闭包用法";
+    // }, 3000));
+    bt3.addEventListener('click', () => {
+        Debounce.with(() => {
+            ta3.value = "闭包用法";
+        }, 2000, 'ds')();
+        Debounce.with(() => {
+            ta2.value = "闭包用法2";
+        }, 3000)();
+    });
 </script>
 </html>

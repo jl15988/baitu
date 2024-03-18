@@ -1,10 +1,28 @@
-import ObjectUtil from "../object/ObjectUtil";
+import StrUtil from "../string/StrUtil";
 
-let globalDebounce;
+/**
+ * 全局防抖池
+ */
+const globalDebouncePool = {};
 
+/**
+ * 默认的防抖名称
+ */
+const defaultDebounceName = "defaultDebounceName";
+
+/**
+ * 防抖
+ */
 class Debounce {
     private timer = null;
     private withTimer = null;
+    name: string = null;
+
+    constructor(name?: string) {
+        if (name) {
+            this.name = name;
+        }
+    }
 
     /**
      * 创建新的防抖实例
@@ -17,12 +35,11 @@ class Debounce {
      * 全局防抖（无论多长时间，只有最后一次执行达到指定时长才执行）
      * @param fn 方法
      * @param delay 触发时长（间隔时长），单位毫秒，大于此时长将执行方法
+     * @param name 防抖唯一名称
      */
-    static of(fn: Function, delay: number) {
-        if (ObjectUtil.isEmpty(globalDebounce)) {
-            globalDebounce = new Debounce();
-        }
-        globalDebounce.of(fn, delay);
+    static of(fn: Function, delay: number, name?: string) {
+        let debounce = Debounce.getDebouncePool(name);
+        debounce.of(fn, delay);
     }
 
     /**
@@ -35,7 +52,8 @@ class Debounce {
             clearTimeout(this.timer);
         }
         this.timer = setTimeout(() => {
-            fn()
+            fn();
+            this.destroy();
         }, delay);
     }
 
@@ -43,12 +61,11 @@ class Debounce {
      * 全局闭包防抖，返回方法（无论多长时间，只有最后一次执行达到指定时长才执行）
      * @param fn 方法
      * @param delay 触发时长（间隔时长），单位毫秒，大于此时长将执行方法
+     * @param name 防抖唯一名称
      */
-    static with(fn: Function, delay: number): Function {
-        if (ObjectUtil.isEmpty(globalDebounce)) {
-            globalDebounce = new Debounce();
-        }
-        return globalDebounce.with(fn, delay);
+    static with(fn: Function, delay: number, name?: string): Function {
+        let debounce = Debounce.getDebouncePool(name);
+        return debounce.with(fn, delay);
     }
 
     /**
@@ -66,8 +83,45 @@ class Debounce {
             }
             _this.withTimer = setTimeout(() => {
                 fn.apply(context, args);
+                _this.destroy();
             }, delay);
         }
+    }
+
+    /**
+     * 从防抖池中取出某个实例
+     * @param name 要取的防抖名称
+     */
+    static getDebouncePool(name?: string) {
+        if (StrUtil.isBlank(name)) {
+            name = defaultDebounceName;
+        }
+        let debounce;
+        if (!globalDebouncePool[name]) {
+            debounce = globalDebouncePool[name] = new Debounce(name);
+        } else {
+            debounce = globalDebouncePool[name];
+        }
+        return debounce;
+    }
+
+    /**
+     * 将防抖从防抖池中剔除
+     */
+    destroy() {
+        if (this.timer) {
+            try {
+                clearTimeout(this.timer);
+            } catch (e) {
+            }
+        }
+        if (this.withTimer) {
+            try {
+                clearTimeout(this.withTimer);
+            } catch (e) {
+            }
+        }
+        delete globalDebouncePool[this.name];
     }
 }
 
