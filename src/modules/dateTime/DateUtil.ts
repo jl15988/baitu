@@ -288,7 +288,23 @@ class DateUtil {
      * @param date 日期
      */
     age(date: Date | DateTime): number {
-        return NumberUtil.floor(this.compare(new Date(), date, DateField.YEAR));
+        const nowDateTime = DateTime.new();
+        const nowYear = nowDateTime.getFullYear();
+        const nowMonth = nowDateTime.getMonth();
+        const birthYear = date.getFullYear();
+        const birthMonth = date.getMonth();
+        // 现在年-出生日期年
+        let age = nowYear - birthYear;
+        if (nowMonth === birthMonth) {
+            // 若月份相等判断，若当前天小于出生日期天则未到出生日期，则减一
+            if (nowDateTime.getDate() < date.getDate()) {
+                --age;
+            }
+        } else if (nowMonth < birthMonth) {
+            // 若月份小于出生日期月份，未到出生日期，则减一
+            --age;
+        }
+        return age;
     }
 }
 

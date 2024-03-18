@@ -49,12 +49,37 @@ export enum MonthField {
  * DateTime数据对象
  */
 export type DateTimeObjectValues = {
+    /**
+     * 年
+     */
     year: number,
+    /**
+     * 月下标
+     */
+    monthIndex: number,
+    /**
+     * 月
+     */
     month: number,
+    /**
+     * 日
+     */
     day: number,
+    /**
+     * 星期
+     */
     week: number,
+    /**
+     * 小时
+     */
     hours: number,
+    /**
+     * 分钟
+     */
     minutes: number,
+    /**
+     * 秒
+     */
     seconds: number
 }
 
@@ -116,11 +141,11 @@ class DateTime extends Date {
 
 
     /**
-     * 日期年，月，日，周，时，分，秒对象数据，与Date的get获取的一致
+     * 日期年，月，日，周，时，分，秒对象数据
      */
     objectValues(): DateTimeObjectValues {
         const year = this.getFullYear();
-        const month = this.getMonth();
+        const monthIndex = this.getMonth();
         const day = this.getDate();
         const week = this.getDay();
         const hours = this.getHours();
@@ -128,7 +153,8 @@ class DateTime extends Date {
         const seconds = this.getSeconds();
         return {
             year,
-            month,
+            monthIndex,
+            month: (monthIndex + 1),
             day,
             week,
             hours,
@@ -143,7 +169,7 @@ class DateTime extends Date {
      */
     toDate(): DateTime {
         const values = this.objectValues();
-        return new DateTime(values.year, values.month, values.day);
+        return new DateTime(values.year, values.monthIndex, values.day);
     }
 
     /**
@@ -176,7 +202,7 @@ class DateTime extends Date {
      */
     beginOfDay(): DateTime {
         const values = this.objectValues();
-        return new DateTime(values.year, values.month, values.day, 0, 0, 0);
+        return new DateTime(values.year, values.monthIndex, values.day, 0, 0, 0);
     }
 
     /**
@@ -185,7 +211,7 @@ class DateTime extends Date {
      */
     endOfDay(): DateTime {
         const values = this.objectValues();
-        return new DateTime(values.year, values.month, values.day, 23, 59, 59);
+        return new DateTime(values.year, values.monthIndex, values.day, 23, 59, 59);
     }
 
     /**
@@ -195,7 +221,7 @@ class DateTime extends Date {
     beginOfWeek(): DateTime {
         const values = this.objectValues();
         const extra = this.firstWeek || 0;
-        return new DateTime(values.year, values.month, values.day - values.week + extra, 0, 0, 0);
+        return new DateTime(values.year, values.monthIndex, values.day - values.week + extra, 0, 0, 0);
     }
 
     /**
@@ -205,7 +231,7 @@ class DateTime extends Date {
     endOfWeek(): DateTime {
         const values = this.objectValues();
         const extra = this.firstWeek || 0;
-        return new DateTime(values.year, values.month, values.day + (6 - values.week + extra), 23, 59, 59);
+        return new DateTime(values.year, values.monthIndex, values.day + (6 - values.week + extra), 23, 59, 59);
     }
 
     /**
@@ -275,7 +301,7 @@ class DateTime extends Date {
             }
         } else if (DateField.MONTH === type) {
             const tempDateTime = new DateTime(newDateTime);
-            newDateTime.setMonth(values.month + Number(offset));
+            newDateTime.setMonth(values.monthIndex + Number(offset));
             if (newDateTime.getMonth() !== tempDateTime.getMonth() + Number(offset)
                 && newDateTime.getFullYear() === tempDateTime.getFullYear()) {
                 // 如果月份-1后，月份不等于上个月数，则说明上个月天数超出了，取上月最后一天
@@ -336,6 +362,15 @@ class DateTime extends Date {
      */
     yearMonthNumber() {
         return parseInt(this.getFullYear() + StrUtil.padStart(String(this.getMonth() + 1), 2, "0"))
+    }
+
+    /**
+     * 年月日数
+     */
+    yearMonthDayNumber() {
+        const month = StrUtil.padStart(String(this.getMonth() + 1), 2, "0");
+        const day = StrUtil.padStart(String(this.getDate()), 2, "0");
+        return parseInt(this.getFullYear() + month + day);
     }
 }
 

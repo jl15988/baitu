@@ -43,12 +43,37 @@ export declare enum MonthField {
  * DateTime数据对象
  */
 export type DateTimeObjectValues = {
+    /**
+     * 年
+     */
     year: number;
+    /**
+     * 月下标
+     */
+    monthIndex: number;
+    /**
+     * 月
+     */
     month: number;
+    /**
+     * 日
+     */
     day: number;
+    /**
+     * 星期
+     */
     week: number;
+    /**
+     * 小时
+     */
     hours: number;
+    /**
+     * 分钟
+     */
     minutes: number;
+    /**
+     * 秒
+     */
     seconds: number;
 };
 declare class DateTime extends Date {
@@ -62,7 +87,7 @@ declare class DateTime extends Date {
     static create(value: number | string): DateTime;
     static create(year: number, monthIndex: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number): DateTime;
     /**
-     * 日期年，月，日，周，时，分，秒对象数据，与Date的get获取的一致
+     * 日期年，月，日，周，时，分，秒对象数据
      */
     objectValues(): DateTimeObjectValues;
     /**
@@ -161,5 +186,9 @@ declare class DateTime extends Date {
      * 年月数
      */
     yearMonthNumber(): number;
+    /**
+     * 年月日数
+     */
+    yearMonthDayNumber(): number;
 }
 export default DateTime;

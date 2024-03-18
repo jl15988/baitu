@@ -34,7 +34,7 @@ dateTime = Baitu.DateTime.new(2024, 3, 14, 15, 7, 30); // 输出2024-03-14 15:07
 
 ## 2. objectValues()
 
-获取日期年，月，日，周，时，分，秒对象数据，与Date的get获取的一致
+获取日期年，月，日，周，时，分，秒对象数据
 
 ```js
 
@@ -44,7 +44,8 @@ console.log(objectValues);
 输出：
 {
     year: 2024,
-    month: 2,
+    monthIndex: 2,
+    month: 3,
     day: 14,
     week: 4,
     hours: 15,
