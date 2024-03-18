@@ -13,7 +13,7 @@ declare class ImgUtil {
      * @param w 剪裁的宽度
      * @param h 剪裁的高度
      */
-    slice(file: File, x: number, y: number, w: number, h: number): void;
+    cut(file: File, x: number, y: number, w: number, h: number): void;
 }
 declare const _default: ImgUtil;
 export default _default;

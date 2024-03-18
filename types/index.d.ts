@@ -1194,7 +1194,9 @@ declare class Baitu {
      */
     readonly ImgUtil: {
         toBlob(img: HTMLImageElement, type: string): Promise<Blob>;
-        slice(file: File, x: number, y: number, w: number, h: number): void;
+        cut(file: File, x: number, y: number, w: number, h: number): void; /**
+         * 文件工具包
+         */
     };
     /**
      * 赋值正则池
@@ -2334,7 +2336,9 @@ declare class Baitu {
         Ternary: typeof Ternary;
         ImgUtil: {
             toBlob(img: HTMLImageElement, type: string): Promise<Blob>;
-            slice(file: File, x: number, y: number, w: number, h: number): void;
+            cut(file: File, x: number, y: number, w: number, h: number): void; /**
+             * 文件工具包
+             */
         };
     };
 }

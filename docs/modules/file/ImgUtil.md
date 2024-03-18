@@ -23,7 +23,7 @@ ImgUtil.toBlob(image).then(res => console.log(res));
 
 
 
-## 2. slice
+## 2. cut
 
 剪裁图片并下载
 
