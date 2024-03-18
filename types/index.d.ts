@@ -40,13 +40,11 @@ declare class Baitu {
         date(): Date;
         dateTime(): DateTime;
         now(): number;
-        formatNow(): string; /**
-         * 字符串对象
-         */
-        formatToDate(): string;
         parse(dateTime: string | number | DateTime | Date): Date;
         toDateTime(dateTime: string | number | DateTime | Date): DateTime;
         format(date: string | number | DateTime | Date, format?: string): string;
+        formatDateTime(date?: string | number | DateTime | Date): string;
+        formatDate(date?: string | number | DateTime | Date): string;
         daysOfMonth(date: DateTime | Date): number;
         daysOfYear(date: DateTime | Date): number;
         isLeapYear(date: DateTime | Date): boolean;
@@ -1221,13 +1219,11 @@ declare class Baitu {
             date(): Date;
             dateTime(): DateTime;
             now(): number;
-            formatNow(): string; /**
-             * 字符串对象
-             */
-            formatToDate(): string;
             parse(dateTime: string | number | DateTime | Date): Date;
             toDateTime(dateTime: string | number | DateTime | Date): DateTime;
             format(date: string | number | DateTime | Date, format?: string): string;
+            formatDateTime(date?: string | number | DateTime | Date): string;
+            formatDate(date?: string | number | DateTime | Date): string;
             daysOfMonth(date: DateTime | Date): number;
             daysOfYear(date: DateTime | Date): number;
             isLeapYear(date: DateTime | Date): boolean;

@@ -46,20 +46,6 @@ class DateUtil {
     }
 
     /**
-     * 获取当前时间，格式：yyyy-MM-dd HH:mm:ss
-     */
-    formatNow(): string {
-        return this.format(new Date());
-    }
-
-    /**
-     * 获取当前日期，格式：yyyy-MM-dd
-     */
-    formatToDate(): string {
-        return this.format(new Date(), "yyyy-MM-dd");
-    }
-
-    /**
      * 将特定格式转为DateTime
      * 支持格式：
      * yyyy年MM月dd日HH(时/点)mm分ss秒
@@ -102,7 +88,7 @@ class DateUtil {
         }
         if (typeof dateTime === "string") {
             const dateTimeReg = /年|月|日|点|时|分|秒/g;
-            const onlyTime = !/年/g.test(dateTime) && /时|点|:/g.test(dateTime);
+            const onlyTime = !/年|-|\/|\./g.test(dateTime) && /时|点|:/g.test(dateTime);
             let newDateTime = dateTime.replace(dateTimeReg, "").trim();
             const length = newDateTime.length;
             let year = "", month = "", day = "", hour = "", min = "", second = "";
@@ -157,6 +143,8 @@ class DateUtil {
                 return new DateTime(newDateTime.replace(/-/g, '/'));
             }
             return new DateTime(newDateTime);
+        } else if (typeof dateTime === "number" && String(dateTime).length === 10) {
+            return new DateTime(dateTime * 1000);
         }
 
         return new DateTime(dateTime);
@@ -172,6 +160,7 @@ class DateUtil {
 
     /**
      * 格式化日期，默认格式：yyyy-MM-dd HH:mm:ss
+     * y年，M月份，d日，H小时，m分钟，s秒，q季度，S毫秒，w周
      * @param date 日期
      * @param format 格式
      */
@@ -187,7 +176,8 @@ class DateUtil {
             "m+": newDate.getMinutes(),     //分
             "s+": newDate.getSeconds(),     //秒
             "q+": Math.floor((newDate.getMonth() + 3) / 3), //季度
-            "S": newDate.getMilliseconds()    //毫秒
+            "S": newDate.getMilliseconds(),    //毫秒
+            "w": newDate.getDay() // 周
         }
         if (/(y+)/.test(format))
             format = format.replace(RegExp.$1, (newDate.getFullYear() + "").substr(4 - RegExp.$1.length));
@@ -195,6 +185,20 @@ class DateUtil {
             if (new RegExp("(" + k + ")").test(format))
                 format = format.replace(RegExp.$1, (RegExp.$1.length == 1) ? (timeSource[k]) : (("00" + timeSource[k]).substr(("" + timeSource[k]).length)));
         return format;
+    }
+
+    /**
+     * 格式化为yyyy-MM-dd HH:mm:ss格式，默认当前时间
+     */
+    formatDateTime(date: string | number | Date | DateTime = new Date()): string {
+        return this.format(date);
+    }
+
+    /**
+     * 格式化为yyyy-MM-dd，默认当前时间
+     */
+    formatDate(date: string | number | Date | DateTime = new Date()): string {
+        return this.format(date, "yyyy-MM-dd");
     }
 
     /**

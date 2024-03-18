@@ -63,8 +63,10 @@
     console.log("毫秒",nowDateTime.compare(dateTime2))
     console.log("-毫秒",dateTime2.compare(nowDateTime))
 
-    const birDay = new DateTime(1999, 3, 6);
+    const birDay = DateTime.new(1999, 3, 16);
     console.log(birDay.age());
+    console.log(birDay.yearMonthNumber())
+    console.log(birDay.yearMonthDayNumber())
 </script>
 </body>
 </html>

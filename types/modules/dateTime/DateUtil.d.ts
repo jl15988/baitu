@@ -33,14 +33,6 @@ declare class DateUtil {
      */
     now(): number;
     /**
-     * 获取当前时间，格式：yyyy-MM-dd HH:mm:ss
-     */
-    formatNow(): string;
-    /**
-     * 获取当前日期，格式：yyyy-MM-dd
-     */
-    formatToDate(): string;
-    /**
      * 将特定格式转为DateTime
      * 支持格式：
      * yyyy年MM月dd日HH(时/点)mm分ss秒
@@ -85,10 +77,19 @@ declare class DateUtil {
     toDateTime(dateTime: string | number | Date | DateTime): DateTime;
     /**
      * 格式化日期，默认格式：yyyy-MM-dd HH:mm:ss
+     * y年，M月份，d日，H小时，m分钟，s秒，q季度，S毫秒，w周
      * @param date 日期
      * @param format 格式
      */
     format(date: string | number | Date | DateTime, format?: string): string;
+    /**
+     * 格式化为yyyy-MM-dd HH:mm:ss格式，默认当前时间
+     */
+    formatDateTime(date?: string | number | Date | DateTime): string;
+    /**
+     * 格式化为yyyy-MM-dd，默认当前时间
+     */
+    formatDate(date?: string | number | Date | DateTime): string;
     /**
      * 获取当月天数
      * @param date 日期
