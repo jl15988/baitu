@@ -82,6 +82,7 @@ new DateTime();
 |11|正则池（PatternPool）|[PatternPool.md](docs/modules/common/PatternPool.md)|
 |12|字符串验证工具（ValidateUtil）|[ValidateUtil.md](docs/modules/string/ValidateUtil.md)|
 |13|数组工具（ArrayUtil）|[ArrayUtil.md](docs/modules/array/ArrayUtil.md)|
+|14|图片工具（ImgUtil）|[ImgUtil.md](docs/modules/file/ImgUtil.md)|
 
 对于农历、及数字计算确保精度发现了两个开源的：[寿星天文历](https://github.com/sxwnl/sxwnl) 、[decimal.js](https://github.com/MikeMcl/decimal.js) ，因为功能复杂，有时间简单集成一下。
 

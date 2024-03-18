@@ -1,6 +1,15 @@
 import FileTypeMagicMap from "./FileTypeMagicMap";
 import HexUtil from "../base/HexUtil";
 
+/**
+ * 图片文件
+ */
+type ImageFile = {
+    name: string,
+    img: HTMLImageElement,
+    type: string
+}
+
 class FileUtil {
 
     /**
@@ -82,6 +91,25 @@ class FileUtil {
     }
 
     /**
+     * 获取文件DataURL
+     * @param file 文件
+     * @param len 截取文件的长度
+     */
+    getDataURL(file: File | Blob, len?: number): Promise<string> {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const dataURL = e.target.result;
+                resolve(String(dataURL));
+            };
+            reader.onerror = function (error) {
+                reject(error);
+            };
+            reader.readAsDataURL(len ? file.slice(0, len) : file);
+        });
+    }
+
+    /**
      * 获取文件的Uint8数组
      * @param file 文件
      * @param len 截取文件的长度
@@ -135,6 +163,31 @@ class FileUtil {
     }
 
     /**
+     * 文件转Image
+     * @param file 文件
+     */
+    toImage(file: File): Promise<ImageFile> {
+        return new Promise((resolve, reject) => {
+            this.getDataURL(file).then(dataURL => {
+                const image = new Image()
+                image.src = dataURL;
+                image.onload = () => {
+                    resolve({
+                        name: file.name,
+                        img: image,
+                        type: file.type
+                    });
+                }
+                image.onerror = () => {
+                    reject("读取图片错误");
+                }
+            }).catch(err => {
+                reject(err);
+            });
+        })
+    }
+
+    /**
      * 将文件下载
      * @param file 文件
      * @param filename 文件名，为空时，取文件原名
@@ -142,18 +195,27 @@ class FileUtil {
      */
     download(file: File, filename?: string, mime?: string) {
         const blob = new Blob([file], {type: mime || 'application/octet-stream'})
+        this.downloadBlob(blob, filename || file.name);
+    }
+
+    /**
+     * 下载Blob
+     * @param blob 文件的Blob
+     * @param filename 文件名称
+     */
+    downloadBlob(blob: Blob, filename: string) {
         if (typeof window.navigator["msSaveBlob"] !== 'undefined') {
             /*
             “HTML7007:一个或多个blob URL已通过关闭为其创建的blob而被吊销。
             这些URL将不再解析，因为支持该URL的数据已被释放。”
              */
-            window.navigator["msSaveBlob"](blob, filename || file.name)
+            window.navigator["msSaveBlob"](blob, filename)
         } else {
             const blobURL = window["URL"].createObjectURL(blob)
             const tempLink = document.createElement('a')
             tempLink.style.display = 'none'
             tempLink.href = blobURL
-            tempLink.setAttribute('download', filename || file.name)
+            tempLink.setAttribute('download', filename)
 
             /*
             Safari认为_blank锚点是弹出窗口。如果浏览器不支持HTML5下载属性，

@@ -1,3 +1,11 @@
+/**
+ * 图片文件
+ */
+type ImageFile = {
+    name: string;
+    img: HTMLImageElement;
+    type: string;
+};
 declare class FileUtil {
     /**
      * 获取文件主名
@@ -39,6 +47,12 @@ declare class FileUtil {
      */
     getArrayBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
     /**
+     * 获取文件DataURL
+     * @param file 文件
+     * @param len 截取文件的长度
+     */
+    getDataURL(file: File | Blob, len?: number): Promise<string>;
+    /**
      * 获取文件的Uint8数组
      * @param file 文件
      * @param len 截取文件的长度
@@ -58,12 +72,23 @@ declare class FileUtil {
      */
     isTypeMagic(file: File, type: string): Promise<boolean>;
     /**
+     * 文件转Image
+     * @param file 文件
+     */
+    toImage(file: File): Promise<ImageFile>;
+    /**
      * 将文件下载
      * @param file 文件
      * @param filename 文件名，为空时，取文件原名
      * @param mime 文件MIME类型
      */
     download(file: File, filename?: string, mime?: string): void;
+    /**
+     * 下载Blob
+     * @param blob 文件的Blob
+     * @param filename 文件名称
+     */
+    downloadBlob(blob: Blob, filename: string): void;
 }
 declare const _default: FileUtil;
 export default _default;

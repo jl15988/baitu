@@ -20,9 +20,14 @@ declare class Baitu {
         isNotEmpty(str: string): boolean;
         defaultIfNull(str: string, defaultStr: string): string;
         defaultIfBlank(str: string, defaultStr: string): string;
-        defaultIfEmpty(str: string, defaultStr: string): string;
+        defaultIfEmpty(str: string, defaultStr: string): string; /**
+         * 数字工具
+         */
         isAnyBlank(...str: string[]): boolean;
         isAnyEmpty(...str: string[]): boolean;
+        /**
+         * 文件类型MIME映射
+         */
         getPadStr(str: string, len: number, pad?: string): string;
         padStart(str: string, len: number, pad?: string): string;
         padEnd(str: string, len: number, pad?: string): string;
@@ -91,10 +96,17 @@ declare class Baitu {
         isFileTypeSimple(file: File, type: string): boolean;
         getHexString(file: File, len?: number): Promise<string>;
         getArrayBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
+        getDataURL(file: File | Blob, len?: number): Promise<string>;
         getUint8Array(file: File, len?: number): Promise<Uint8Array>;
         getTypeMagic(file: File): Promise<string>;
         isTypeMagic(file: File, type: string): Promise<boolean>;
+        toImage(file: File): Promise<{
+            name: string;
+            img: HTMLImageElement;
+            type: string;
+        }>;
         download(file: File, filename?: string, mime?: string): void;
+        downloadBlob(blob: Blob, filename: string): void;
     };
     /**
      * 文件类型魔数映射
@@ -134,23 +146,18 @@ declare class Baitu {
         "3c25402070616765206c": string;
         "4d616e69666573742d56": string;
         "7061636b616765207765": string;
-        /**
-         * 日期工具包
-         */
         "406563686f206f66660d": string;
-        "1f8b0800000000000000": string; /**
-         * 日期属性
-         */
+        "1f8b0800000000000000": string;
         cafebabe0000002e0041: string;
         "49545346030000006000": string;
         "04000000010000001300": string;
         d0cf11e0a1b11ae10000: string;
         "6431303a637265617465": string;
+        "6D6F6F76": string;
+        FF575043: string;
         /**
          * 数字工具
          */
-        "6D6F6F76": string;
-        FF575043: string;
         CFAD12FEC5FD746F: string;
         "2142444E": string;
         AC9EBD8F: string;
@@ -185,9 +192,6 @@ declare class Baitu {
         mpp: string;
         davmount: string;
         dbk: string;
-        /**
-         * 字符串对象
-         */
         dssc: string;
         xdssc: string;
         es: string;
@@ -208,27 +212,30 @@ declare class Baitu {
         ink: string;
         ipfix: string;
         its: string;
-        jar: string;
+        jar: string; /**
+         * 文件类型魔数映射
+         */
         ser: string;
-        class: string;
-        js: string; /**
-         * 16进制工具包
+        class: string; /**
+         * 文件类型MIME映射
          */
+        js: string;
         json: string;
-        json5: string; /**
-         * 对象工具包
-         */
+        json5: string;
         jsonml: string;
         jsonld: string;
         lgr: string;
-        lostxml: string; /**
-         * 数组工具包
+        /**
+         * 脱敏工具包
          */
+        lostxml: string;
         hqx: string;
         cpt: string;
         mads: string;
         webmanifest: string;
-        mrc: string;
+        mrc: string; /**
+         * 正则池class
+         */
         mrcx: string;
         ma: string;
         mathml: string;
@@ -246,7 +253,9 @@ declare class Baitu {
         doc: string;
         mxf: string;
         nq: string;
-        nt: string;
+        nt: string; /**
+         * 获取所有工具对象
+         */
         cjs: string;
         bin: string;
         oda: string;
@@ -1159,7 +1168,7 @@ declare class Baitu {
      */
     PatternPollClass: typeof PatternPool;
     /**
-     * 正则工具
+     * 验证工具
      */
     readonly ValidateUtil: {
         validate(str: string, pattern: string | RegExp): boolean;
@@ -1173,15 +1182,20 @@ declare class Baitu {
         isMobile(str: string): boolean;
         isLandline(str: string): boolean;
         isIdCard(str: string): boolean;
-        isUrlHttp(str: string): boolean; /**
-         * 数字工具
-         */
+        isUrlHttp(str: string): boolean;
         isPlateNumber(str: string): boolean;
         isDate(str: string): boolean;
         isTime(str: string): boolean;
         isBlankLine(str: string): boolean;
     };
     readonly Ternary: typeof Ternary;
+    /**
+     * 图片工具
+     */
+    readonly ImgUtil: {
+        toBlob(img: HTMLImageElement, type: string): Promise<Blob>;
+        slice(file: File, x: number, y: number, w: number, h: number): void;
+    };
     /**
      * 赋值正则池
      * @param patternPool 正则池
@@ -1203,9 +1217,14 @@ declare class Baitu {
             isNotEmpty(str: string): boolean;
             defaultIfNull(str: string, defaultStr: string): string;
             defaultIfBlank(str: string, defaultStr: string): string;
-            defaultIfEmpty(str: string, defaultStr: string): string;
+            defaultIfEmpty(str: string, defaultStr: string): string; /**
+             * 数字工具
+             */
             isAnyBlank(...str: string[]): boolean;
             isAnyEmpty(...str: string[]): boolean;
+            /**
+             * 文件类型MIME映射
+             */
             getPadStr(str: string, len: number, pad?: string): string;
             padStart(str: string, len: number, pad?: string): string;
             padEnd(str: string, len: number, pad?: string): string;
@@ -1247,10 +1266,17 @@ declare class Baitu {
             isFileTypeSimple(file: File, type: string): boolean;
             getHexString(file: File, len?: number): Promise<string>;
             getArrayBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
+            getDataURL(file: File | Blob, len?: number): Promise<string>;
             getUint8Array(file: File, len?: number): Promise<Uint8Array>;
             getTypeMagic(file: File): Promise<string>;
             isTypeMagic(file: File, type: string): Promise<boolean>;
+            toImage(file: File): Promise<{
+                name: string;
+                img: HTMLImageElement;
+                type: string;
+            }>;
             download(file: File, filename?: string, mime?: string): void;
+            downloadBlob(blob: Blob, filename: string): void;
         };
         HexUtil: {
             encode(str: string): string;
@@ -1294,23 +1320,18 @@ declare class Baitu {
             "3c25402070616765206c": string;
             "4d616e69666573742d56": string;
             "7061636b616765207765": string;
-            /**
-             * 日期工具包
-             */
             "406563686f206f66660d": string;
-            "1f8b0800000000000000": string; /**
-             * 日期属性
-             */
+            "1f8b0800000000000000": string;
             cafebabe0000002e0041: string;
             "49545346030000006000": string;
             "04000000010000001300": string;
             d0cf11e0a1b11ae10000: string;
             "6431303a637265617465": string;
+            "6D6F6F76": string;
+            FF575043: string;
             /**
              * 数字工具
              */
-            "6D6F6F76": string;
-            FF575043: string;
             CFAD12FEC5FD746F: string;
             "2142444E": string;
             AC9EBD8F: string;
@@ -1342,9 +1363,6 @@ declare class Baitu {
             mpp: string;
             davmount: string;
             dbk: string;
-            /**
-             * 字符串对象
-             */
             dssc: string;
             xdssc: string;
             es: string;
@@ -1365,27 +1383,30 @@ declare class Baitu {
             ink: string;
             ipfix: string;
             its: string;
-            jar: string;
+            jar: string; /**
+             * 文件类型魔数映射
+             */
             ser: string;
-            class: string;
-            js: string; /**
-             * 16进制工具包
+            class: string; /**
+             * 文件类型MIME映射
              */
+            js: string;
             json: string;
-            json5: string; /**
-             * 对象工具包
-             */
+            json5: string;
             jsonml: string;
             jsonld: string;
             lgr: string;
-            lostxml: string; /**
-             * 数组工具包
+            /**
+             * 脱敏工具包
              */
+            lostxml: string;
             hqx: string;
             cpt: string;
             mads: string;
             webmanifest: string;
-            mrc: string;
+            mrc: string; /**
+             * 正则池class
+             */
             mrcx: string;
             ma: string;
             mathml: string;
@@ -1403,7 +1424,9 @@ declare class Baitu {
             doc: string;
             mxf: string;
             nq: string;
-            nt: string;
+            nt: string; /**
+             * 获取所有工具对象
+             */
             cjs: string;
             bin: string;
             oda: string;
@@ -2302,15 +2325,17 @@ declare class Baitu {
             isMobile(str: string): boolean;
             isLandline(str: string): boolean;
             isIdCard(str: string): boolean;
-            isUrlHttp(str: string): boolean; /**
-             * 数字工具
-             */
+            isUrlHttp(str: string): boolean;
             isPlateNumber(str: string): boolean;
             isDate(str: string): boolean;
             isTime(str: string): boolean;
             isBlankLine(str: string): boolean;
         };
         Ternary: typeof Ternary;
+        ImgUtil: {
+            toBlob(img: HTMLImageElement, type: string): Promise<Blob>;
+            slice(file: File, x: number, y: number, w: number, h: number): void;
+        };
     };
 }
 declare const _default: Baitu;

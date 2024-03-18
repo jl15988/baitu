@@ -16,6 +16,7 @@ import ArrayUtil from "./modules/array/ArrayUtil";
 import patternPoolInstance, {PatternPool} from "./modules/common/PatternPool";
 import ValidateUtil from "./modules/string/ValidateUtil";
 import Ternary from "./modules/common/Ternary";
+import ImgUtil from "./modules/file/ImgUtil";
 
 class Baitu {
     /**
@@ -95,10 +96,14 @@ class Baitu {
      */
     PatternPollClass = PatternPool;
     /**
-     * 正则工具
+     * 验证工具
      */
     readonly ValidateUtil = ValidateUtil;
     readonly Ternary = Ternary;
+    /**
+     * 图片工具
+     */
+    readonly ImgUtil = ImgUtil;
 
     /**
      * 赋值正则池
@@ -146,7 +151,8 @@ class Baitu {
             PatternPool: patternPoolInstance,
             PatternPollClass: PatternPool,
             ValidateUtil,
-            Ternary
+            Ternary,
+            ImgUtil
         }
     }
 }
