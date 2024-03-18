@@ -72,8 +72,8 @@ new DateTime();
 |日期时间（DateTime）|[DateTime.md](docs/modules/dateTime/DateTime.md)|
 |日期工具（DateUtil）|[DateUtil.md](docs/modules/dateTime/DateUtil.md)|
 |文件工具（FileUtil）|[FileUtil.md](docs/modules/file/FileUtil.md)|
-|节流（Throttle）|[Throttle.md](docs/modules/common/Throttle.md)|
 |防抖（Debounce）|[Debounce.md](docs/modules/common/Debounce.md)|
+|节流（Throttle）|[Throttle.md](docs/modules/common/Throttle.md)|
 |数字工具（NumberUtil）|[NumberUtil.md](docs/modules/number/NumberUtil.md)|
 |对象工具（ObjectUtil）|[ObjectUtil.md](docs/modules/object/ObjectUtil.md)|
 |字符串工具（StrUtil）|[StrUtil.md](docs/modules/string/StrUtil.md)|
