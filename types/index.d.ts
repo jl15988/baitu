@@ -20,13 +20,19 @@ declare class Baitu {
         isNotEmpty(str: string): boolean;
         defaultIfNull(str: string, defaultStr: string): string;
         defaultIfBlank(str: string, defaultStr: string): string;
-        defaultIfEmpty(str: string, defaultStr: string): string; /**
-         * 数字工具
-         */
+        defaultIfEmpty(str: string, defaultStr: string): string;
         isAnyBlank(...str: string[]): boolean;
+        isNoneBlank(...str: string[]): boolean;
+        isAllBlank(...str: string[]): boolean;
         isAnyEmpty(...str: string[]): boolean;
+        isNoneEmpty(...str: string[]): boolean;
         /**
-         * 文件类型MIME映射
+         * 验证工具
+         */
+        isAllEmpty(...str: string[]): boolean;
+        /**
+         * 赋值正则池
+         * @param patternPool 正则池
          */
         getPadStr(str: string, len: number, pad?: string): string;
         padStart(str: string, len: number, pad?: string): string;
@@ -1219,13 +1225,19 @@ declare class Baitu {
             isNotEmpty(str: string): boolean;
             defaultIfNull(str: string, defaultStr: string): string;
             defaultIfBlank(str: string, defaultStr: string): string;
-            defaultIfEmpty(str: string, defaultStr: string): string; /**
-             * 数字工具
-             */
+            defaultIfEmpty(str: string, defaultStr: string): string;
             isAnyBlank(...str: string[]): boolean;
+            isNoneBlank(...str: string[]): boolean;
+            isAllBlank(...str: string[]): boolean;
             isAnyEmpty(...str: string[]): boolean;
+            isNoneEmpty(...str: string[]): boolean;
             /**
-             * 文件类型MIME映射
+             * 验证工具
+             */
+            isAllEmpty(...str: string[]): boolean;
+            /**
+             * 赋值正则池
+             * @param patternPool 正则池
              */
             getPadStr(str: string, len: number, pad?: string): string;
             padStart(str: string, len: number, pad?: string): string;

@@ -1,10 +1,11 @@
 # 百涂工具（Baitu）
 
+
+![](https://img.shields.io/badge/gitee-jl15988-000000?logo=gitee&link=https://gitee.com/jl15988) ![](https://img.shields.io/badge/gitee-vue--brisk-000000?logo=gitee&link=https://gitee.com/jl15988/baitu) ![NPM](https://img.shields.io/npm/l/baitu) ![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/baitu) ![npm](https://img.shields.io/npm/v/baitu)
+
 一个小而全的前端工具包
 
 A small and comprehensive front-end toolkit.
-
-**注意：** 工具仍在开发测试阶段...
 
 ## 介绍
 
