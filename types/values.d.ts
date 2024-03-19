@@ -1,23 +1,10 @@
 import Str from "./modules/string/Str";
-import StrUtil from "./modules/string/StrUtil";
 import DateTime, { DateField, MonthField, WeekDay } from "./modules/dateTime/DateTime";
-import DateUtil from "./modules/dateTime/DateUtil";
-import NumberUtil from "./modules/number/NumberUtil";
 import Num from "./modules/number/Num";
 import Throttle from "./modules/common/Throttle";
 import Debounce from "./modules/common/Debounce";
-import FileUtil from "./modules/file/FileUtil";
-import FileTypeMagicMap from "./modules/file/FileTypeMagicMap";
-import FileTypeMimeMap from "./modules/file/FileTypeMimeMap";
-import HexUtil from "./modules/base/HexUtil";
-import ObjectUtil from "./modules/object/ObjectUtil";
-import DesensitizedUtil from "./modules/string/DesensitizedUtil";
-import ArrayUtil from "./modules/array/ArrayUtil";
-import PatternPool from "./modules/common/PatternPool";
-import ValidateUtil from "./modules/string/ValidateUtil";
-import ImgUtil from "./modules/file/ImgUtil";
-export { Str, StrUtil, DateTime, DateField, WeekDay, MonthField, DateUtil, Num, NumberUtil, Throttle, Debounce, FileUtil, HexUtil, FileTypeMagicMap, FileTypeMimeMap, ObjectUtil, DesensitizedUtil, ArrayUtil, PatternPool, ValidateUtil, ImgUtil, };
-declare const Baitu: {
+import { PatternPool } from "./modules/common/PatternPool";
+declare const _default: {
     Str: typeof Str;
     StrUtil: import("./modules/string/StrUtil").StrUtil;
     DateTime: typeof DateTime;
@@ -36,9 +23,9 @@ declare const Baitu: {
     ObjectUtil: import("./modules/object/ObjectUtil").ObjectUtil;
     DesensitizedUtil: import("./modules/string/DesensitizedUtil").DesensitizedUtil;
     ArrayUtil: import("./modules/array/ArrayUtil").ArrayUtil;
-    PatternPool: import("./modules/common/PatternPool").PatternPool;
+    PatternPool: PatternPool;
     ValidateUtil: import("./modules/string/ValidateUtil").ValidateUtil;
     ImgUtil: import("./modules/file/ImgUtil").ImgUtil;
-    setPatternPool(patternPool: import("./modules/common/PatternPool").PatternPool): void;
+    setPatternPool(patternPool: PatternPool): void;
 };
-export default Baitu;
+export default _default;

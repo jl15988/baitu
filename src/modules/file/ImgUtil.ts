@@ -1,7 +1,7 @@
 import FileUtil from "./FileUtil";
 
 /**
- * 图片剪裁结果
+ * 图片处理结果
  */
 export type ImgResult = {
     img: HTMLImageElement,
@@ -13,6 +13,9 @@ export type ImgResult = {
     params: any
 }
 
+/**
+ * 图片工具
+ */
 export class ImgUtil {
 
     /**

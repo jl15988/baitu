@@ -1,5 +1,8 @@
 import Num from './Num'
 
+/**
+ * 数字工具
+ */
 export class NumberUtil {
 
     /**

@@ -1,3 +1,6 @@
+/**
+ * 数字工具
+ */
 export declare class NumberUtil {
     /**
      * 保留两位小数，四舍五入

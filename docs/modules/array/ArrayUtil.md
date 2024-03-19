@@ -13,7 +13,7 @@
 
 ### 示例
 ```js
-const {ArrayUtil} = Baitu.values();
+const {ArrayUtil} = Baitu;
 const res = ArrayUtil.repeat(['a', 1, 'c'], 3);
 console.log(res);
 // 输出：a1ca1ca1c

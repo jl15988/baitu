@@ -1,3 +1,6 @@
+/**
+ * 字符串工具
+ */
 export class StrUtil {
 
     /**

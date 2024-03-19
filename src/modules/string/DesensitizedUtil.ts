@@ -42,6 +42,9 @@ export type DesensitizedReserveParam = {
     pad?: string
 }
 
+/**
+ * 脱敏工具
+ */
 export class DesensitizedUtil {
 
     /**

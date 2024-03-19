@@ -1,5 +1,5 @@
 /**
- * 图片剪裁结果
+ * 图片处理结果
  */
 export type ImgResult = {
     img: HTMLImageElement;
@@ -10,6 +10,9 @@ export type ImgResult = {
     quality: number;
     params: any;
 };
+/**
+ * 图片工具
+ */
 export declare class ImgUtil {
     /**
      * 图片转Blob

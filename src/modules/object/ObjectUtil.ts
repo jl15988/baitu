@@ -1,3 +1,6 @@
+/**
+ * 对象工具
+ */
 export class ObjectUtil {
 
     /**

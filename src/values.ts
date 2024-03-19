@@ -13,12 +13,11 @@ import HexUtil from "./modules/base/HexUtil";
 import ObjectUtil from "./modules/object/ObjectUtil";
 import DesensitizedUtil from "./modules/string/DesensitizedUtil";
 import ArrayUtil from "./modules/array/ArrayUtil";
-import PatternPool from "./modules/common/PatternPool";
+import {PatternPool} from "./modules/common/PatternPool";
 import ValidateUtil from "./modules/string/ValidateUtil";
 import ImgUtil from "./modules/file/ImgUtil";
-import values from "./values";
 
-export {
+export default {
     Str,
     StrUtil,
     DateTime,
@@ -37,10 +36,12 @@ export {
     ObjectUtil,
     DesensitizedUtil,
     ArrayUtil,
-    PatternPool,
+    PatternPool: new PatternPool(),
     ValidateUtil,
     ImgUtil,
+    setPatternPool(patternPool: PatternPool) {
+        if (patternPool instanceof PatternPool) {
+            this.PatternPool = patternPool;
+        }
+    }
 };
-
-const Baitu = values;
-export default Baitu;

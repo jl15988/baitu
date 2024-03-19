@@ -83,6 +83,9 @@ export type DateTimeObjectValues = {
     seconds: number
 }
 
+/**
+ * 日期时间对象
+ */
 class DateTime extends Date {
     firstWeek = 0;
 

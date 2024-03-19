@@ -1,3 +1,6 @@
+/**
+ * 字符串工具
+ */
 export declare class StrUtil {
     /**
      * 判断字符串是否为：null、undefined、空字符串或者只包含空白字符（如空格、制表符、换行符等）

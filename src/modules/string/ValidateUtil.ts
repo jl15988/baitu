@@ -1,5 +1,8 @@
 import patternPoolInstance from "../common/PatternPool";
 
+/**
+ * 验证工具
+ */
 export class ValidateUtil {
 
     /**

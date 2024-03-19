@@ -24,7 +24,7 @@ html
 // 注意：为了兼容性，建议添加对应版本，如：https://unpkg.com/baitu@1.1.1/lib/baitu.min.js
 <script src="https://unpkg.com/baitu/lib/baitu.min.js"></script>
 <script>
-// your code
+// your codes
 </script>
 ```
 
@@ -41,25 +41,13 @@ Vue.prototype.$btu = Baitu;
 ```
 
 
-通过putTo方法可以快速挂载工具
-```js
-import Baitu from "baitu";
-
-Baitu.putTo((k, tool) => {
-    Vue.prototype[k] = tool;
-    // 或者
-    window[k] = tool;
-});
-```
-
-
-所有通过Baitu访问的功能，都可以通过values方法获取，如：
+解构访问
 
 ```js
 Baitu.DateTime.create();
 
 // 可以写成
-const {DateTime} = Baitu.values();
+const {DateTime} = Baitu;
 DateTime.create();
 // 或者（前提是可通过new创建实例，部分功能不能通过new创建实例）
 new DateTime();

@@ -1,5 +1,8 @@
 import ObjectUtil from "../object/ObjectUtil";
 
+/**
+ * 数组工具
+ */
 export class ArrayUtil {
 
     /**

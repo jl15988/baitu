@@ -11,6 +11,9 @@ export type ImageFile = {
     type: string
 }
 
+/**
+ * 文件工具
+ */
 export class FileUtil {
 
     /**

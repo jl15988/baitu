@@ -6,7 +6,7 @@
 引入相关工具
 ```js
 import Baitu from "baitu";
-const {PatternPool, PatternPoolClass, ValidateUtil} = Baitu.values();
+const {PatternPool, PatternPoolClass, ValidateUtil} = Baitu;
 ```
 
 通过add方法添加新的正则

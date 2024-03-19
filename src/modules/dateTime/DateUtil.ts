@@ -1,6 +1,9 @@
 import DateTime, {DateField} from "./DateTime";
 import NumberUtil from "../number/NumberUtil";
 
+/**
+ * 日期工具
+ */
 export class DateUtil {
 
     /**

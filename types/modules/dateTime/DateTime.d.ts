@@ -76,6 +76,9 @@ export type DateTimeObjectValues = {
      */
     seconds: number;
 };
+/**
+ * 日期时间对象
+ */
 declare class DateTime extends Date {
     firstWeek: number;
     static readonly DateField: typeof DateField;

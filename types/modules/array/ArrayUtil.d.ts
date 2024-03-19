@@ -1,3 +1,6 @@
+/**
+ * 数组工具
+ */
 export declare class ArrayUtil {
     /**
      * 将数组循环拼接
