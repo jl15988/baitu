@@ -43,10 +43,30 @@ declare class StrUtil {
      */
     isAnyBlank(...str: string[]): boolean;
     /**
+     * 判断多个字符串中是否“不”包含空白字符串
+     * @param str 字符串数组
+     */
+    isNoneBlank(...str: string[]): boolean;
+    /**
+     * 判断多个字符串是否全为空白字符串
+     * @param str 字符串数组
+     */
+    isAllBlank(...str: string[]): boolean;
+    /**
      * 判断多个字符串中是否包含空字符串
      * @param str 字符串数组
      */
     isAnyEmpty(...str: string[]): boolean;
+    /**
+     * 判断多个字符串中是否“不”包含空字符串
+     * @param str 字符串数组
+     */
+    isNoneEmpty(...str: string[]): boolean;
+    /**
+     * 判断多个字符串是否全为空字符串
+     * @param str 字符串数组
+     */
+    isAllEmpty(...str: string[]): boolean;
     /**
      * 获取需要额外填充的字符串
      * @param str 字符串

@@ -21,7 +21,7 @@ class StrUtil {
      * @param str 字符串
      */
     isEmpty(str: string): boolean {
-        return str === null || str.length === 0;
+        return str === null || str === undefined || str.length === 0;
     }
 
     /**
@@ -73,6 +73,22 @@ class StrUtil {
      * @param str 字符串数组
      */
     isAnyBlank(...str: string[]): boolean {
+        return str.some(str => this.isBlank(str));
+    }
+
+    /**
+     * 判断多个字符串中是否“不”包含空白字符串
+     * @param str 字符串数组
+     */
+    isNoneBlank(...str: string[]): boolean {
+        return !this.isAnyBlank(...str);
+    }
+
+    /**
+     * 判断多个字符串是否全为空白字符串
+     * @param str 字符串数组
+     */
+    isAllBlank(...str: string[]): boolean {
         return str.every(str => this.isBlank(str));
     }
 
@@ -81,6 +97,22 @@ class StrUtil {
      * @param str 字符串数组
      */
     isAnyEmpty(...str: string[]): boolean {
+        return str.some(str => this.isEmpty(str));
+    }
+
+    /**
+     * 判断多个字符串中是否“不”包含空字符串
+     * @param str 字符串数组
+     */
+    isNoneEmpty(...str: string[]): boolean {
+        return !this.isAnyEmpty(...str);
+    }
+
+    /**
+     * 判断多个字符串是否全为空字符串
+     * @param str 字符串数组
+     */
+    isAllEmpty(...str: string[]): boolean {
         return str.every(str => this.isEmpty(str));
     }
 
