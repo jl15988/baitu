@@ -13,7 +13,7 @@ class Num extends Number {
      * @param fractionDigits 小数位
      */
     toFixedCut(fractionDigits: number): string {
-        return this.valueOf().toString().match(/^\d+(?:\.\d{0,2})?/).toString();
+        return this.valueOf().toString().match(new RegExp(`^\\d+(?:\\.\\d{0,${fractionDigits}})?`)).toString();
     }
 
     /**

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NumberUtil</title>
+</head>
+<body>
+
+
+<script src="../../../lib/baitu.min.js"></script>
+<script>
+    const {NumberUtil} = Baitu.values();
+
+    console.log(NumberUtil.fixed(2.345))
+    console.log(NumberUtil.fixed(2.344))
+    console.log(NumberUtil.fixed(2.344534, 3))
+    console.log(NumberUtil.fixedCut(2.344534, 3))
+    console.log(NumberUtil.floor(2.344534))
+    console.log(NumberUtil.ceil(2.344534))
+</script>
+</body>
+</html>

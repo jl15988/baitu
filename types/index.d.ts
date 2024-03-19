@@ -72,8 +72,8 @@ declare class Baitu {
      * 数字工具
      */
     readonly NumberUtil: {
-        fixed(number: number, fractionDigits: number): number;
-        fixedCut(number: number, fractionDigits: number): number;
+        fixed(number: number, fractionDigits?: number): number;
+        fixedCut(number: number, fractionDigits?: number): number;
         floor(number: number): number;
         ceil(number: number): number;
     };
@@ -1253,8 +1253,8 @@ declare class Baitu {
         };
         Num: typeof Num;
         NumberUtil: {
-            fixed(number: number, fractionDigits: number): number;
-            fixedCut(number: number, fractionDigits: number): number;
+            fixed(number: number, fractionDigits?: number): number;
+            fixedCut(number: number, fractionDigits?: number): number;
             floor(number: number): number;
             ceil(number: number): number;
         };

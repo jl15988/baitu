@@ -2,15 +2,15 @@ declare class NumberUtil {
     /**
      * 保留两位小数，四舍五入
      * @param number 数字
-     * @param fractionDigits 小数位
+     * @param fractionDigits 小数位，默认两位
      */
-    fixed(number: number, fractionDigits: number): number;
+    fixed(number: number, fractionDigits?: number): number;
     /**
      * 截取保留小数位，没有四舍五入，直接截取
      * @param number 数字
-     * @param fractionDigits 小数位
+     * @param fractionDigits 小数位，默认两位
      */
-    fixedCut(number: number, fractionDigits: number): number;
+    fixedCut(number: number, fractionDigits?: number): number;
     /**
      * 向下取整
      * @param number 数字
