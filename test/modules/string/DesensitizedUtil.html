@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DesensitizedUtil</title>
+</head>
+<body>
+
+
+<script src="../../../lib/baitu.min.js"></script>
+<script>
+    const {DesensitizedUtil} = Baitu.values();
+    console.log(DesensitizedUtil.of("1355646666", 2, 3))
+    console.log(DesensitizedUtil.of("1355646666", 2))
+    console.log(DesensitizedUtil.of("1355646666", 2, 3, "-"))
+    // console.log(DesensitizedUtil.of("1355646666", 0, -3, "-"))
+    console.log(DesensitizedUtil.of("1355646666", 7, 7, "-"))
+    console.log(DesensitizedUtil.reserve("153416464646853", 2, 3))
+    console.log(DesensitizedUtil.reserve("153416464646853", 2, 3, "0"))
+    console.log(DesensitizedUtil.with({
+        str: "12348965456",
+        startIndex: 2,
+        length: 3
+    }))
+    console.log(DesensitizedUtil.with({
+        str: "12348965456",
+        startIndex: 2,
+        length: 3,
+        pad: '@'
+    }))
+    console.log(DesensitizedUtil.mobile("13598624856"))
+    console.log(DesensitizedUtil.fullName("张大大"))
+    console.log(DesensitizedUtil.fullName2("张大大"))
+    console.log(DesensitizedUtil.idCard("315798634521964853"))
+    console.log(DesensitizedUtil.idCard("315798634521964853", 2, 3))
+    console.log(DesensitizedUtil.bankAccount("315798634521964853"))
+</script>
+</body>
+</html>
