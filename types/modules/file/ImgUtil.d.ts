@@ -16,7 +16,7 @@ declare class ImgUtil {
      * @param img 图片
      * @param type MIME类型
      */
-    toBlob(img: HTMLImageElement, type: string): Promise<Blob>;
+    toBlob(img: HTMLImageElement, type?: string): Promise<Blob>;
     /**
      * 剪裁图片
      * @param file 文件

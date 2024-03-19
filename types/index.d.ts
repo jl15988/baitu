@@ -1192,7 +1192,7 @@ declare class Baitu {
      * 图片工具
      */
     readonly ImgUtil: {
-        toBlob(img: HTMLImageElement, type: string): Promise<Blob>;
+        toBlob(img: HTMLImageElement, type?: string): Promise<Blob>;
         cut(file: File, x: number, y: number, w: number, h: number, quality?: number): Promise<import("./modules/file/ImgUtil").ImgResult>;
         dataURLtoBlob(dataurl: string): Blob;
         resize(file: File, maxWidth: number, maxHeight: number, quality?: number): Promise<unknown>;
@@ -2334,7 +2334,7 @@ declare class Baitu {
         };
         Ternary: typeof Ternary;
         ImgUtil: {
-            toBlob(img: HTMLImageElement, type: string): Promise<Blob>;
+            toBlob(img: HTMLImageElement, type?: string): Promise<Blob>;
             cut(file: File, x: number, y: number, w: number, h: number, quality?: number): Promise<import("./modules/file/ImgUtil").ImgResult>;
             dataURLtoBlob(dataurl: string): Blob;
             resize(file: File, maxWidth: number, maxHeight: number, quality?: number): Promise<unknown>;
