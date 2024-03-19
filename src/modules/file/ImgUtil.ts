@@ -1,5 +1,21 @@
 import FileUtil from "./FileUtil";
 
+/**
+ * 图片剪裁结果
+ */
+export type ImgCutResult = {
+    img: HTMLImageElement,
+    file: File,
+    blob: Blob,
+    name: string,
+    type: string,
+    quality: number,
+    x: number,
+    y: number,
+    w: number,
+    h: number
+}
+
 class ImgUtil {
 
     /**
@@ -36,22 +52,58 @@ class ImgUtil {
      * @param y 剪裁的y轴坐标
      * @param w 剪裁的宽度
      * @param h 剪裁的高度
+     * @param quality 质量，0到1
      */
-    cut(file: File, x: number, y: number, w: number, h: number) {
-        FileUtil.toImage(file).then(imgFile => {
-            // 创建一个离屏Canvas元素
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = w;
-            canvas.height = h;
-            // 使用drawImage进行剪裁
-            ctx.drawImage(imgFile.img, x, y, w, h, 0, 0, w, h);
+    cut(file: File, x: number, y: number, w: number, h: number, quality: number = 1): Promise<ImgCutResult> {
+        return new Promise((resolve, reject) => {
+            FileUtil.toImage(file).then(imgFile => {
+                // 创建一个离屏Canvas元素
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = w;
+                canvas.height = h;
+                // 使用drawImage进行剪裁
+                ctx.drawImage(imgFile.img, x, y, w, h, 0, 0, w, h);
 
-            // 转blob并下载
-            canvas.toBlob(blob => {
-                FileUtil.downloadBlob(blob, imgFile.name);
-            }, imgFile.type, 1);
-        });
+                const cutResult: ImgCutResult = {
+                    img: null,
+                    file: null,
+                    blob: null,
+                    name: file.name,
+                    type: imgFile.type,
+                    quality: quality,
+                    x: x,
+                    y: y,
+                    w: w,
+                    h: h
+                };
+
+                // 转blob并下载
+                canvas.toBlob(blob => {
+                    cutResult.blob = blob;
+                    cutResult.file = FileUtil.blobToFile(blob, file.name);
+
+                    // 将Canvas转换为DataURL
+                    const dataURL = canvas.toDataURL("image/png");
+                    const croppedImg = new Image();
+                    croppedImg.src = dataURL;
+                    cutResult.img = croppedImg;
+                    URL.revokeObjectURL(dataURL);
+                    resolve(cutResult);
+                }, imgFile.type, quality);
+            }).catch(err => {
+                reject(err);
+            });
+        })
+    }
+
+    dataURLtoBlob(dataurl: string): Blob {
+        let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], {type: mime});
     }
 }
 

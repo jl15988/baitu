@@ -1,7 +1,7 @@
 /**
  * 图片文件
  */
-type ImageFile = {
+export type ImageFile = {
     name: string;
     img: HTMLImageElement;
     type: string;
@@ -89,6 +89,7 @@ declare class FileUtil {
      * @param filename 文件名称
      */
     downloadBlob(blob: Blob, filename: string): void;
+    blobToFile(blob: any, fileName: any): File;
 }
 declare const _default: FileUtil;
 export default _default;

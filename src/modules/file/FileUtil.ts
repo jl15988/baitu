@@ -4,7 +4,7 @@ import HexUtil from "../base/HexUtil";
 /**
  * 图片文件
  */
-type ImageFile = {
+export type ImageFile = {
     name: string,
     img: HTMLImageElement,
     type: string
@@ -230,6 +230,13 @@ class FileUtil {
             document.body.removeChild(tempLink)
             window["URL"].revokeObjectURL(blobURL)
         }
+    }
+
+    blobToFile(blob, fileName) {
+        return new File([blob], fileName, {
+            type: blob.type,
+            lastModified: Date.now()
+        });
     }
 }
 

@@ -57,11 +57,14 @@
 
 
     const input = document.querySelector("#input");
-    input.onchange = async () => {
+    input.onchange = () => {
         const file = input.files[0];
         if (file) {
             try {
-                Baitu.ImgUtil.cut(file, 300, 300, 500, 700);
+                Baitu.ImgUtil.cut(file, 300, 300, 500, 700, 0.5).then(res => {
+                    console.log(res)
+                    Baitu.FileUtil.downloadBlob(res.blob, res.name);
+                })
                 Baitu.FileUtil.isTypeMagic(file, "png").then(res => {
                     console.log(res)
                 })

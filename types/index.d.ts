@@ -100,13 +100,10 @@ declare class Baitu {
         getUint8Array(file: File, len?: number): Promise<Uint8Array>;
         getTypeMagic(file: File): Promise<string>;
         isTypeMagic(file: File, type: string): Promise<boolean>;
-        toImage(file: File): Promise<{
-            name: string;
-            img: HTMLImageElement;
-            type: string;
-        }>;
+        toImage(file: File): Promise<import("./modules/file/FileUtil").ImageFile>;
         download(file: File, filename?: string, mime?: string): void;
         downloadBlob(blob: Blob, filename: string): void;
+        blobToFile(blob: any, fileName: any): File;
     };
     /**
      * 文件类型魔数映射
@@ -1194,9 +1191,11 @@ declare class Baitu {
      */
     readonly ImgUtil: {
         toBlob(img: HTMLImageElement, type: string): Promise<Blob>;
-        cut(file: File, x: number, y: number, w: number, h: number): void; /**
-         * 文件工具包
+        cut(file: File, x: number, y: number, w: number, h: number, quality?: number): Promise<import("./modules/file/ImgUtil").ImgCutResult>;
+        /**
+         * 获取所有工具对象
          */
+        dataURLtoBlob(dataurl: string): Blob;
     };
     /**
      * 赋值正则池
@@ -1272,13 +1271,10 @@ declare class Baitu {
             getUint8Array(file: File, len?: number): Promise<Uint8Array>;
             getTypeMagic(file: File): Promise<string>;
             isTypeMagic(file: File, type: string): Promise<boolean>;
-            toImage(file: File): Promise<{
-                name: string;
-                img: HTMLImageElement;
-                type: string;
-            }>;
+            toImage(file: File): Promise<import("./modules/file/FileUtil").ImageFile>;
             download(file: File, filename?: string, mime?: string): void;
             downloadBlob(blob: Blob, filename: string): void;
+            blobToFile(blob: any, fileName: any): File;
         };
         HexUtil: {
             encode(str: string): string;
@@ -2336,9 +2332,11 @@ declare class Baitu {
         Ternary: typeof Ternary;
         ImgUtil: {
             toBlob(img: HTMLImageElement, type: string): Promise<Blob>;
-            cut(file: File, x: number, y: number, w: number, h: number): void; /**
-             * 文件工具包
+            cut(file: File, x: number, y: number, w: number, h: number, quality?: number): Promise<import("./modules/file/ImgUtil").ImgCutResult>;
+            /**
+             * 获取所有工具对象
              */
+            dataURLtoBlob(dataurl: string): Blob;
         };
     };
 }
