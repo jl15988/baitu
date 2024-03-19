@@ -1,7 +1,7 @@
 import DateTime, {DateField} from "./DateTime";
 import NumberUtil from "../number/NumberUtil";
 
-class DateUtil {
+export class DateUtil {
 
     /**
      * 秒毫秒值

@@ -1,5 +1,3 @@
-import StrUtil from "../string/StrUtil";
-
 /**
  * 全局防抖池
  */
@@ -94,7 +92,7 @@ class Debounce {
      * @param name 要取的防抖名称
      */
     static getDebouncePool(name?: string) {
-        if (StrUtil.isBlank(name)) {
+        if (!name) {
             name = defaultDebounceName;
         }
         let debounce;

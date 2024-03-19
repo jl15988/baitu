@@ -10,7 +10,7 @@ export type ImgResult = {
     quality: number;
     params: any;
 };
-declare class ImgUtil {
+export declare class ImgUtil {
     /**
      * 图片转Blob
      * @param img 图片

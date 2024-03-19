@@ -79,5 +79,5 @@ export declare class PatternPool {
         [key: string]: string | RegExp;
     }): void;
 }
-declare const patternPoolInstance: PatternPool;
-export default patternPoolInstance;
+declare const _default: PatternPool;
+export default _default;

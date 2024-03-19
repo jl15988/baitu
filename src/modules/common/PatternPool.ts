@@ -86,5 +86,4 @@ export class PatternPool {
     }
 }
 
-const patternPoolInstance = new PatternPool();
-export default patternPoolInstance;
+export default new PatternPool();

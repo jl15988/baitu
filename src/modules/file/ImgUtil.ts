@@ -13,7 +13,7 @@ export type ImgResult = {
     params: any
 }
 
-class ImgUtil {
+export class ImgUtil {
 
     /**
      * 图片转Blob

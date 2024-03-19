@@ -4,6 +4,12 @@
     "target": "ES6",
     "outDir": "lib",
     "declaration": true,
-    "declarationDir": "types"
+    "declarationDir": "types",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    }
   }
 }

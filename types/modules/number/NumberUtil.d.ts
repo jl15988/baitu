@@ -1,4 +1,4 @@
-declare class NumberUtil {
+export declare class NumberUtil {
     /**
      * 保留两位小数，四舍五入
      * @param number 数字

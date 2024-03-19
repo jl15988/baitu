@@ -1,6 +1,6 @@
 import patternPoolInstance from "../common/PatternPool";
 
-class ValidateUtil {
+export class ValidateUtil {
 
     /**
      * 校验字符串是否符合正则表达式

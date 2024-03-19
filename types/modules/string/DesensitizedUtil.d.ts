@@ -40,7 +40,7 @@ export type DesensitizedReserveParam = {
      */
     pad?: string;
 };
-declare class DesensitizedUtil {
+export declare class DesensitizedUtil {
     /**
      * 脱敏
      * @param str 字符串

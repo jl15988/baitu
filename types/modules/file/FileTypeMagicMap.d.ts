@@ -1,8 +1,8 @@
 /**
  * 文件类型魔数映射
  */
-declare const FileTypeMagicMap: {
-    ffd8ff: string;
+export declare class FileTypeMagicMap {
+    "ffd8ff": string;
     "89504e47": string;
     "4749463837": string;
     "4749463839": string;
@@ -30,7 +30,7 @@ declare const FileTypeMagicMap: {
     "235468697320636f6e66": string;
     "504B03040a0000000000": string;
     "504B0304140008000800": string;
-    D0CF11E0A1B11AE10: string;
+    "D0CF11E0A1B11AE10": string;
     "504B0304": string;
     "4d5a9000030000000400": string;
     "3c25402070616765206c": string;
@@ -38,17 +38,18 @@ declare const FileTypeMagicMap: {
     "7061636b616765207765": string;
     "406563686f206f66660d": string;
     "1f8b0800000000000000": string;
-    cafebabe0000002e0041: string;
+    "cafebabe0000002e0041": string;
     "49545346030000006000": string;
     "04000000010000001300": string;
-    d0cf11e0a1b11ae10000: string;
+    "d0cf11e0a1b11ae10000": string;
     "6431303a637265617465": string;
     "6D6F6F76": string;
-    FF575043: string;
-    CFAD12FEC5FD746F: string;
+    "FF575043": string;
+    "CFAD12FEC5FD746F": string;
     "2142444E": string;
-    AC9EBD8F: string;
-    E3828596: string;
+    "AC9EBD8F": string;
+    "E3828596": string;
     "2E7261FD": string;
-};
-export default FileTypeMagicMap;
+}
+declare const _default: FileTypeMagicMap;
+export default _default;

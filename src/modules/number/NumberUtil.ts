@@ -1,6 +1,6 @@
 import Num from './Num'
 
-class NumberUtil {
+export class NumberUtil {
 
     /**
      * 保留两位小数，四舍五入

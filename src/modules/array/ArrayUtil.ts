@@ -1,6 +1,6 @@
 import ObjectUtil from "../object/ObjectUtil";
 
-class ArrayUtil {
+export class ArrayUtil {
 
     /**
      * 将数组循环拼接

@@ -1,5 +1,5 @@
 import DateTime, { DateField } from "./DateTime";
-declare class DateUtil {
+export declare class DateUtil {
     /**
      * 秒毫秒值
      */

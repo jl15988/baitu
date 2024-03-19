@@ -11,7 +11,7 @@ export type ImageFile = {
     type: string
 }
 
-class FileUtil {
+export class FileUtil {
 
     /**
      * 获取文件主名

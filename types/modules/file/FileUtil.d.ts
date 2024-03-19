@@ -6,7 +6,7 @@ export type ImageFile = {
     img: HTMLImageElement;
     type: string;
 };
-declare class FileUtil {
+export declare class FileUtil {
     /**
      * 获取文件主名
      * @param fileName 文件名

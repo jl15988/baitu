@@ -1,5 +1,3 @@
-import StrUtil from "../string/StrUtil";
-
 /**
  * 全局节流池
  */
@@ -117,7 +115,7 @@ class Throttle {
      * @param name 要取的节流名称
      */
     static getThrottlePool(name?: string) {
-        if (StrUtil.isBlank(name)) {
+        if (!name) {
             name = defaultThrottleName;
         }
         let debounce;
