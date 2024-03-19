@@ -65,6 +65,10 @@
                     console.log(res)
                     Baitu.FileUtil.downloadBlob(res.blob, res.name);
                 })
+                Baitu.ImgUtil.resize(file, 300, 300).then(res => {
+                    console.log(res)
+                    Baitu.FileUtil.downloadBlob(res.blob, res.name);
+                })
                 Baitu.FileUtil.isTypeMagic(file, "png").then(res => {
                     console.log(res)
                 })

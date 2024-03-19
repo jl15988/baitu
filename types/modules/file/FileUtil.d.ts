@@ -47,12 +47,6 @@ declare class FileUtil {
      */
     getArrayBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
     /**
-     * 获取文件DataURL
-     * @param file 文件
-     * @param len 截取文件的长度
-     */
-    getDataURL(file: File | Blob, len?: number): Promise<string>;
-    /**
      * 获取文件的Uint8数组
      * @param file 文件
      * @param len 截取文件的长度

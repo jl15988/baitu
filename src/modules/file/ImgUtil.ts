@@ -3,17 +3,14 @@ import FileUtil from "./FileUtil";
 /**
  * 图片剪裁结果
  */
-export type ImgCutResult = {
+export type ImgResult = {
     img: HTMLImageElement,
     file: File,
     blob: Blob,
     name: string,
     type: string,
     quality: number,
-    x: number,
-    y: number,
-    w: number,
-    h: number
+    params: any
 }
 
 class ImgUtil {
@@ -54,7 +51,7 @@ class ImgUtil {
      * @param h 剪裁的高度
      * @param quality 质量，0到1
      */
-    cut(file: File, x: number, y: number, w: number, h: number, quality: number = 1): Promise<ImgCutResult> {
+    cut(file: File, x: number, y: number, w: number, h: number, quality: number = 1): Promise<ImgResult> {
         return new Promise((resolve, reject) => {
             FileUtil.toImage(file).then(imgFile => {
                 // 创建一个离屏Canvas元素
@@ -65,17 +62,19 @@ class ImgUtil {
                 // 使用drawImage进行剪裁
                 ctx.drawImage(imgFile.img, x, y, w, h, 0, 0, w, h);
 
-                const cutResult: ImgCutResult = {
+                const cutResult: ImgResult = {
                     img: null,
                     file: null,
                     blob: null,
                     name: file.name,
                     type: imgFile.type,
                     quality: quality,
-                    x: x,
-                    y: y,
-                    w: w,
-                    h: h
+                    params: {
+                        x: x,
+                        y: y,
+                        w: w,
+                        h: h
+                    }
                 };
 
                 // 转blob并下载
@@ -84,7 +83,7 @@ class ImgUtil {
                     cutResult.file = FileUtil.blobToFile(blob, file.name);
 
                     // 将Canvas转换为DataURL
-                    const dataURL = canvas.toDataURL("image/png");
+                    const dataURL = canvas.toDataURL(file.type);
                     const croppedImg = new Image();
                     croppedImg.src = dataURL;
                     cutResult.img = croppedImg;
@@ -104,6 +103,86 @@ class ImgUtil {
             u8arr[n] = bstr.charCodeAt(n);
         }
         return new Blob([u8arr], {type: mime});
+    }
+
+    resize(file: File, maxWidth: number, maxHeight: number, quality: number = 1) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = URL.createObjectURL(file);
+            img.onload = function () {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                // 计算新的图片尺寸
+                let width = img.width;
+                let height = img.height;
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height *= maxWidth / width;
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width *= maxHeight / height;
+                        height = maxHeight;
+                    }
+                }
+                canvas.width = width;
+                canvas.height = height;
+
+                // 绘制图片到canvas
+                ctx.clearRect(0, 0, width, height);
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const cutResult: ImgResult = {
+                    img: null,
+                    file: null,
+                    blob: null,
+                    name: file.name,
+                    type: file.type,
+                    quality: quality,
+                    params: {
+                        maxWidth: maxWidth,
+                        maxHeight: maxHeight
+                    }
+                };
+
+                canvas.toBlob(blob => {
+                    cutResult.blob = blob;
+                    cutResult.file = FileUtil.blobToFile(blob, file.name);
+
+                    // 将Canvas转换为DataURL
+                    const dataURL = canvas.toDataURL(file.type);
+                    const croppedImg = new Image();
+                    croppedImg.src = dataURL;
+                    cutResult.img = croppedImg;
+                    URL.revokeObjectURL(dataURL);
+                    resolve(cutResult);
+                });
+            }
+            img.onerror = () => {
+                reject("读取图片错误");
+            }
+        })
+    }
+
+    /**
+     * 获取文件DataURL
+     * @param file 文件
+     */
+    getDataURL(file: File | Blob): string {
+        return URL.createObjectURL(file);
+        // return new Promise((resolve, reject) => {
+        //     const reader = new FileReader();
+        //     reader.onload = (e) => {
+        //         const dataURL = e.target.result;
+        //         resolve(String(dataURL));
+        //     };
+        //     reader.onerror = function (error) {
+        //         reject(error);
+        //     };
+        //     reader.readAsDataURL(len ? file.slice(0, len) : file);
+        // });
     }
 }
 

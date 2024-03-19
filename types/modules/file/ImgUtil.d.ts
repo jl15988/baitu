@@ -1,17 +1,14 @@
 /**
  * 图片剪裁结果
  */
-export type ImgCutResult = {
+export type ImgResult = {
     img: HTMLImageElement;
     file: File;
     blob: Blob;
     name: string;
     type: string;
     quality: number;
-    x: number;
-    y: number;
-    w: number;
-    h: number;
+    params: any;
 };
 declare class ImgUtil {
     /**
@@ -29,8 +26,14 @@ declare class ImgUtil {
      * @param h 剪裁的高度
      * @param quality 质量，0到1
      */
-    cut(file: File, x: number, y: number, w: number, h: number, quality?: number): Promise<ImgCutResult>;
+    cut(file: File, x: number, y: number, w: number, h: number, quality?: number): Promise<ImgResult>;
     dataURLtoBlob(dataurl: string): Blob;
+    resize(file: File, maxWidth: number, maxHeight: number, quality?: number): Promise<unknown>;
+    /**
+     * 获取文件DataURL
+     * @param file 文件
+     */
+    getDataURL(file: File | Blob): string;
 }
 declare const _default: ImgUtil;
 export default _default;

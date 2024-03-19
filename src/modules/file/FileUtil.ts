@@ -1,5 +1,6 @@
 import FileTypeMagicMap from "./FileTypeMagicMap";
 import HexUtil from "../base/HexUtil";
+import ImgUtil from "./ImgUtil";
 
 /**
  * 图片文件
@@ -91,25 +92,6 @@ class FileUtil {
     }
 
     /**
-     * 获取文件DataURL
-     * @param file 文件
-     * @param len 截取文件的长度
-     */
-    getDataURL(file: File | Blob, len?: number): Promise<string> {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const dataURL = e.target.result;
-                resolve(String(dataURL));
-            };
-            reader.onerror = function (error) {
-                reject(error);
-            };
-            reader.readAsDataURL(len ? file.slice(0, len) : file);
-        });
-    }
-
-    /**
      * 获取文件的Uint8数组
      * @param file 文件
      * @param len 截取文件的长度
@@ -168,22 +150,19 @@ class FileUtil {
      */
     toImage(file: File): Promise<ImageFile> {
         return new Promise((resolve, reject) => {
-            this.getDataURL(file).then(dataURL => {
-                const image = new Image()
-                image.src = dataURL;
-                image.onload = () => {
-                    resolve({
-                        name: file.name,
-                        img: image,
-                        type: file.type
-                    });
-                }
-                image.onerror = () => {
-                    reject("读取图片错误");
-                }
-            }).catch(err => {
-                reject(err);
-            });
+            const dataURL = ImgUtil.getDataURL(file);
+            const image = new Image()
+            image.src = dataURL;
+            image.onload = () => {
+                resolve({
+                    name: file.name,
+                    img: image,
+                    type: file.type
+                });
+            }
+            image.onerror = () => {
+                reject("读取图片错误");
+            }
         })
     }
 

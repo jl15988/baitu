@@ -95,8 +95,10 @@ declare class Baitu {
         isTypeSimple(fileName: string, type: string): boolean;
         isFileTypeSimple(file: File, type: string): boolean;
         getHexString(file: File, len?: number): Promise<string>;
+        /**
+         * 文件工具包
+         */
         getArrayBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
-        getDataURL(file: File | Blob, len?: number): Promise<string>;
         getUint8Array(file: File, len?: number): Promise<Uint8Array>;
         getTypeMagic(file: File): Promise<string>;
         isTypeMagic(file: File, type: string): Promise<boolean>;
@@ -1191,11 +1193,10 @@ declare class Baitu {
      */
     readonly ImgUtil: {
         toBlob(img: HTMLImageElement, type: string): Promise<Blob>;
-        cut(file: File, x: number, y: number, w: number, h: number, quality?: number): Promise<import("./modules/file/ImgUtil").ImgCutResult>;
-        /**
-         * 获取所有工具对象
-         */
+        cut(file: File, x: number, y: number, w: number, h: number, quality?: number): Promise<import("./modules/file/ImgUtil").ImgResult>;
         dataURLtoBlob(dataurl: string): Blob;
+        resize(file: File, maxWidth: number, maxHeight: number, quality?: number): Promise<unknown>;
+        getDataURL(file: File | Blob): string;
     };
     /**
      * 赋值正则池
@@ -1266,8 +1267,10 @@ declare class Baitu {
             isTypeSimple(fileName: string, type: string): boolean;
             isFileTypeSimple(file: File, type: string): boolean;
             getHexString(file: File, len?: number): Promise<string>;
+            /**
+             * 文件工具包
+             */
             getArrayBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
-            getDataURL(file: File | Blob, len?: number): Promise<string>;
             getUint8Array(file: File, len?: number): Promise<Uint8Array>;
             getTypeMagic(file: File): Promise<string>;
             isTypeMagic(file: File, type: string): Promise<boolean>;
@@ -2332,11 +2335,10 @@ declare class Baitu {
         Ternary: typeof Ternary;
         ImgUtil: {
             toBlob(img: HTMLImageElement, type: string): Promise<Blob>;
-            cut(file: File, x: number, y: number, w: number, h: number, quality?: number): Promise<import("./modules/file/ImgUtil").ImgCutResult>;
-            /**
-             * 获取所有工具对象
-             */
+            cut(file: File, x: number, y: number, w: number, h: number, quality?: number): Promise<import("./modules/file/ImgUtil").ImgResult>;
             dataURLtoBlob(dataurl: string): Blob;
+            resize(file: File, maxWidth: number, maxHeight: number, quality?: number): Promise<unknown>;
+            getDataURL(file: File | Blob): string;
         };
     };
 }

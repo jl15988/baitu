@@ -51,17 +51,19 @@ input.onchange = () => {
                 /*
                 * 输出：
                 * {
-                        "img": {},
-                        "file": {},
-                        "blob": {},
-                        "name": "18061117084733.jpg",
-                        "type": "image/jpeg",
-                        "quality": 0.5,
+                    "img": {},
+                    "file": {},
+                    "blob": {},
+                    "name": "18061117084733.jpg",
+                    "type": "image/jpeg",
+                    "quality": 0.5,
+                    "params": {
                         "x": 300,
                         "y": 300,
                         "w": 500,
                         "h": 700
                     }
+                }
                 */
                 Baitu.FileUtil.downloadBlob(res.blob, res.name);
             })
@@ -77,3 +79,53 @@ input.onchange = () => {
 ## 3. dataURLtoBlob
 
 dataURL转Blob
+
+
+
+## 4. resize
+
+缩放（保持纵横比例）
+
+### 参数
+
+| 序号 | 名称      | 类型 | 含义              |
+| ---- | --------- | ---- | ----------------- |
+| 1    | file      | 文件 | 要缩放的图片文件  |
+| 2    | maxWidth  | 数字 | 最大宽度          |
+| 3    | maxHeight | 数字 | 最大高度          |
+| 4    | quality   | 数字 | 质量，0到1，默认1 |
+
+### 示例
+
+```js
+const input = document.querySelector("#input");
+input.onchange = () => {
+    const file = input.files[0];
+    if (file) {
+        try {
+            Baitu.ImgUtil.resize(file, 300, 300).then(res => {
+                console.log(res)
+                /*
+                输出：
+                {
+                    "img": {},
+                    "file": {},
+                    "blob": {},
+                    "name": "18061117084733.jpg",
+                    "type": "image/jpeg",
+                    "quality": 1,
+                    "params": {
+                        "maxWidth": 300,
+                        "maxHeight": 300
+                    }
+                }
+                */
+                Baitu.FileUtil.downloadBlob(res.blob, res.name);
+            })
+        } catch (error) {
+            console.error('Error reading file:', error);
+        }
+    }
+};
+```
+
