@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SnowflakeIdWorker</title>
+</head>
+<body>
+<script src="../../../lib/baitu.min.js"></script>
+<script>
+    const {SnowflakeIdWorker} = Baitu;
+
+    const snowflakeIdWorker = new SnowflakeIdWorker(1);
+    console.log(snowflakeIdWorker.nextId())
+    console.log(snowflakeIdWorker.nextId())
+    console.log(snowflakeIdWorker.nextId())
+    console.log(snowflakeIdWorker.nextId())
+
+    console.log("-----------------")
+
+    const snowflakeIdWorker2 = new SnowflakeIdWorker(1, 2);
+    console.log(snowflakeIdWorker2.nextId())
+    console.log(snowflakeIdWorker2.nextId())
+    console.log(snowflakeIdWorker2.nextId())
+    console.log(snowflakeIdWorker2.nextId())
+
+    console.log("--------------------")
+
+    const snowflakeIdWorker3= new SnowflakeIdWorker(1);
+    console.log(snowflakeIdWorker3.nextId())
+    console.log(snowflakeIdWorker3.nextId())
+</script>
+</body>
+</html>

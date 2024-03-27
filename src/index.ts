@@ -1,3 +1,4 @@
+import values from "./values";
 import Str from "./modules/string/Str";
 import StrUtil from "./modules/string/StrUtil";
 import DateTime, {DateField, MonthField, WeekDay} from "./modules/dateTime/DateTime";
@@ -16,7 +17,9 @@ import ArrayUtil from "./modules/array/ArrayUtil";
 import PatternPool from "./modules/common/PatternPool";
 import ValidateUtil from "./modules/string/ValidateUtil";
 import ImgUtil from "./modules/file/ImgUtil";
-import values from "./values";
+import IDUtil from "./modules/common/IDUtil";
+import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
+import EncryptUtil from "./modules/common/EncryptUtil";
 
 export {
     Str,
@@ -40,6 +43,9 @@ export {
     PatternPool,
     ValidateUtil,
     ImgUtil,
+    IDUtil,
+    SnowflakeIdWorker,
+    EncryptUtil
 };
 
 const Baitu = values;

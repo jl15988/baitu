@@ -16,7 +16,10 @@ import ArrayUtil from "./modules/array/ArrayUtil";
 import PatternPool from "./modules/common/PatternPool";
 import ValidateUtil from "./modules/string/ValidateUtil";
 import ImgUtil from "./modules/file/ImgUtil";
-export { Str, StrUtil, DateTime, DateField, WeekDay, MonthField, DateUtil, Num, NumberUtil, Throttle, Debounce, FileUtil, HexUtil, FileTypeMagicMap, FileTypeMimeMap, ObjectUtil, DesensitizedUtil, ArrayUtil, PatternPool, ValidateUtil, ImgUtil, };
+import IDUtil from "./modules/common/IDUtil";
+import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
+import EncryptUtil from "./modules/common/EncryptUtil";
+export { Str, StrUtil, DateTime, DateField, WeekDay, MonthField, DateUtil, Num, NumberUtil, Throttle, Debounce, FileUtil, HexUtil, FileTypeMagicMap, FileTypeMimeMap, ObjectUtil, DesensitizedUtil, ArrayUtil, PatternPool, ValidateUtil, ImgUtil, IDUtil, SnowflakeIdWorker, EncryptUtil };
 declare const Baitu: {
     Str: typeof Str;
     StrUtil: import("./modules/string/StrUtil").StrUtil;
@@ -39,6 +42,68 @@ declare const Baitu: {
     PatternPool: import("./modules/common/PatternPool").PatternPool;
     ValidateUtil: import("./modules/string/ValidateUtil").ValidateUtil;
     ImgUtil: import("./modules/file/ImgUtil").ImgUtil;
+    IDUtil: {
+        uuid(simple?: boolean): string;
+        snowflake(workerId?: number, dataCenterId?: number): SnowflakeIdWorker;
+    };
+    SnowflakeIdWorker: typeof SnowflakeIdWorker;
+    EncryptUtil: {
+        Base64: import("./modules/common/EncryptUtil").Base64Class;
+        MD5: (str: string) => string;
+        RSA: typeof import("./modules/common/EncryptUtil").RSA;
+        AES: {
+            new (secretKey: string): {
+                secretKey: string;
+                iv: string;
+                mode: any;
+                padding: any;
+                pads: {
+                    Pkcs7: any;
+                    Ansix923: any;
+                    Iso10126: any;
+                    Iso97971: any;
+                    NoPadding: any;
+                    ZeroPadding: any;
+                };
+                mods: {
+                    CFB: any;
+                    CTR: any;
+                    CTRGladman: any;
+                    ECB: any;
+                    OFB: any;
+                };
+                setPadding(padding: any): void;
+                setMode(mode: any): void;
+                encode(str: string): string;
+                decode(str: string): string;
+            };
+            build(secretKey: string): {
+                secretKey: string;
+                iv: string;
+                mode: any;
+                padding: any;
+                pads: {
+                    Pkcs7: any;
+                    Ansix923: any;
+                    Iso10126: any;
+                    Iso97971: any;
+                    NoPadding: any;
+                    ZeroPadding: any;
+                };
+                mods: {
+                    CFB: any;
+                    CTR: any;
+                    CTRGladman: any;
+                    ECB: any;
+                    OFB: any;
+                };
+                setPadding(padding: any): void;
+                setMode(mode: any): void;
+                encode(str: string): string;
+                decode(str: string): string;
+            };
+        };
+    };
     setPatternPool(patternPool: import("./modules/common/PatternPool").PatternPool): void;
 };
 export default Baitu;

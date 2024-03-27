@@ -16,6 +16,9 @@ import ArrayUtil from "./modules/array/ArrayUtil";
 import {PatternPool} from "./modules/common/PatternPool";
 import ValidateUtil from "./modules/string/ValidateUtil";
 import ImgUtil from "./modules/file/ImgUtil";
+import IDUtil from "./modules/common/IDUtil";
+import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
+import EncryptUtil from "./modules/common/EncryptUtil";
 
 export default {
     Str,
@@ -39,6 +42,9 @@ export default {
     PatternPool: new PatternPool(),
     ValidateUtil,
     ImgUtil,
+    IDUtil,
+    SnowflakeIdWorker,
+    EncryptUtil,
     setPatternPool(patternPool: PatternPool) {
         if (patternPool instanceof PatternPool) {
             this.PatternPool = patternPool;

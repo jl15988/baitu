@@ -1,3 +1,4 @@
+import LongNumber from "../number/LongNumber";
 /**
  * 数字工具
  */
@@ -24,6 +25,28 @@ export declare class NumberUtil {
      * @param number 数字
      */
     ceil(number: number): number;
+    /**
+     * 位运算或
+     * @param numbers 数字
+     */
+    bitwiseOr(...numbers: (number | LongNumber)[]): LongNumber;
+    /**
+     * 将数字转换为二进制字符串
+     * @param number 数字
+     */
+    toBinaryString(number: number | LongNumber): string;
+    /**
+     * 位运算左移
+     * @param number 数字
+     * @param digit 位数
+     */
+    leftShift(number: number | LongNumber, digit: number): LongNumber;
+    /**
+     * 位运算右移
+     * @param number 数字
+     * @param digit 位数
+     */
+    rightShift(number: number | LongNumber, digit: number): LongNumber;
 }
 declare const _default: NumberUtil;
 export default _default;
