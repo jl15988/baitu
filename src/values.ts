@@ -19,6 +19,8 @@ import ImgUtil from "./modules/file/ImgUtil";
 import IDUtil from "./modules/common/IDUtil";
 import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
 import EncryptUtil from "./modules/common/EncryptUtil";
+import JSONUtil from "./modules/json/JSONUtil";
+import UrlUtil from "./modules/url/UrlUtil";
 
 export default {
     Str,
@@ -45,6 +47,8 @@ export default {
     IDUtil,
     SnowflakeIdWorker,
     EncryptUtil,
+    JSONUtil,
+    UrlUtil,
     setPatternPool(patternPool: PatternPool) {
         if (patternPool instanceof PatternPool) {
             this.PatternPool = patternPool;

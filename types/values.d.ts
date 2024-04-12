@@ -89,6 +89,8 @@ declare const _default: {
             };
         };
     };
+    JSONUtil: import("./modules/json/JSONUtil").JSONUtil;
+    UrlUtil: import("./modules/url/UrlUtil").UrlUtil;
     setPatternPool(patternPool: PatternPool): void;
 };
 export default _default;

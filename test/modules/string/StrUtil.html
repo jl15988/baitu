@@ -146,6 +146,34 @@
 
     console.log(StrUtil.chunkCount("dfjhdsfoijedf", 3))
     console.log(StrUtil.chunkCount("dfjhdsfoijedf", 14))
+
+    console.log("toKebab------------------")
+
+    console.log(StrUtil.toKebab("marginBottom"))
+    console.log(StrUtil.toKebab("marginBottom", "_"))
+    console.log(StrUtil.toKebab("dfjhdsfoijedf"))
+
+    console.log("toHump------------------")
+
+    console.log(StrUtil.toHump("margin-bottom"))
+    console.log(StrUtil.toHump("marginBottom", "B"))
+    console.log(StrUtil.toHump("marginBottom"))
+    console.log(StrUtil.toHump("dfjhdsfoijedf"))
+
+    const spacer = ['-', '_'];
+    console.log(new RegExp('[' + spacer.map(item => '\\' + item).join("|") + '](\\w)', 'g'))
+
+
+    function toHump(str, ...spacer) {
+        if (!spacer || spacer.length <= 0) {
+            spacer = ['-', '_'];
+        }
+        return str.replace(new RegExp('[' + spacer.join("|") + '](\\w)', 'g'), (_, c) => c ? c.toUpperCase() : '');
+    }
+    console.log(toHump("margin-bottom"))
+    console.log(toHump("marginBottom", "B"))
+    console.log(toHump("marginBottom"))
+    console.log(toHump("dfjhdsfoijedf"))
 </script>
 </body>
 </html>

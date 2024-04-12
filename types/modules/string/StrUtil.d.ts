@@ -103,6 +103,18 @@ export declare class StrUtil {
      * @param count 数组长度
      */
     chunkCount(str: string, count: number): string[];
+    /**
+     * 转连字符
+     * @param str 字符串
+     * @param spacer 连接符 默认-
+     */
+    toKebab(str: string, spacer?: string): string;
+    /**
+     * 转驼峰
+     * @param str 字符串
+     * @param spacer 连接符 默认['-', '_']
+     */
+    toHump(str: string, ...spacer: string[]): string;
 }
 declare const _default: StrUtil;
 export default _default;

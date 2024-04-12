@@ -20,6 +20,8 @@ import ImgUtil from "./modules/file/ImgUtil";
 import IDUtil from "./modules/common/IDUtil";
 import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
 import EncryptUtil from "./modules/common/EncryptUtil";
+import JSONUtil, {JSONType} from "./modules/json/JSONUtil";
+import UrlUtil from "./modules/url/UrlUtil";
 
 export {
     Str,
@@ -45,7 +47,10 @@ export {
     ImgUtil,
     IDUtil,
     SnowflakeIdWorker,
-    EncryptUtil
+    EncryptUtil,
+    JSONUtil,
+    JSONType,
+    UrlUtil
 };
 
 const Baitu = values;

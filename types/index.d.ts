@@ -19,7 +19,9 @@ import ImgUtil from "./modules/file/ImgUtil";
 import IDUtil from "./modules/common/IDUtil";
 import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
 import EncryptUtil from "./modules/common/EncryptUtil";
-export { Str, StrUtil, DateTime, DateField, WeekDay, MonthField, DateUtil, Num, NumberUtil, Throttle, Debounce, FileUtil, HexUtil, FileTypeMagicMap, FileTypeMimeMap, ObjectUtil, DesensitizedUtil, ArrayUtil, PatternPool, ValidateUtil, ImgUtil, IDUtil, SnowflakeIdWorker, EncryptUtil };
+import JSONUtil, { JSONType } from "./modules/json/JSONUtil";
+import UrlUtil from "./modules/url/UrlUtil";
+export { Str, StrUtil, DateTime, DateField, WeekDay, MonthField, DateUtil, Num, NumberUtil, Throttle, Debounce, FileUtil, HexUtil, FileTypeMagicMap, FileTypeMimeMap, ObjectUtil, DesensitizedUtil, ArrayUtil, PatternPool, ValidateUtil, ImgUtil, IDUtil, SnowflakeIdWorker, EncryptUtil, JSONUtil, JSONType, UrlUtil };
 declare const Baitu: {
     Str: typeof Str;
     StrUtil: import("./modules/string/StrUtil").StrUtil;
@@ -104,6 +106,8 @@ declare const Baitu: {
             };
         };
     };
+    JSONUtil: import("./modules/json/JSONUtil").JSONUtil;
+    UrlUtil: import("./modules/url/UrlUtil").UrlUtil;
     setPatternPool(patternPool: import("./modules/common/PatternPool").PatternPool): void;
 };
 export default Baitu;

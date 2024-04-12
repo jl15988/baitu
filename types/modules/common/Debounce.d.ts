@@ -1,5 +1,5 @@
 /**
- * 防抖
+ * 防抖（无论多长时间，只有最后一次执行达到指定时长才执行）
  */
 declare class Debounce {
     private timer;

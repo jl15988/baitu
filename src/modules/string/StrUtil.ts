@@ -202,6 +202,27 @@ export class StrUtil {
 
         return result;
     }
+
+    /**
+     * 转连字符
+     * @param str 字符串
+     * @param spacer 连接符 默认-
+     */
+    toKebab(str: string, spacer: string = '-') {
+        return str.replace(/([A-Z])/g, spacer + '$1').toLowerCase();
+    }
+
+    /**
+     * 转驼峰
+     * @param str 字符串
+     * @param spacer 连接符 默认['-', '_']
+     */
+    toHump(str: string, ...spacer: string[]) {
+        if (!spacer || spacer.length <= 0) {
+            spacer = ['-', '_'];
+        }
+        return str.replace(new RegExp('[' + spacer.join("|") + '](\\w)', 'g'), (_, c) => c ? c.toUpperCase() : '');
+    }
 }
 
 export default new StrUtil();

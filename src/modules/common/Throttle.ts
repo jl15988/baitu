@@ -9,7 +9,7 @@ const globalThrottlePool = {};
 const defaultThrottleName = "defaultThrottleName";
 
 /**
- * 节流
+ * 节流（一段时间内只执行一次）
  */
 class Throttle {
     private timer = null;

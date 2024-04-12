@@ -1,5 +1,5 @@
 /**
- * 节流
+ * 节流（一段时间内只执行一次）
  */
 declare class Throttle {
     private timer;
