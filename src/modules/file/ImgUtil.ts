@@ -19,7 +19,7 @@ export type ImgResult = {
 export class ImgUtil {
 
     /**
-     * 图片转Blob
+     * Html 图片转 Blob
      * @param img 图片
      * @param type MIME类型
      */
@@ -168,7 +168,7 @@ export class ImgUtil {
     }
 
     /**
-     * 获取文件DataURL
+     * 获取文件 DataURL
      * @param file 文件
      */
     getDataURL(file: File | Blob): string {
@@ -184,6 +184,87 @@ export class ImgUtil {
         //     };
         //     reader.readAsDataURL(len ? file.slice(0, len) : file);
         // });
+    }
+
+    /**
+     * 文件或 Blob 转 Base64 数据
+     * @param file 文件
+     */
+    getBase64(file: File | Blob): string {
+        return URL.createObjectURL(file);
+    }
+
+    /**
+     * 文件转 Base64 数据
+     * @param file 文件
+     */
+    // fileToBase64(file: File): Promise<string> {
+    //     return new Promise((resolve, reject) => {
+    //         const reader = new FileReader();
+    //         reader.onload = (e) => {
+    //             let data
+    //             if (typeof e.target.result === 'object') {
+    //                 data = window.URL.createObjectURL(new Blob([e.target.result]))
+    //             } else {
+    //                 data = e.target.result
+    //             }
+    //             resolve(data);
+    //         }
+    //         reader.onerror = function (error) {
+    //             reject(error);
+    //         };
+    //         //转化为base64
+    //         reader.readAsDataURL(file);
+    //     });
+    // }
+
+    /**
+     * 获取 Base64 中的文件类型
+     * @param base64Data base64 数据
+     */
+    getBase64ContentType(base64Data: string): string {
+        const parts = base64Data.split(';base64,');
+        return parts[0].split(':')[1];
+    }
+
+    /**
+     * 获取 Base64 中的文件内容
+     * @param base64Data base64 数据
+     */
+    getBase64Content(base64Data: string): string {
+        const parts = base64Data.split(';base64,');
+        return parts[1];
+    }
+
+    /**
+     * Base64 转 Blob
+     * @param base64Data base64 数据
+     */
+    base64ToBlob(base64Data: string): Blob {
+        // 将base64的数据部分提取出来
+        const contentType = this.getBase64ContentType(base64Data);
+        const raw = window.atob(this.getBase64Content(base64Data));
+
+        // 将原始数据转换为Uint8Array
+        const rawLength = raw.length;
+        const uInt8Array = new Uint8Array(rawLength);
+        for (let i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+
+        // 使用Uint8Array创建Blob，然后使用Blob创建File
+        return new Blob([uInt8Array], {type: contentType});
+    }
+
+    /**
+     * base64 转文件
+     * @param base64Data base64 数据
+     * @param filename 文件名称
+     */
+    base64ToFile(base64Data: string, filename: string): File {
+        const blob = this.base64ToBlob(base64Data);
+        const contentType = this.getBase64ContentType(base64Data);
+        return new File([blob], filename, {type: contentType});
     }
 }
 
