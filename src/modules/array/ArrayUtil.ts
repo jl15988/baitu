@@ -38,6 +38,31 @@ export class ArrayUtil {
         }
         return [item];
     }
+
+    /**
+     * 判断数组是否为空数组
+     * @param array 数组
+     */
+    isEmpty(array: any[]): boolean {
+        return array == null || array.length === 0;
+    }
+
+    /**
+     * 判断数组为非空数组
+     * @param array 数组
+     */
+    isNotEmpty(array: any[]): boolean {
+        return !this.isEmpty(array);
+    }
+
+    /**
+     * 如果数组为空则替换，否则直接返回
+     * @param array 判空的数组
+     * @param defaultArray 替换的数组
+     */
+    defaultIfEmpty(array: any[], defaultArray: any[]): any[] {
+        return this.isEmpty(array) ? defaultArray : array;
+    }
 }
 
 export default new ArrayUtil();

@@ -1,6 +1,8 @@
 /**
  * 字符串工具
  */
+import ArrayUtil from "../array/ArrayUtil";
+
 export class StrUtil {
 
     /**
@@ -222,6 +224,22 @@ export class StrUtil {
             spacer = ['-', '_'];
         }
         return str.replace(new RegExp('[' + spacer.join("|") + '](\\w)', 'g'), (_, c) => c ? c.toUpperCase() : '');
+    }
+
+    /**
+     * 字符串格式化
+     * @param str 字符串
+     * @param args 格式化项
+     */
+    format(str: string, ...args: any[]) {
+        if (!this.isBlank(str) && !ArrayUtil.isEmpty(args)) {
+            for (let i = 0; i < args.length; i++) {
+                str = str.replace(new RegExp(`\\{${i}\\}`, 'g'), args[i]);
+            }
+            return str;
+        } else {
+            return str;
+        }
     }
 }
 

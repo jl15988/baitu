@@ -6,11 +6,11 @@
     "declaration": true,
     "declarationDir": "types",
     "baseUrl": "./",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    }
+//    "paths": {
+//      "@/*": [
+//        "src/*"
+//      ]
+//    }
   },
   "include": [
     "src/**/*.ts",
