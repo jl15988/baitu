@@ -193,14 +193,14 @@ export class DateUtil {
     /**
      * 格式化为yyyy-MM-dd HH:mm:ss格式，默认当前时间
      */
-    formatDateTime(date: string | number | Date | DateTime = new Date()): string {
+    formatDateTime(date: (string | number | Date | DateTime) = new Date()): string {
         return this.format(date);
     }
 
     /**
      * 格式化为yyyy-MM-dd，默认当前时间
      */
-    formatDate(date: string | number | Date | DateTime = new Date()): string {
+    formatDate(date: (string | number | Date | DateTime) = new Date()): string {
         return this.format(date, "yyyy-MM-dd");
     }
 

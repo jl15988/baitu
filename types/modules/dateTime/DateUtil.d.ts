@@ -88,11 +88,11 @@ export declare class DateUtil {
     /**
      * 格式化为yyyy-MM-dd HH:mm:ss格式，默认当前时间
      */
-    formatDateTime(date?: string | number | Date | DateTime): string;
+    formatDateTime(date?: (string | number | Date | DateTime)): string;
     /**
      * 格式化为yyyy-MM-dd，默认当前时间
      */
-    formatDate(date?: string | number | Date | DateTime): string;
+    formatDate(date?: (string | number | Date | DateTime)): string;
     /**
      * 获取当月天数
      * @param date 日期

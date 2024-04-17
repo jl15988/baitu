@@ -1,6 +1,7 @@
 //导入node中的path模块
 const path = require('path');
 const {CleanWebpackPlugin} = require("clean-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 //使用exports暴露需要的方法
 module.exports = {
     //1，entry入口
@@ -35,7 +36,17 @@ module.exports = {
 //plugins插件
 //补充一些功能插件
     plugins: [
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new TerserPlugin({
+            terserOptions: {
+                compress: {
+                    warnings: false,
+                    drop_console: true, // 去除console
+                    drop_debugger: true, // 去除debugger
+                },
+            },
+            parallel: true, // 使用多进程并行运行来提高构建速度
+        }),
     ],
 
 //mode模式(可以更改默认打包模式)

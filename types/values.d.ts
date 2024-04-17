@@ -91,6 +91,7 @@ declare const _default: {
     };
     JSONUtil: import("./modules/json/JSONUtil").JSONUtil;
     UrlUtil: import("./modules/url/UrlUtil").UrlUtil;
+    TreeUtil: import("./modules/tree/TreeUtil").TreeUtil;
     setPatternPool(patternPool: PatternPool): void;
 };
 export default _default;

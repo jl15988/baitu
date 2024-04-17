@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TreeUtil</title>
+</head>
+<body>
+
+<script src="../../../lib/baitu.min.js"></script>
+<script>
+
+    const list = [
+        {
+            "createBy": "admin",
+            "createTime": "2023-04-23 16:11:33",
+            "updateBy": null,
+            "updateTime": null,
+            "remark": null,
+            "deptId": 100,
+            "parentId": 0,
+            "ancestors": "0",
+            "deptName": "若依科技",
+            "orderNum": 0,
+            "leader": "若依",
+            "phone": "15888888888",
+            "email": "ry@qq.com",
+            "status": "0",
+            "delFlag": "0",
+            "parentName": null,
+            "children": []
+        },
+        {
+            "createBy": "admin",
+            "createTime": "2023-04-23 16:11:33",
+            "updateBy": null,
+            "updateTime": null,
+            "remark": null,
+            "deptId": 101,
+            "parentId": 100,
+            "ancestors": "0,100",
+            "deptName": "深圳总公司",
+            "orderNum": 1,
+            "leader": "若依",
+            "phone": "15888888888",
+            "email": "ry@qq.com",
+            "status": "0",
+            "delFlag": "0",
+            "parentName": null,
+            "children": []
+        },
+        {
+            "createBy": "admin",
+            "createTime": "2023-04-23 16:11:33",
+            "updateBy": null,
+            "updateTime": null,
+            "remark": null,
+            "deptId": 102,
+            "parentId": 100,
+            "ancestors": "0,100",
+            "deptName": "长沙分公司",
+            "orderNum": 2,
+            "leader": "若依",
+            "phone": "15888888888",
+            "email": "ry@qq.com",
+            "status": "0",
+            "delFlag": "0",
+            "parentName": null,
+            "children": []
+        },
+        {
+            "createBy": "admin",
+            "createTime": "2023-04-23 16:11:33",
+            "updateBy": null,
+            "updateTime": null,
+            "remark": null,
+            "deptId": 103,
+            "parentId": 101,
+            "ancestors": "0,100,101",
+            "deptName": "研发部门",
+            "orderNum": 1,
+            "leader": "若依",
+            "phone": "15888888888",
+            "email": "ry@qq.com",
+            "status": "0",
+            "delFlag": "0",
+            "parentName": null,
+            "children": []
+        },
+        {
+            "createBy": "admin",
+            "createTime": "2023-04-23 16:11:34",
+            "updateBy": null,
+            "updateTime": null,
+            "remark": null,
+            "deptId": 104,
+            "parentId": 101,
+            "ancestors": "0,100,101",
+            "deptName": "市场部门",
+            "orderNum": 2,
+            "leader": "若依",
+            "phone": "15888888888",
+            "email": "ry@qq.com",
+            "status": "0",
+            "delFlag": "0",
+            "parentName": null,
+            "children": []
+        },
+        {
+            "createBy": "admin",
+            "createTime": "2023-04-23 16:11:34",
+            "updateBy": null,
+            "updateTime": null,
+            "remark": null,
+            "deptId": 105,
+            "parentId": 101,
+            "ancestors": "0,100,101",
+            "deptName": "测试部门",
+            "orderNum": 3,
+            "leader": "若依",
+            "phone": "15888888888",
+            "email": "ry@qq.com",
+            "status": "0",
+            "delFlag": "0",
+            "parentName": null,
+            "children": []
+        },
+        {
+            "createBy": "admin",
+            "createTime": "2023-04-23 16:11:35",
+            "updateBy": null,
+            "updateTime": null,
+            "remark": null,
+            "deptId": 106,
+            "parentId": 101,
+            "ancestors": "0,100,101",
+            "deptName": "财务部门",
+            "orderNum": 4,
+            "leader": "若依",
+            "phone": "15888888888",
+            "email": "ry@qq.com",
+            "status": "0",
+            "delFlag": "0",
+            "parentName": null,
+            "children": []
+        },
+        {
+            "createBy": "admin",
+            "createTime": "2023-04-23 16:11:36",
+            "updateBy": null,
+            "updateTime": null,
+            "remark": null,
+            "deptId": 107,
+            "parentId": 101,
+            "ancestors": "0,100,101",
+            "deptName": "运维部门",
+            "orderNum": 5,
+            "leader": "若依",
+            "phone": "15888888888",
+            "email": "ry@qq.com",
+            "status": "0",
+            "delFlag": "0",
+            "parentName": null,
+            "children": []
+        },
+        {
+            "createBy": "admin",
+            "createTime": "2023-04-23 16:11:36",
+            "updateBy": null,
+            "updateTime": null,
+            "remark": null,
+            "deptId": 108,
+            "parentId": 102,
+            "ancestors": "0,100,102",
+            "deptName": "市场部门",
+            "orderNum": 1,
+            "leader": "若依",
+            "phone": "15888888888",
+            "email": "ry@qq.com",
+            "status": "0",
+            "delFlag": "0",
+            "parentName": null,
+            "children": []
+        },
+        {
+            "createBy": "admin",
+            "createTime": "2023-04-23 16:11:37",
+            "updateBy": null,
+            "updateTime": null,
+            "remark": null,
+            "deptId": 109,
+            "parentId": 102,
+            "ancestors": "0,100,102",
+            "deptName": "财务部门",
+            "orderNum": 2,
+            "leader": "若依",
+            "phone": "15888888888",
+            "email": "ry@qq.com",
+            "status": "0",
+            "delFlag": "0",
+            "parentName": null,
+            "children": []
+        }
+    ]
+
+    const {TreeUtil} = Baitu;
+
+    console.log(TreeUtil.buildTree(list, 'deptId', 'parentId', 'children'))
+    console.log(TreeUtil.buildCommonTree(list, 'deptId', 'parentId', 'children'))
+
+</script>
+</body>
+</html>

@@ -22,6 +22,7 @@ import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
 import EncryptUtil from "./modules/common/EncryptUtil";
 import JSONUtil, {JSONType} from "./modules/json/JSONUtil";
 import UrlUtil from "./modules/url/UrlUtil";
+import TreeUtil from "./modules/tree/TreeUtil";
 
 export {
     Str,
@@ -50,7 +51,8 @@ export {
     EncryptUtil,
     JSONUtil,
     JSONType,
-    UrlUtil
+    UrlUtil,
+    TreeUtil
 };
 
 const Baitu = values;

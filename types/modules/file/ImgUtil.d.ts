@@ -15,7 +15,7 @@ export type ImgResult = {
  */
 export declare class ImgUtil {
     /**
-     * 图片转Blob
+     * Html 图片转 Blob
      * @param img 图片
      * @param type MIME类型
      */
@@ -33,10 +33,40 @@ export declare class ImgUtil {
     dataURLtoBlob(dataurl: string): Blob;
     resize(file: File, maxWidth: number, maxHeight: number, quality?: number): Promise<unknown>;
     /**
-     * 获取文件DataURL
+     * 获取文件 DataURL
      * @param file 文件
      */
     getDataURL(file: File | Blob): string;
+    /**
+     * 文件或 Blob 转 Base64 数据
+     * @param file 文件
+     */
+    getBase64(file: File | Blob): string;
+    /**
+     * 文件转 Base64 数据
+     * @param file 文件
+     */
+    /**
+     * 获取 Base64 中的文件类型
+     * @param base64Data base64 数据
+     */
+    getBase64ContentType(base64Data: string): string;
+    /**
+     * 获取 Base64 中的文件内容
+     * @param base64Data base64 数据
+     */
+    getBase64Content(base64Data: string): string;
+    /**
+     * Base64 转 Blob
+     * @param base64Data base64 数据
+     */
+    base64ToBlob(base64Data: string): Blob;
+    /**
+     * base64 转文件
+     * @param base64Data base64 数据
+     * @param filename 文件名称
+     */
+    base64ToFile(base64Data: string, filename: string): File;
 }
 declare const _default: ImgUtil;
 export default _default;

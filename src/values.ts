@@ -21,6 +21,7 @@ import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
 import EncryptUtil from "./modules/common/EncryptUtil";
 import JSONUtil from "./modules/json/JSONUtil";
 import UrlUtil from "./modules/url/UrlUtil";
+import TreeUtil from "./modules/tree/TreeUtil";
 
 export default {
     Str,
@@ -49,6 +50,7 @@ export default {
     EncryptUtil,
     JSONUtil,
     UrlUtil,
+    TreeUtil,
     setPatternPool(patternPool: PatternPool) {
         if (patternPool instanceof PatternPool) {
             this.PatternPool = patternPool;

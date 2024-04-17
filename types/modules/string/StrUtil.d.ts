@@ -1,6 +1,3 @@
-/**
- * 字符串工具
- */
 export declare class StrUtil {
     /**
      * 判断字符串是否为：null、undefined、空字符串或者只包含空白字符（如空格、制表符、换行符等）
@@ -115,6 +112,12 @@ export declare class StrUtil {
      * @param spacer 连接符 默认['-', '_']
      */
     toHump(str: string, ...spacer: string[]): string;
+    /**
+     * 字符串格式化
+     * @param str 字符串
+     * @param args 格式化项
+     */
+    format(str: string, ...args: any[]): string;
 }
 declare const _default: StrUtil;
 export default _default;
