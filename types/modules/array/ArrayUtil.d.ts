@@ -36,6 +36,20 @@ export declare class ArrayUtil {
      * @param defaultArray 替换的数组
      */
     defaultIfEmpty(array: any[], defaultArray: any[]): any[];
+    /**
+     * 固定长度首部添加元素，返回删除的元素（向数组开头添加元素，如果长度超出指定长度，则删除尾部元素）
+     * @param array 数组
+     * @param len 固定的长度
+     * @param items 要添加的元素
+     */
+    fixedUnshift(array: any[], len: number, ...items: any[]): any[];
+    /**
+     * 固定长度尾部添加元素，返回删除的元素（向数组最后添加元素，如果长度超出指定长度，则删除首部元素）
+     * @param array 数组
+     * @param len 固定的长度
+     * @param items 要添加的元素
+     */
+    fixedPush(array: any[], len: number, ...items: any[]): any[];
 }
 declare const _default: ArrayUtil;
 export default _default;

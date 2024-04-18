@@ -63,6 +63,36 @@ export class ArrayUtil {
     defaultIfEmpty(array: any[], defaultArray: any[]): any[] {
         return this.isEmpty(array) ? defaultArray : array;
     }
+
+    /**
+     * 固定长度首部添加元素，返回删除的元素（向数组开头添加元素，如果长度超出指定长度，则删除尾部元素）
+     * @param array 数组
+     * @param len 固定的长度
+     * @param items 要添加的元素
+     */
+    fixedUnshift(array: any[], len: number, ...items: any[]) {
+        array.unshift(...items.reverse());
+        let deleteArr = [];
+        if (array.length > len) {
+            deleteArr = array.splice(len, array.length - len);
+        }
+        return deleteArr;
+    }
+
+    /**
+     * 固定长度尾部添加元素，返回删除的元素（向数组最后添加元素，如果长度超出指定长度，则删除首部元素）
+     * @param array 数组
+     * @param len 固定的长度
+     * @param items 要添加的元素
+     */
+    fixedPush(array: any[], len: number, ...items: any[]) {
+        array.push(...items);
+        let deleteArr = [];
+        if (array.length > len) {
+            deleteArr = array.splice(0, array.length - len);
+        }
+        return deleteArr;
+    }
 }
 
 export default new ArrayUtil();

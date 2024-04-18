@@ -22,5 +22,25 @@
     let arr = null;
     arr = ArrayUtil.push(arr, 2);
     console.log(arr);
+
+    console.log(ArrayUtil.isEmpty(arr))
+    console.log(ArrayUtil.isEmpty([]))
+    console.log(ArrayUtil.isEmpty(null))
+    console.log(ArrayUtil.isEmpty(undefined))
+
+    console.log(ArrayUtil.defaultIfEmpty([], [1]))
+    console.log(ArrayUtil.defaultIfEmpty(null, [2]))
+    console.log(ArrayUtil.defaultIfEmpty(undefined, [3]))
+    console.log(ArrayUtil.defaultIfEmpty(arr, [4]))
+
+    console.log('--------------fixedUnshift')
+    let arr2 = [2, 3]
+    console.log(ArrayUtil.fixedUnshift(arr2, 3, 4, 5, 6))
+    console.log(arr2)
+
+    console.log('--------------fixedPush')
+    let arr3 = [2, 3]
+    console.log(ArrayUtil.fixedPush(arr3, 3, 4, 5, 6))
+    console.log(arr3)
 </script>
 </html>
