@@ -75,4 +75,5 @@ new DateTime();
 
 对于农历、及数字计算确保精度发现了两个开源的：[寿星天文历](https://github.com/sxwnl/sxwnl) 、[decimal.js](https://github.com/MikeMcl/decimal.js) ，因为功能复杂，有时间简单集成一下。
 
+文档更新会有所延时，具体功能见具体代码，在 TypeScript 环境下，工具方法的 API 注释面面俱全。
 更多功能开发中...
