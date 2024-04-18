@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UrlUtil</title>
+</head>
+<body>
+
+<script src="../../../lib/baitu.min.js"></script>
+<script>
+    const {UrlUtil} = Baitu;
+    console.log(UrlUtil.jsonToParams({
+        params: '1',
+        params2: '2',
+        '232': '2314e3'
+    }))
+
+    console.log(UrlUtil.getParamsFast())
+    console.log(UrlUtil.getParams())
+    console.log(UrlUtil.getParam('_ijt'))
+    console.log(UrlUtil.getParamFast('_ijt'))
+</script>
+</body>
+</html>
