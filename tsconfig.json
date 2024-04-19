@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "nodenext",
-    "target": "ES2016",
+    "target": "ES2018",
     "outDir": "lib",
     "declaration": true,
     "declarationDir": "types",

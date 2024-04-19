@@ -4,6 +4,10 @@ import { JSONType } from "../json/JSONUtil";
  */
 export declare class UrlUtil {
     /**
+     * 获取当前的 url 地址
+     */
+    getUrl(): string;
+    /**
      * json 转 url 参数
      * @param json json数据
      */
@@ -20,6 +24,16 @@ export declare class UrlUtil {
      */
     getParam(url: string, name: string): string;
     /**
+     * 获取 url 中所有的参数名数组
+     * @param url url 地址
+     */
+    getParamKeys(url: string): string[];
+    /**
+     * 获取 url 中所有参数值数组
+     * @param url url 地址
+     */
+    getParamValues(url: string): any[];
+    /**
      * 直接从当前 url 中获取参数，并转为 JSON
      */
     getParamsFast(): JSONType;
@@ -28,6 +42,14 @@ export declare class UrlUtil {
      * @param name 参数名
      */
     getParamFast(name: string): string;
+    /**
+     * 获取当前 url 中所有的参数名数组
+     */
+    getParamKeysFast(): string[];
+    /**
+     * 获取当前 url 中所有参数值数组
+     */
+    getParamValuesFast(): any[];
 }
 declare const _default: UrlUtil;
 export default _default;

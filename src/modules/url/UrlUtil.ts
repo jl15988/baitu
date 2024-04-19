@@ -7,6 +7,13 @@ import StrUtil from "../string/StrUtil";
 export class UrlUtil {
 
     /**
+     * 获取当前的 url 地址
+     */
+    getUrl(): string {
+        return window.location.href;
+    }
+
+    /**
      * json 转 url 参数
      * @param json json数据
      */
@@ -50,11 +57,28 @@ export class UrlUtil {
     }
 
     /**
+     * 获取 url 中所有的参数名数组
+     * @param url url 地址
+     */
+    getParamKeys(url: string): string[] {
+        const params = this.getParams(url);
+        return Object.keys(params);
+    }
+
+    /**
+     * 获取 url 中所有参数值数组
+     * @param url url 地址
+     */
+    getParamValues(url: string): any[] {
+        const params = this.getParams(url);
+        return Object.values(params);
+    }
+
+    /**
      * 直接从当前 url 中获取参数，并转为 JSON
      */
     getParamsFast(): JSONType {
-        const url = window.location.href;
-        return this.getParams(url);
+        return this.getParams(this.getUrl());
     }
 
     /**
@@ -62,8 +86,22 @@ export class UrlUtil {
      * @param name 参数名
      */
     getParamFast(name: string): string {
-        const url = window.location.href;
-        return this.getParam(url, name);
+        return this.getParam(this.getUrl(), name);
+    }
+
+    /**
+     * 获取当前 url 中所有的参数名数组
+     */
+    getParamKeysFast(): string[] {
+        return this.getParamKeys(this.getUrl());
+    }
+
+    /**
+     * 获取当前 url 中所有参数值数组
+     */
+    getParamValuesFast(): any[] {
+        const params = this.getParams(this.getUrl());
+        return Object.values(params);
     }
 }
 
