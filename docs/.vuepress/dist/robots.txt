@@ -1,0 +1,5 @@
+
+User-agent:*
+Disallow:
+
+Sitemap: https://jl15988.gitee.io/baitu/baitu/sitemap.xml
