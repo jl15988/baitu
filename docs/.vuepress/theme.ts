@@ -16,7 +16,8 @@ export default hopeTheme({
 
   repo: "https://gitee.com/jl15988/baitu",
 
-  docsDir: "src",
+  docsDir: "docs",
+  docsBranch: "master",
 
   // 导航栏
   navbar,
@@ -37,7 +38,7 @@ export default hopeTheme({
 
   // 多语言配置
   metaLocales: {
-    editLink: "在 Gitee 上编辑此页",
+    // editLink: "在 Gitee 上编辑此页",
   },
 
   // 如果想要实时查看任何改变，启用它。注: 这对更新性能有很大负面影响
