@@ -3,7 +3,7 @@ import navbar from "./navbar.js";
 import sidebar from "./sidebar.js";
 
 export default hopeTheme({
-  hostname: "",
+  hostname: "https://jl15988.gitee.io/baitu/",
 
   author: {
     name: "会功夫的李白",
