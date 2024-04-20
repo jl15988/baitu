@@ -44,7 +44,7 @@ export class ArrayUtil {
      * @param array 数组
      */
     isEmpty(array: any[]): boolean {
-        return array == null || array.length === 0;
+        return !array || array.length === 0;
     }
 
     /**
@@ -92,6 +92,24 @@ export class ArrayUtil {
             deleteArr = array.splice(0, array.length - len);
         }
         return deleteArr;
+    }
+
+    /**
+     * 深拷贝
+     * @param array 数组
+     */
+    deepCopy(array: any[]): any[] {
+        if (!Array.isArray(array)) {
+            return [];
+        }
+        return array.map(item => {
+            if (Array.isArray(item)) {
+                return this.deepCopy(item);
+            } else if (typeof item === 'object' && item !== null) {
+                return ObjectUtil.deepCopy(item);
+            }
+            return item;
+        });
     }
 }
 

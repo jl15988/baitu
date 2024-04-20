@@ -50,6 +50,11 @@ export declare class ArrayUtil {
      * @param items 要添加的元素
      */
     fixedPush(array: any[], len: number, ...items: any[]): any[];
+    /**
+     * 深拷贝
+     * @param array 数组
+     */
+    deepCopy(array: any[]): any[];
 }
 declare const _default: ArrayUtil;
 export default _default;

@@ -1,4 +1,4 @@
-import { JSONType } from "../json/JSONUtil";
+import { JSONType } from "./JSONUtil";
 /**
  * Url工具
  */

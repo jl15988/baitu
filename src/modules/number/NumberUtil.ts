@@ -98,6 +98,23 @@ export class NumberUtil {
         const bigNum = new LongNumber(number);
         return new LongNumber(bigNum.dividedBy(new LongNumber(2).pow(digit))); // round(0) 表示不进行小数部分的四舍五入
     }
+
+    /**
+     * 判断数字是否为空
+     * @param number 数字
+     */
+    isEmpty(number: number): boolean {
+        return !number;
+    }
+
+    /**
+     * 如果数字为空返回默认值，否则直接返回
+     * @param number 数字
+     * @param defaultNumber 默认数字
+     */
+    defaultIfEmpty(number: number, defaultNumber: number): number {
+        return this.isEmpty(number) ? defaultNumber : number;
+    }
 }
 
 export default new NumberUtil();

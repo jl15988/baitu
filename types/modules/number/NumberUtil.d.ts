@@ -47,6 +47,17 @@ export declare class NumberUtil {
      * @param digit 位数
      */
     rightShift(number: number | LongNumber, digit: number): LongNumber;
+    /**
+     * 判断数字是否为空
+     * @param number 数字
+     */
+    isEmpty(number: number): boolean;
+    /**
+     * 如果数字为空返回默认值，否则直接返回
+     * @param number 数字
+     * @param defaultNumber 默认数字
+     */
+    defaultIfEmpty(number: number, defaultNumber: number): number;
 }
 declare const _default: NumberUtil;
 export default _default;

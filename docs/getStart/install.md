@@ -2,7 +2,6 @@
 title: 安装
 icon: gear
 order: 1
-date: 2024-04-19
 category:
  - 使用指南
 tag:
@@ -18,7 +17,7 @@ tag:
 通过以下命令安装baitu工具
 
 ```sh
-npm install baitu;
+npm install baitu
 ```
 
 ## CDN 引入

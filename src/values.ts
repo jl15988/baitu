@@ -9,7 +9,7 @@ import Debounce from "./modules/common/Debounce";
 import FileUtil from "./modules/file/FileUtil";
 import FileTypeMagicMap from "./modules/file/FileTypeMagicMap";
 import FileTypeMimeMap from "./modules/file/FileTypeMimeMap";
-import HexUtil from "./modules/base/HexUtil";
+import HexUtil from "./modules/common/HexUtil";
 import ObjectUtil from "./modules/object/ObjectUtil";
 import DesensitizedUtil from "./modules/string/DesensitizedUtil";
 import ArrayUtil from "./modules/array/ArrayUtil";
@@ -19,9 +19,9 @@ import ImgUtil from "./modules/file/ImgUtil";
 import IDUtil from "./modules/common/IDUtil";
 import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
 import EncryptUtil from "./modules/common/EncryptUtil";
-import JSONUtil from "./modules/json/JSONUtil";
-import UrlUtil from "./modules/url/UrlUtil";
-import TreeUtil from "./modules/tree/TreeUtil";
+import JSONUtil from "./modules/common/JSONUtil";
+import UrlUtil from "./modules/common/UrlUtil";
+import TreeUtil from "./modules/common/TreeUtil";
 
 export default {
     Str,

@@ -1,5 +1,5 @@
 import FileTypeMagicMap from "./FileTypeMagicMap";
-import HexUtil from "../base/HexUtil";
+import HexUtil from "../common/HexUtil";
 import ImgUtil from "./ImgUtil";
 
 /**

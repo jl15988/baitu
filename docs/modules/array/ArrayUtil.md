@@ -166,3 +166,8 @@ console.log(ArrayUtil.fixedPush(arr3, 3, 4, 5, 6)) // 结果：[2,3]
 console.log(arr3) // 结果：[4,5,6]
 ```
 
+
+
+## 9. 深拷贝 - deepCopy
+
+数组深拷贝

@@ -1,4 +1,4 @@
-import {JSONType} from "../json/JSONUtil";
+import {JSONType} from "./JSONUtil";
 import StrUtil from "../string/StrUtil";
 
 /**

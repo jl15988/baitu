@@ -7,6 +7,11 @@ export declare class ObjectUtil {
      * @param value 数据
      */
     isEmpty(value: any): boolean;
+    /**
+     * 深拷贝
+     * @param obj 对象
+     */
+    deepCopy(obj: any): any;
 }
 declare const _default: ObjectUtil;
 export default _default;

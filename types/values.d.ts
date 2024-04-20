@@ -18,7 +18,7 @@ declare const _default: {
     Throttle: typeof Throttle;
     Debounce: typeof Debounce;
     FileUtil: import("./modules/file/FileUtil").FileUtil;
-    HexUtil: import("./modules/base/HexUtil").HexUtil;
+    HexUtil: import("./modules/common/HexUtil").HexUtil;
     FileTypeMagicMap: import("./modules/file/FileTypeMagicMap").FileTypeMagicMap;
     FileTypeMimeMap: import("./modules/file/FileTypeMimeMap").FileTypeMimeMap;
     ObjectUtil: import("./modules/object/ObjectUtil").ObjectUtil;
@@ -89,9 +89,9 @@ declare const _default: {
             };
         };
     };
-    JSONUtil: import("./modules/json/JSONUtil").JSONUtil;
-    UrlUtil: import("./modules/url/UrlUtil").UrlUtil;
-    TreeUtil: import("./modules/tree/TreeUtil").TreeUtil;
+    JSONUtil: import("./modules/common/JSONUtil").JSONUtil;
+    UrlUtil: import("./modules/common/UrlUtil").UrlUtil;
+    TreeUtil: import("./modules/common/TreeUtil").TreeUtil;
     setPatternPool(patternPool: PatternPool): void;
 };
 export default _default;

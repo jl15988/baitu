@@ -1,3 +1,5 @@
+import ArrayUtil from "../array/ArrayUtil";
+
 /**
  * 对象工具
  */
@@ -30,6 +32,24 @@ export class ObjectUtil {
 
         // 其他情况，返回false
         return false;
+    }
+
+    /**
+     * 深拷贝
+     * @param obj 对象
+     */
+    deepCopy(obj: any): any {
+        if (typeof obj !== 'object' || obj === null) {
+            return obj;
+        }
+        const copy = Array.isArray(obj) ? [] : {};
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                const value = obj[key];
+                copy[key] = Array.isArray(value) ? ArrayUtil.deepCopy(obj[key]) : this.deepCopy(value);
+            }
+        }
+        return copy;
     }
 }
 

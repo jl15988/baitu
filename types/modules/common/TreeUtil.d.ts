@@ -1,9 +1,14 @@
 /**
  * 树节点处理函数
+ * @param current 当前元素
+ * @param parent 父级元素
+ * @param parentChildList 父级子元素集合
+ * @param level 当前层级
  */
-export type TreeNodeMapper = (current: any, parent: any, parentChildList: any[]) => any;
+export type TreeNodeMapper = (current: any, parent?: any, parentChildList?: any[], level?: number) => any;
 /**
  * 树叶子节点处理函数
+ * @param current 当前元素
  */
 export type TreeLeafNodeMapper = (current: any) => any;
 export declare class TreeUtil {
@@ -15,6 +20,10 @@ export declare class TreeUtil {
      * 默认的开始级别
      */
     LEVEL_BEGIN: number;
+    /**
+     * 已构建标记
+     */
+    BUILT_TAG: string;
     /**
      * 构建树结构（保留非根节点）
      * @param list 数组
@@ -46,13 +55,23 @@ export declare class TreeUtil {
     /**
      * 递归树结构变换器
      * @param list 全数组
-     * @param obj 父级节点
      * @param idName 主键属性名
      * @param parentName 父级主键属性名
      * @param mapper 节点处理函数
      * @param leafMapper 叶子节点处理函数
      */
-    buildTreeMapper(list: any[], obj: any, idName: string, parentName: string, mapper: TreeNodeMapper, leafMapper?: TreeLeafNodeMapper): void;
+    buildTreeMapper(list: any[], idName: string, parentName: string, mapper: TreeNodeMapper, leafMapper?: TreeLeafNodeMapper): void;
+    /**
+     * 递归树结构变换器
+     * @param list 全数组
+     * @param obj 父级节点
+     * @param idName 主键属性名
+     * @param parentName 父级主键属性名
+     * @param mapper 节点处理函数
+     * @param leafMapper 叶子节点处理函数
+     * @param parentLevel 上级层级
+     */
+    toTreeMapper(list: any[], obj: any, idName: string, parentName: string, mapper: TreeNodeMapper, leafMapper?: TreeLeafNodeMapper, parentLevel?: number): void;
 }
 declare const _default: TreeUtil;
 export default _default;

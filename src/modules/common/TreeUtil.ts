@@ -1,9 +1,17 @@
+import ArrayUtil from "../array/ArrayUtil";
+import NumberUtil from "../number/NumberUtil";
+
 /**
  * 树节点处理函数
+ * @param current 当前元素
+ * @param parent 父级元素
+ * @param parentChildList 父级子元素集合
+ * @param level 当前层级
  */
-export type TreeNodeMapper = (current: any, parent: any, parentChildList: any[]) => any;
+export type TreeNodeMapper = (current: any, parent?: any, parentChildList?: any[], level?: number) => any;
 /**
  * 树叶子节点处理函数
+ * @param current 当前元素
  */
 export type TreeLeafNodeMapper = (current: any) => any;
 
@@ -17,6 +25,10 @@ export class TreeUtil {
      * 默认的开始级别
      */
     LEVEL_BEGIN = 1;
+    /**
+     * 已构建标记
+     */
+    BUILT_TAG = '__built_tag';
 
     /**
      * 构建树结构（保留非根节点）
@@ -30,20 +42,18 @@ export class TreeUtil {
      */
     buildTree(list: any[], idName: string, parentName: string, childName: string, levelName?: string, mapper?: TreeNodeMapper, leafMapper?: TreeLeafNodeMapper): any[] {
         if (!list) return [];
+        let newList = ArrayUtil.deepCopy(list);
         levelName = levelName || this.LEVEL_NAME;
-        const result = list.map(item => {
-            item[levelName] = this.LEVEL_BEGIN;
-            return item;
-        });
-        for (let item of result) {
-            this.buildTreeMapper(list, item, idName, parentName, (current, parent, parentChildList) => {
-                current[levelName] = parent[levelName] + 1;
+        this.buildTreeMapper(newList, idName, parentName, (current, parent, parentChildList, level) => {
+            if (level !== this.LEVEL_BEGIN) {
+                // 根节点遍历时没有父级
                 parent[childName] = parentChildList;
-                mapper && mapper(current, parent, parentChildList);
-                return current;
-            }, leafMapper);
-        }
-        return result;
+            }
+            current[levelName] = level;
+            mapper && mapper(current, parent, parentChildList, level);
+            return current;
+        }, leafMapper);
+        return newList;
     }
 
     /**
@@ -73,18 +83,44 @@ export class TreeUtil {
     /**
      * 递归树结构变换器
      * @param list 全数组
-     * @param obj 父级节点
      * @param idName 主键属性名
      * @param parentName 父级主键属性名
      * @param mapper 节点处理函数
      * @param leafMapper 叶子节点处理函数
      */
-    buildTreeMapper(list: any[], obj: any, idName: string, parentName: string, mapper: TreeNodeMapper, leafMapper?: TreeLeafNodeMapper): void {
-        const childList = list.filter(item => item[parentName] === obj[idName]);
+    buildTreeMapper(list: any[], idName: string, parentName: string, mapper: TreeNodeMapper, leafMapper?: TreeLeafNodeMapper): void {
+        if (ArrayUtil.isEmpty(list)) return;
+        for (let item of list) {
+            const level = this.LEVEL_BEGIN;
+            if (item[this.BUILT_TAG]) return;
+            mapper && mapper(item, null, [], level);
+            this.toTreeMapper(list, item, idName, parentName, mapper, leafMapper, level);
+        }
+    }
+
+    /**
+     * 递归树结构变换器
+     * @param list 全数组
+     * @param obj 父级节点
+     * @param idName 主键属性名
+     * @param parentName 父级主键属性名
+     * @param mapper 节点处理函数
+     * @param leafMapper 叶子节点处理函数
+     * @param parentLevel 上级层级
+     */
+    toTreeMapper(list: any[], obj: any, idName: string, parentName: string, mapper: TreeNodeMapper, leafMapper?: TreeLeafNodeMapper, parentLevel?: number): void {
+        const childList = [];
+        for (let item of list) {
+            if (item[parentName] === obj[idName]) {
+                item[this.BUILT_TAG] = true;
+                childList.push(item);
+            }
+        }
         if (childList.length > 0) {
             for (let children of childList) {
-                const child = mapper ? mapper(children, obj, childList) : children;
-                this.buildTreeMapper(list, child, idName, parentName, mapper, leafMapper);
+                const level = NumberUtil.defaultIfEmpty(parentLevel, this.LEVEL_BEGIN - 1) + 1;
+                const child = mapper ? mapper(children, obj, childList, level) : children;
+                this.toTreeMapper(list, child, idName, parentName, mapper, leafMapper, level);
             }
         } else {
             leafMapper && leafMapper(obj);
