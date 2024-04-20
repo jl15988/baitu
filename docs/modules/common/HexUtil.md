@@ -1,8 +1,14 @@
-# HexUtil - 16进制工具
+---
+title: HexUtil - 16进制工具
+category:
+ - 通用
+tag:
+ - 16进制工具
+---
 
-## 1. encode
+## 1. 编码 - encode
 
-字符串转16进制字符串，仅支持UTF8编码
+字符串转16进制字符串，仅支持 UTF8 编码
 
 ### 参数
 
@@ -19,9 +25,9 @@ console.log("编码：", encodeStr);
 
 
 
-## 2. decode
+## 2. 解码 - decode
 
-十六进制字符串转字符串，仅支持UTF8编码
+十六进制字符串转字符串，仅支持 UTF8 编码
 
 ### 参数
 |序号|名称|类型|含义|
@@ -37,7 +43,7 @@ console.log("解码：", decodeStr);
 
 
 
-## 3. arrayBufferToHex
+## 3. 二进制数据转 16 进制 - arrayBufferToHex
 
 原始二进制数据缓冲区转16进制字符串
 
@@ -64,9 +70,9 @@ fileInput.onchange = () => {
 
 
 
-## 4. uint8ArrayToHex
+## 4. uint8Array转16进制 - uint8ArrayToHex
 
-uint8Array转16进制字符串
+uint8Array 转 16 进制字符串
 
 ### 参数
 |序号|名称|类型|含义|
@@ -91,7 +97,7 @@ fileInput.onchange = () => {
 
 
 
-## 5. hexToUint8Array(hex: string)
+## 5. 16进制转Uint8 - hexToUint8Array
 
 16进制字符串转Uint8
 
@@ -100,6 +106,7 @@ fileInput.onchange = () => {
 |-|-|-|-|
 |1|hex|string|16进制字符串|
 
+### 示例
 ```js
 const fileInput = document.querySelector("#file");
 fileInput.onchange = () => {

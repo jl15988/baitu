@@ -1,4 +1,10 @@
-# NumberUtil - 数字工具
+---
+title: NumberUtil - 数字工具
+category:
+ - 数字
+tag:
+ - 数字工具
+---
 
 ## 1. fixed(number: number, fractionDigits: number)
 

@@ -1,4 +1,10 @@
-# Throttle - 节流
+---
+title: Throttle - 节流
+category:
+ - 通用
+tag:
+ - 节流
+---
 
 一段时间内只执行一次
 

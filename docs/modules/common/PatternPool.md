@@ -1,7 +1,16 @@
-# PatternPool - 正则池
+---
+title: PatternPool - 正则池
+category:
+ - 通用
+tag:
+ - 正则池
+---
 
 正则池中包含了常用的多个正则，一般足够使用。如果你有更多需求，不推荐单独再新建正则文件来调用，因为这样难以维护，可以通过add方法添加新的正则，或者创建新的class来继承PatternPoolClass，通过对PatternPool的重新赋值达到统一调用的效果。
 
+::: caution
+在以后版本中可能会有较大的改动，慎用！
+:::
 
 引入相关工具
 ```js

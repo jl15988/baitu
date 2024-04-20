@@ -28,7 +28,7 @@ module.exports = {
                 // t要使用的loader
                 use: 'ts-loader',
                 // 要排除的文件
-                exclude: /node-modules/
+                exclude: /node-modules|docs/
             }
         ]
     },

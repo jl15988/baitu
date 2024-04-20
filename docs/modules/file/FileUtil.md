@@ -1,4 +1,10 @@
-# FileUtil - 文件工具
+---
+title: FileUtil - 文件工具
+category:
+ - 文件
+tag:
+ - 文件工具
+---
 
 ## 1. getMainName(fileName: string)
 

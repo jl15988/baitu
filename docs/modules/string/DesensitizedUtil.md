@@ -1,4 +1,10 @@
-# DesensitizedUtil - 脱敏工具
+---
+title: DesensitizedUtil - 脱敏工具
+category:
+ - 字符串
+tag:
+ - 脱敏工具
+---
 
 ## DesensitizedParam - 脱敏参数
 

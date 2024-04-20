@@ -1,4 +1,10 @@
-# StrUtil - 字符串工具
+---
+title: StrUtil - 字符串工具
+category:
+ - 字符串
+tag:
+ - 字符串工具
+---
 
 ## 1. isBlank(str: string)
 

@@ -1,4 +1,10 @@
-# DateUtil - 日期工具
+---
+title: DateUtil - 日期工具
+category:
+ - 日期时间
+tag:
+ - 日期工具
+---
 
 ## 1. date()
 

@@ -1,6 +1,10 @@
-# ImgUtil - 图片工具
-
-
+---
+title: ImgUtil - 图片工具
+category:
+ - 文件
+tag:
+ - 图片工具
+---
 
 ## 1. toBlob
 

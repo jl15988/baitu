@@ -1,5 +1,10 @@
-# ValidateUtil - 字符串验证工具
-
+---
+title: ValidateUtil - 字符串验证工具
+category:
+ - 字符串
+tag:
+ - 字符串验证工具
+---
 
 ## 1. validate(str: string, pattern: RegExp | string)
 
