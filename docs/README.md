@@ -2,7 +2,7 @@
 home: true
 icon: home
 title: 首页
-heroText: Baitu
+heroText: Baitu 百涂工具
 tagline: 一个小而全的前端工具包<br>A small and comprehensive front-end toolkit
 actions:
   - text: 快速开始
@@ -10,18 +10,14 @@ actions:
     link: ./getStart/install
     type: primary
 
-  - text: 源码
+  - text: 在线源码
+    icon: star
     link: https://gitee.com/jl15988/baitu
 
 highlights:
   - header: 丰富的工具
     description: 提供数十个工具包，样样俱全，让你的开发得心应手
-    image: /assets/image/box.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/2-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/2-dark.svg
-    bgImageStyle:
-      background-repeat: repeat
-      background-size: initial
+    image: /assets/image/toolbox.svg
     features:
       - title: 日期时间
         icon: clock
