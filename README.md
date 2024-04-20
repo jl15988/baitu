@@ -41,37 +41,19 @@ Vue.prototype.$btu = Baitu;
 ```
 
 
-解构访问
+组合式
 
 ```js
-Baitu.DateTime.create();
+import {DateTime} from "baitu"
 
-// 可以写成
-const {DateTime} = Baitu;
 DateTime.create();
-// 或者（前提是可通过new创建实例，部分功能不能通过new创建实例）
 new DateTime();
 ```
 
 
 ## 文档
 
-|序号|功能|文档|
-|-|-|-|
-|1|日期时间（DateTime）|[DateTime.md](docs/modules/dateTime/DateTime.md)|
-|2|日期工具（DateUtil）|[DateUtil.md](docs/modules/dateTime/DateUtil.md)|
-|3|文件工具（FileUtil）|[FileUtil.md](docs/modules/file/FileUtil.md)|
-|4|防抖（Debounce）|[Debounce.md](docs/modules/common/Debounce.md)|
-|5|节流（Throttle）|[Throttle.md](docs/modules/common/Throttle.md)|
-|6|数字工具（NumberUtil）|[NumberUtil.md](docs/modules/number/NumberUtil.md)|
-|7|对象工具（ObjectUtil）|[ObjectUtil.md](docs/modules/object/ObjectUtil.md)|
-|8|字符串工具（StrUtil）|[StrUtil.md](docs/modules/string/StrUtil.md)|
-|9|16进制工具（HexUtil）|[HexUtil.md](docs/modules/base/HexUtil.md)|
-|10|脱敏工具（DesensitizedUtil）|[DesensitizedUtil.md](docs/modules/string/DesensitizedUtil.md)|
-|11|正则池（PatternPool）|[PatternPool.md](docs/modules/common/PatternPool.md)|
-|12|字符串验证工具（ValidateUtil）|[ValidateUtil.md](docs/modules/string/ValidateUtil.md)|
-|13|数组工具（ArrayUtil）|[ArrayUtil.md](docs/modules/array/ArrayUtil.md)|
-|14|图片工具（ImgUtil）|[ImgUtil.md](docs/modules/file/ImgUtil.md)|
+[https://jl15988.gitee.io/baitu/](https://jl15988.gitee.io/baitu/)
 
 对于农历、及数字计算确保精度发现了两个开源的：[寿星天文历](https://github.com/sxwnl/sxwnl) 、[decimal.js](https://github.com/MikeMcl/decimal.js) ，因为功能复杂，有时间简单集成一下。
 
