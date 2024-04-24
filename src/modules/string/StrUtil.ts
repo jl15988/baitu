@@ -2,6 +2,7 @@
  * 字符串工具
  */
 import ArrayUtil from "../array/ArrayUtil";
+import {JSONType} from "../common/JSONUtil";
 
 export class StrUtil {
 
@@ -240,6 +241,13 @@ export class StrUtil {
         } else {
             return str;
         }
+    }
+
+    formatMap(str: string, json: JSONType) {
+        for (let jsonKey in json) {
+            str.replace(jsonKey, json[jsonKey]);
+        }
+        return str;
     }
 }
 

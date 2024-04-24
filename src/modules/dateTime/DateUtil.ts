@@ -311,6 +311,32 @@ export class DateUtil {
         }
         return age;
     }
+
+    /**
+     * 将秒格式化为 x小时x分钟x秒格式
+     * @param seconds
+     * @param mapper
+     */
+    formatSecond(seconds: number, mapper: ({hours, minutes, seconds}) => string) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+
+        const formattedHours = hours.toFixed(0).toString().padStart(2, '0');
+        const formattedMinutes = minutes.toFixed(0).toString().padStart(2, '0');
+        const formattedSeconds = remainingSeconds.toFixed(0).toString().padStart(2, '0');
+
+        let result = '';
+        if (formattedHours && formattedHours > 0) {
+            result += formattedHours + '小时';
+        }
+        if (formattedMinutes && formattedMinutes > 0) {
+            result += formattedMinutes + '分钟';
+        }
+
+        result += formattedSeconds + '秒';
+        return result;
+    }
 }
 
 export default new DateUtil();
