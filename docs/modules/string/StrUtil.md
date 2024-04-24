@@ -72,3 +72,96 @@ tag:
 参数
 - str 字符串
 - count 数组长度
+
+
+
+## 10. 驼峰转连字符 - toKebab
+
+
+
+### 参数
+
+| 序号 | 名称   | 类型   | 含义           |
+| ---- | ------ | ------ | -------------- |
+| 1    | str    | 字符串 | 要转换的字符串 |
+| 2    | spacer | 字符串 | 连字符         |
+
+### 示例
+
+```js
+console.log(StrUtil.toKebab("marginBottom")) // margin-bottom
+console.log(StrUtil.toKebab("marginBottom", "_")) // margin_bottom
+console.log(StrUtil.toKebab("dfjhdsfoijedf")) // dfjhdsfoijedf
+```
+
+
+
+## 11. 连字符转驼峰 - toHump
+
+
+
+### 参数
+
+| 序号 | 名称    | 类型   | 含义           |
+| ---- | ------- | ------ | -------------- |
+| 1    | str     | 字符串 | 要转换的字符串 |
+| 2    | spacers | 字符串 | 要转化的连字符 |
+
+### 示例
+
+```js
+console.log(StrUtil.toHump("margin-bottom")) // marginBottom
+console.log(StrUtil.toHump("marginBottom", "B")) // marginOttom
+console.log(StrUtil.toHump("marginBottom")) // marginBottom
+console.log(StrUtil.toHump("dfjhdsfoijedf")) // dfjhdsfoijedf
+```
+
+
+
+## 12. 格式化 - format
+
+格式化字符串，学习后端的小伙伴都知道 `slf4j` ，可以利用 `{}` 作为占位符来替换对应的字符串。
+
+### 参数
+
+| 序号 | 名称 | 类型               | 含义           |
+| ---- | ---- | ------------------ | -------------- |
+| 1    | str  | 字符串             | 要处理的字符串 |
+| 2    | args | 剩余参数（...any） | 替换占位符项   |
+
+### 示例
+
+```js
+let s = "Baitu {}，好用，真{}"
+console.log(StrUtil.format(s)) // Baitu {}，好用，真{}
+console.log(StrUtil.format(s, "工具", "好用")) // Baitu 工具，好用，真好用
+console.log(StrUtil.format(s, "工具", "好用", "啊啊啊")) // Baitu 工具，好用，真好用
+console.log(StrUtil.format("苹果，香蕉，栗子", "工具", "好用", "啊啊啊")) // 苹果，香蕉，栗子
+console.log(s) // Baitu {}，好用，真{}
+```
+
+
+
+## 13. 字符串 Map 格式化 - formatMap
+
+相对普通格式化来说，Map 格式化的优点很出众，它支持传入对象格式来格式化字符串。
+
+### 参数
+
+| 序号 | 名称 | 类型          | 含义             |
+| ---- | ---- | ------------- | ---------------- |
+| 1    | str  | 字符串        | 要格式化的字符串 |
+| 2    | map  | JSON 格式对象 | 格式化参数对象   |
+
+### 示例
+
+```js
+const s2 = "苹果价格：{price}，有{num}个{num3}"
+console.log(StrUtil.formatMap(s2, {
+    price: 5,
+    num: 100
+})) // 苹果价格：5，有100个{num3}
+console.log(StrUtil.formatMap(s2)) // 苹果价格：{price}，有{num}个{num3}
+console.log(s2) // 苹果价格：{price}，有{num}个{num3}
+```
+

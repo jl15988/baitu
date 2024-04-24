@@ -24,6 +24,14 @@ export declare class DateUtil {
      */
     static readonly weekMillis: number;
     /**
+     * 时间戳长度
+     */
+    static readonly timeStampLen: number;
+    /**
+     * 简单时间戳长度
+     */
+    static readonly simpleTimeStampLen: number;
+    /**
      * 获取当前Date日期
      */
     date(): Date;
@@ -115,6 +123,28 @@ export declare class DateUtil {
      * @param date 日期
      */
     age(date: Date | DateTime): number;
+    /**
+     * 获取秒数含有多少天、小时、分钟、秒
+     * @param secondsValue 秒数
+     */
+    convertSeconds(secondsValue: number): {
+        days: number;
+        hours: number;
+        minutes: number;
+        seconds: number;
+    };
+    /**
+     * 格式化秒数为 xx天xx小时xx分钟xx秒，如果达不到某一单位则不添加
+     * @param secondsValue 秒数
+     * @param labels 天、小时、分钟、秒的属性名，默认天、小时、分钟、秒
+     * @param pad 是否补零
+     */
+    formatSeconds(secondsValue: number, labels: {
+        day: string;
+        hour: string;
+        minute: string;
+        second: string;
+    }, pad?: boolean): any;
 }
 declare const _default: DateUtil;
 export default _default;

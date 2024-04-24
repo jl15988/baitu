@@ -1,3 +1,7 @@
+import { JSONType } from "../common/JSONUtil";
+/**
+ * 字符串工具
+ */
 export declare class StrUtil {
     /**
      * 判断字符串是否为：null、undefined、空字符串或者只包含空白字符（如空格、制表符、换行符等）
@@ -101,7 +105,7 @@ export declare class StrUtil {
      */
     chunkCount(str: string, count: number): string[];
     /**
-     * 转连字符
+     * 驼峰转连字符
      * @param str 字符串
      * @param spacer 连接符 默认-
      */
@@ -109,15 +113,27 @@ export declare class StrUtil {
     /**
      * 转驼峰
      * @param str 字符串
-     * @param spacer 连接符 默认['-', '_']
+     * @param spacers 连接符 默认['-', '_']
      */
-    toHump(str: string, ...spacer: string[]): string;
+    toHump(str: string, ...spacers: string[]): string;
     /**
      * 字符串格式化
      * @param str 字符串
      * @param args 格式化项
      */
     format(str: string, ...args: any[]): string;
+    /**
+     * 字符串 Map 格式化
+     * @param str 字符串
+     * @param map 参数
+     */
+    formatMap(str: string, map: JSONType): string;
+    /**
+     * 当字符串不为空时追加对应的字符串
+     * @param str 字符串
+     * @param appends 要追加的字符串
+     */
+    appendIfNotEmpty(str: string, appends: string): string;
 }
 declare const _default: StrUtil;
 export default _default;

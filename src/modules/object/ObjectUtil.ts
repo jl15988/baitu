@@ -51,6 +51,18 @@ export class ObjectUtil {
         }
         return copy;
     }
+
+    /**
+     * 当对象不为空时追加对应的值
+     * @param obj 对象
+     * @param appends 追加的值
+     */
+    appendIfNotEmpty(obj: any, appends: any) {
+        if (!this.isEmpty(obj)) {
+            return obj.toString().concat(appends);
+        }
+        return '';
+    }
 }
 
 export default new ObjectUtil();

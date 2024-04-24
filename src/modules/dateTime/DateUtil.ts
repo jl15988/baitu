@@ -1,5 +1,6 @@
 import DateTime, {DateField} from "./DateTime";
 import NumberUtil from "../number/NumberUtil";
+import ObjectUtil from "../object/ObjectUtil";
 
 /**
  * 日期工具
@@ -26,6 +27,14 @@ export class DateUtil {
      * 一星期毫秒值
      */
     static readonly weekMillis: number = this.dayMillis * 7;
+    /**
+     * 时间戳长度
+     */
+    static readonly timeStampLen: number = 13;
+    /**
+     * 简单时间戳长度
+     */
+    static readonly simpleTimeStampLen: number = 10;
 
     /**
      * 获取当前Date日期
@@ -313,29 +322,64 @@ export class DateUtil {
     }
 
     /**
-     * 将秒格式化为 x小时x分钟x秒格式
-     * @param seconds
-     * @param mapper
+     * 获取秒数含有多少天、小时、分钟、秒
+     * @param secondsValue 秒数
      */
-    formatSecond(seconds: number, mapper: ({hours, minutes, seconds}) => string) {
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const remainingSeconds = seconds % 60;
-
-        const formattedHours = hours.toFixed(0).toString().padStart(2, '0');
-        const formattedMinutes = minutes.toFixed(0).toString().padStart(2, '0');
-        const formattedSeconds = remainingSeconds.toFixed(0).toString().padStart(2, '0');
-
-        let result = '';
-        if (formattedHours && formattedHours > 0) {
-            result += formattedHours + '小时';
+    convertSeconds(secondsValue: number) {
+        if (secondsValue === DateUtil.simpleTimeStampLen) {
+            secondsValue = secondsValue * 1000;
         }
-        if (formattedMinutes && formattedMinutes > 0) {
-            result += formattedMinutes + '分钟';
+        // 计算天数
+        const days = Math.floor(secondsValue / (60 * 60 * 24));
+        secondsValue %= (60 * 60 * 24);
+        // 计算小时数
+        const hours = Math.floor(secondsValue / (60 * 60));
+        secondsValue %= (60 * 60);
+        // 计算分钟数
+        const minutes = Math.floor(secondsValue / 60);
+        secondsValue %= 60;
+        // 计算秒数
+        const seconds = Math.floor(secondsValue);
+
+        return {
+            days,
+            hours,
+            minutes,
+            seconds
+        }
+    }
+
+    /**
+     * 格式化秒数为 xx天xx小时xx分钟xx秒，如果达不到某一单位则不添加
+     * @param secondsValue 秒数
+     * @param labels 天、小时、分钟、秒的属性名，默认天、小时、分钟、秒
+     * @param pad 是否补零
+     */
+    formatSeconds(secondsValue: number,
+                  labels: { day: string, hour: string, minute: string, second: string },
+                  pad: boolean = true) {
+        const convert = this.convertSeconds(secondsValue);
+        const days = convert.days;
+        const hours = convert.hours;
+        const minutes = convert.minutes;
+        const seconds = convert.seconds;
+
+        const defaultLabels = Object.assign({day: '天', hour: '小时', minute: '分钟', second: '秒'}, labels);
+
+        function toPad(n: number) {
+            if (n) {
+                if (pad) {
+                    return n.toString().padStart(2, '0');
+                }
+                return n;
+            }
+            return '';
         }
 
-        result += formattedSeconds + '秒';
-        return result;
+        return ObjectUtil.appendIfNotEmpty(toPad(days), defaultLabels.day)
+            + ObjectUtil.appendIfNotEmpty(toPad(hours), defaultLabels.hour)
+            + ObjectUtil.appendIfNotEmpty(toPad(minutes), defaultLabels.minute)
+            + ObjectUtil.appendIfNotEmpty(toPad(seconds), defaultLabels.second);
     }
 }
 

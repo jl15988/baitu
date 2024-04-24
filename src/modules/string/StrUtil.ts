@@ -1,9 +1,9 @@
-/**
- * 字符串工具
- */
 import ArrayUtil from "../array/ArrayUtil";
 import {JSONType} from "../common/JSONUtil";
 
+/**
+ * 字符串工具
+ */
 export class StrUtil {
 
     /**
@@ -207,7 +207,7 @@ export class StrUtil {
     }
 
     /**
-     * 转连字符
+     * 驼峰转连字符
      * @param str 字符串
      * @param spacer 连接符 默认-
      */
@@ -218,13 +218,13 @@ export class StrUtil {
     /**
      * 转驼峰
      * @param str 字符串
-     * @param spacer 连接符 默认['-', '_']
+     * @param spacers 连接符 默认['-', '_']
      */
-    toHump(str: string, ...spacer: string[]) {
-        if (!spacer || spacer.length <= 0) {
-            spacer = ['-', '_'];
+    toHump(str: string, ...spacers: string[]) {
+        if (ArrayUtil.isEmpty(spacers)) {
+            spacers = ['-', '_'];
         }
-        return str.replace(new RegExp('[' + spacer.join("|") + '](\\w)', 'g'), (_, c) => c ? c.toUpperCase() : '');
+        return str.replace(new RegExp('[' + spacers.join("|") + '](\\w)', 'g'), (_, c) => c ? c.toUpperCase() : '');
     }
 
     /**
@@ -233,9 +233,9 @@ export class StrUtil {
      * @param args 格式化项
      */
     format(str: string, ...args: any[]) {
-        if (!this.isBlank(str) && !ArrayUtil.isEmpty(args)) {
+        if (this.isNotBlank(str) && ArrayUtil.isNotEmpty(args)) {
             for (let i = 0; i < args.length; i++) {
-                str = str.replace(new RegExp(`\\{${i}\\}`, 'g'), args[i]);
+                str = str.replace('{}', args[i]);
             }
             return str;
         } else {
@@ -243,11 +243,28 @@ export class StrUtil {
         }
     }
 
-    formatMap(str: string, json: JSONType) {
-        for (let jsonKey in json) {
-            str.replace(jsonKey, json[jsonKey]);
+    /**
+     * 字符串 Map 格式化
+     * @param str 字符串
+     * @param map 参数
+     */
+    formatMap(str: string, map: JSONType) {
+        for (let jsonKey in map) {
+            str = str.replace(new RegExp(`{${jsonKey}}`, 'g'), map[jsonKey]);
         }
         return str;
+    }
+
+    /**
+     * 当字符串不为空时追加对应的字符串
+     * @param str 字符串
+     * @param appends 要追加的字符串
+     */
+    appendIfNotEmpty(str: string, appends: string) {
+        if (this.isNotEmpty(str)) {
+            return str.concat(appends);
+        }
+        return '';
     }
 }
 
