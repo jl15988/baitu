@@ -9,7 +9,7 @@ export class ObjectUtil {
      * 判断任意一种类型数据是否为空：字符串、null、undefined、数组、对象等
      * @param value 数据
      */
-    isEmpty(value: any) {
+    isEmpty(value: any): boolean {
         // 如果值未定义或者为null，返回true
         if (value == null) {
             return true;
@@ -57,7 +57,7 @@ export class ObjectUtil {
      * @param obj 对象
      * @param appends 追加的值
      */
-    appendIfNotEmpty(obj: any, appends: any) {
+    appendIfNotEmpty(obj: any, appends: any): string {
         if (!this.isEmpty(obj)) {
             return obj.toString().concat(appends);
         }
