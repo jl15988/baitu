@@ -22,6 +22,8 @@ import EncryptUtil from "./modules/common/EncryptUtil";
 import JSONUtil from "./modules/common/JSONUtil";
 import UrlUtil from "./modules/common/UrlUtil";
 import TreeUtil from "./modules/common/TreeUtil";
+import ExePool from "./modules/execute/ExePool";
+import Executes from "./modules/execute/Executes";
 
 export default {
     Str,
@@ -51,6 +53,8 @@ export default {
     JSONUtil,
     UrlUtil,
     TreeUtil,
+    ExePool,
+    Executes,
     setPatternPool(patternPool: PatternPool) {
         if (patternPool instanceof PatternPool) {
             this.PatternPool = patternPool;

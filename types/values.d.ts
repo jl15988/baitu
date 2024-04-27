@@ -5,6 +5,7 @@ import Throttle from "./modules/common/Throttle";
 import Debounce from "./modules/common/Debounce";
 import { PatternPool } from "./modules/common/PatternPool";
 import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
+import ExePool from "./modules/execute/ExePool";
 declare const _default: {
     Str: typeof Str;
     StrUtil: import("./modules/string/StrUtil").StrUtil;
@@ -92,6 +93,13 @@ declare const _default: {
     JSONUtil: import("./modules/common/JSONUtil").JSONUtil;
     UrlUtil: import("./modules/common/UrlUtil").UrlUtil;
     TreeUtil: import("./modules/common/TreeUtil").TreeUtil;
+    ExePool: typeof ExePool;
+    Executes: {
+        sleep(millis: number): Promise<unknown>;
+        toPromise(fun: Function | Promise<any>): Promise<any>;
+        toPromiseClosure(fun: Function | Promise<any>): () => Promise<any>;
+        exe(fun: Function | Promise<any>): Promise<any>;
+    };
     setPatternPool(patternPool: PatternPool): void;
 };
 export default _default;

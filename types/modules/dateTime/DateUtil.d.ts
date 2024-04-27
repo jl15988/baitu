@@ -144,7 +144,7 @@ export declare class DateUtil {
         hour: string;
         minute: string;
         second: string;
-    }, pad?: boolean): any;
+    }, pad?: boolean): string;
 }
 declare const _default: DateUtil;
 export default _default;

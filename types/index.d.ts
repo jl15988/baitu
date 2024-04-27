@@ -22,7 +22,9 @@ import EncryptUtil from "./modules/common/EncryptUtil";
 import JSONUtil, { JSONType } from "./modules/common/JSONUtil";
 import UrlUtil from "./modules/common/UrlUtil";
 import TreeUtil from "./modules/common/TreeUtil";
-export { Str, StrUtil, DateTime, DateField, WeekDay, MonthField, DateUtil, Num, NumberUtil, Throttle, Debounce, FileUtil, HexUtil, FileTypeMagicMap, FileTypeMimeMap, ObjectUtil, DesensitizedUtil, ArrayUtil, PatternPool, ValidateUtil, ImgUtil, IDUtil, SnowflakeIdWorker, EncryptUtil, JSONUtil, JSONType, UrlUtil, TreeUtil };
+import ExePool from "./modules/execute/ExePool";
+import Executes from "./modules/execute/Executes";
+export { Str, StrUtil, DateTime, DateField, WeekDay, MonthField, DateUtil, Num, NumberUtil, Throttle, Debounce, FileUtil, HexUtil, FileTypeMagicMap, FileTypeMimeMap, ObjectUtil, DesensitizedUtil, ArrayUtil, PatternPool, ValidateUtil, ImgUtil, IDUtil, SnowflakeIdWorker, EncryptUtil, JSONUtil, JSONType, UrlUtil, TreeUtil, ExePool, Executes };
 declare const Baitu: {
     Str: typeof Str;
     StrUtil: import("./modules/string/StrUtil").StrUtil;
@@ -110,6 +112,13 @@ declare const Baitu: {
     JSONUtil: import("./modules/common/JSONUtil").JSONUtil;
     UrlUtil: import("./modules/common/UrlUtil").UrlUtil;
     TreeUtil: import("./modules/common/TreeUtil").TreeUtil;
+    ExePool: typeof ExePool;
+    Executes: {
+        sleep(millis: number): Promise<unknown>;
+        toPromise(fun: Function | Promise<any>): Promise<any>;
+        toPromiseClosure(fun: Function | Promise<any>): () => Promise<any>;
+        exe(fun: Function | Promise<any>): Promise<any>;
+    };
     setPatternPool(patternPool: import("./modules/common/PatternPool").PatternPool): void;
 };
 export default Baitu;

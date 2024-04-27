@@ -17,7 +17,7 @@ export declare class ObjectUtil {
      * @param obj 对象
      * @param appends 追加的值
      */
-    appendIfNotEmpty(obj: any, appends: any): any;
+    appendIfNotEmpty(obj: any, appends: any): string;
 }
 declare const _default: ObjectUtil;
 export default _default;

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ExePool</title>
+</head>
+<body>
+<script src="../../../lib/baitu.min.js"></script>
+<script>
+    const {ExePool, Executes} = Baitu;
+
+    var threadPool = new ExePool();
+    threadPool.add(() => {
+        console.log('1')
+        return '2'
+    })
+    threadPool.add(() => {
+        console.log('2')
+        return '3'
+    })
+    threadPool.add(() => {
+        console.log('3')
+        return '3'
+    })
+    threadPool.add(() => {
+        console.log('3')
+    })
+    threadPool.add(async () => {
+        console.log('66')
+        await Executes.sleep(2000)
+        console.log('6')
+        return '6'
+    })
+    threadPool.add(() => {
+        console.log('3')
+    })
+    threadPool.add(() => {
+        console.log('3')
+    })
+
+    async function sd() {
+        console.log('a')
+        const res = await threadPool.exe()
+        console.log(JSON.stringify(res))
+        console.log('b')
+        // console.log(await threadPool.getResult())
+        // console.log(JSON.stringify(await threadPool.getResult()))
+    }
+
+    sd()
+</script>
+</body>
+</html>

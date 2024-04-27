@@ -23,6 +23,8 @@ import EncryptUtil from "./modules/common/EncryptUtil";
 import JSONUtil, {JSONType} from "./modules/common/JSONUtil";
 import UrlUtil from "./modules/common/UrlUtil";
 import TreeUtil from "./modules/common/TreeUtil";
+import ExePool from "./modules/execute/ExePool";
+import Executes from "./modules/execute/Executes";
 
 export {
     Str,
@@ -52,7 +54,9 @@ export {
     JSONUtil,
     JSONType,
     UrlUtil,
-    TreeUtil
+    TreeUtil,
+    ExePool,
+    Executes
 };
 
 const Baitu = values;
