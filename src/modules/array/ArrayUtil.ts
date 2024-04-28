@@ -111,6 +111,50 @@ export class ArrayUtil {
             return item;
         });
     }
+
+    /**
+     * 去重
+     * @param arr 要去重的数组
+     */
+    unique(arr: any[]): any[] {
+        return arr.reduce((acc, cur) => {
+            if (!acc.includes(cur)) {
+                acc.push(cur);
+            }
+            return acc;
+        }, []);
+    }
+
+    /**
+     * 取交集
+     * @param arrs 要取交集的数组集
+     */
+    intersection(...arrs: any[]): any[] {
+        const [first, ...rest] = arrs;
+        return first.filter(item => rest.every(array => array.includes(item)));
+    }
+
+    /**
+     * 取并集
+     * @param arrs 要取并集的数组集
+     */
+    union(...arrs: any[]): any[] {
+        return this.unique([].concat(...arrs));
+    }
+
+    /**
+     * 取差集
+     * @param arrs 要取差集的数组集
+     */
+    difference(...arrs: any): any[] {
+        const arrf = this.intersection(arrs);
+        return [...arrs].reduce((acc, curr) => {
+            if (!acc.includes(curr) && !arrf.includes(curr)) {
+                acc.push(curr);
+            }
+            return acc;
+        }, []);
+    }
 }
 
 export default new ArrayUtil();
