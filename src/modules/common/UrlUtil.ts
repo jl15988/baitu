@@ -6,6 +6,12 @@ import StrUtil from "../string/StrUtil";
  */
 export class UrlUtil {
 
+    Fast: UrlUtilFast;
+
+    constructor() {
+        this.Fast = new UrlUtilFast(this);
+    }
+
     /**
      * 获取当前的 url 地址
      */
@@ -102,6 +108,22 @@ export class UrlUtil {
     getParamValuesFast(): any[] {
         const params = this.getParams(this.getUrl());
         return Object.values(params);
+    }
+}
+
+class UrlUtilFast {
+
+    constructor(urlUtil: UrlUtil) {
+        const funs = Object.getOwnPropertyNames(Object.getPrototypeOf(urlUtil));
+        for (let funsKey of funs) {
+            if (funsKey !== "constructor") {
+                this[funsKey] = function () {
+                    const args = [...arguments];
+                    args.unshift(window.location.href);
+                    return urlUtil[funsKey].apply(null, args)
+                }
+            }
+        }
     }
 }
 
