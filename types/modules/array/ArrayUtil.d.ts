@@ -55,6 +55,26 @@ export declare class ArrayUtil {
      * @param array 数组
      */
     deepCopy(array: any[]): any[];
+    /**
+     * 去重
+     * @param arr 要去重的数组
+     */
+    unique(arr: any[]): any[];
+    /**
+     * 取交集
+     * @param arrs 要取交集的数组集
+     */
+    intersection(...arrs: any[]): any[];
+    /**
+     * 取并集
+     * @param arrs 要取并集的数组集
+     */
+    union(...arrs: any[]): any[];
+    /**
+     * 取差集
+     * @param arrs 要取差集的数组集
+     */
+    difference(...arrs: any): any[];
 }
 declare const _default: ArrayUtil;
 export default _default;

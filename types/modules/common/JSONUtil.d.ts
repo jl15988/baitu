@@ -15,10 +15,15 @@ export declare class JSONUtil {
      */
     copy(json: JSONType, ...fields: string[]): JSONType;
     /**
-     * json转url参数
+     * json 转 url 参数
      * @param json json
      */
     toParams(json: JSONType): string;
+    /**
+     * 提取字符串中的 JSON
+     * @param str 字符串
+     */
+    getJSONFromString(str: string): JSONType[];
 }
 declare const _default: JSONUtil;
 export default _default;

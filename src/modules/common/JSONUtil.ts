@@ -26,7 +26,7 @@ export class JSONUtil {
     }
 
     /**
-     * json转url参数
+     * json 转 url 参数
      * @param json json
      */
     toParams(json: JSONType): string {
@@ -34,6 +34,22 @@ export class JSONUtil {
             return encodeURIComponent(key) + '=' +
                 encodeURIComponent(json[key]);
         }).join('&');
+    }
+
+    /**
+     * 提取字符串中的 JSON
+     * @param str 字符串
+     */
+    getJSONFromString(str: string): JSONType[] {
+        const regex = /\{.*?\}/gs;
+        const matches = str.match(regex);
+        return matches.map(match => {
+            try {
+                return JSON.parse(match);
+            } catch (error) {
+                return null;
+            }
+        }).filter(value => value !== null);
     }
 }
 

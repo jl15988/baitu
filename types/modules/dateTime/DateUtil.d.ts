@@ -134,9 +134,9 @@ export declare class DateUtil {
         seconds: number;
     };
     /**
-     * 格式化秒数为 xx天xx小时xx分钟xx秒，如果达不到某一单位则不添加
+     * 格式化秒数为 xx天xx时xx分xx秒，如果达不到某一单位则不添加
      * @param secondsValue 秒数
-     * @param labels 天、小时、分钟、秒的属性名，默认天、小时、分钟、秒
+     * @param labels 天、小时、分钟、秒的属性名，默认天、时、分、秒
      * @param pad 是否补零
      */
     formatSeconds(secondsValue: number, labels: {
