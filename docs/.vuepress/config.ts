@@ -2,7 +2,7 @@ import { defineUserConfig } from "vuepress";
 import theme from "./theme.js";
 
 export default defineUserConfig({
-  base: "/baitu/",
+  base: "/baitu-doc/",
 
   lang: "zh-CN",
   title: "Baitu 文档",
