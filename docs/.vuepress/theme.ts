@@ -4,7 +4,7 @@ import sidebar from "./sidebar.js";
 
 // @ts-ignore
 export default hopeTheme({
-  hostname: "https://jl15988.gitee.io/baitu/",
+  hostname: "http://www.jl15988.com/baitu-doc/",
 
   author: {
     name: "会功夫的李白",
