@@ -53,7 +53,7 @@ new DateTime();
 
 ## 文档
 
-[https://jl15988.gitee.io/baitu/](https://jl15988.gitee.io/baitu/)
+[http://www.jl15988.com/baitu-doc/](http://www.jl15988.com/baitu-doc/)
 
 对于农历、及数字计算确保精度发现了两个开源的：[寿星天文历](https://github.com/sxwnl/sxwnl) 、[decimal.js](https://github.com/MikeMcl/decimal.js) ，因为功能复杂，有时间简单集成一下。
 
