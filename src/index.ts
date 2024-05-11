@@ -25,6 +25,7 @@ import UrlUtil from "./modules/common/UrlUtil";
 import TreeUtil from "./modules/common/TreeUtil";
 import ExePool from "./modules/execute/ExePool";
 import Executes from "./modules/execute/Executes";
+import ChineseDate from "./modules/dateTime/chinese/ChineseDate";
 
 export {
     Str,
@@ -56,7 +57,8 @@ export {
     UrlUtil,
     TreeUtil,
     ExePool,
-    Executes
+    Executes,
+    ChineseDate
 };
 
 const Baitu = values;

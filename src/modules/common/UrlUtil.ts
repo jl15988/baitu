@@ -1,16 +1,16 @@
 import {JSONType} from "./JSONUtil";
 import StrUtil from "../string/StrUtil";
 
+type KeysOfType<T, U> = {
+    [P in keyof T]: T[P] extends U ? P : never;
+}[keyof T];
+
 /**
  * Url工具
  */
 export class UrlUtil {
 
-    Fast: UrlUtilFast;
-
-    constructor() {
-        this.Fast = new UrlUtilFast(this);
-    }
+    Fast;
 
     /**
      * 获取当前的 url 地址
@@ -79,52 +79,25 @@ export class UrlUtil {
         const params = this.getParams(url);
         return Object.values(params);
     }
+}
 
-    /**
-     * 直接从当前 url 中获取参数，并转为 JSON
-     */
-    getParamsFast(): JSONType {
-        return this.getParams(this.getUrl());
-    }
-
-    /**
-     * 直接从当前 url 中获取某个参数
-     * @param name 参数名
-     */
-    getParamFast(name: string): string {
-        return this.getParam(this.getUrl(), name);
-    }
-
-    /**
-     * 获取当前 url 中所有的参数名数组
-     */
-    getParamKeysFast(): string[] {
-        return this.getParamKeys(this.getUrl());
-    }
-
-    /**
-     * 获取当前 url 中所有参数值数组
-     */
-    getParamValuesFast(): any[] {
-        const params = this.getParams(this.getUrl());
-        return Object.values(params);
+const urlUtil = new UrlUtil();
+/**
+ * 快速获取
+ */
+urlUtil.Fast = {
+    getParams(): JSONType {
+        return urlUtil.getParams(urlUtil.getUrl());
+    },
+    getParam(name: string): string {
+        return urlUtil.getParam(urlUtil.getUrl(), name);
+    },
+    getParamKeys(): string[] {
+        return urlUtil.getParamKeys(urlUtil.getUrl());
+    },
+    getParamValues(): any[] {
+        return urlUtil.getParamValues(urlUtil.getUrl());
     }
 }
 
-class UrlUtilFast {
-
-    constructor(urlUtil: UrlUtil) {
-        const funs = Object.getOwnPropertyNames(Object.getPrototypeOf(urlUtil));
-        for (let funsKey of funs) {
-            if (funsKey !== "constructor") {
-                this[funsKey] = function () {
-                    const args = [...arguments];
-                    args.unshift(window.location.href);
-                    return urlUtil[funsKey].apply(null, args)
-                }
-            }
-        }
-    }
-}
-
-export default new UrlUtil();
+export default urlUtil;

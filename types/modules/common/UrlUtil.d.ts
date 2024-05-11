@@ -3,8 +3,7 @@ import { JSONType } from "./JSONUtil";
  * Url工具
  */
 export declare class UrlUtil {
-    Fast: UrlUtilFast;
-    constructor();
+    Fast: any;
     /**
      * 获取当前的 url 地址
      */
@@ -35,26 +34,6 @@ export declare class UrlUtil {
      * @param url url 地址
      */
     getParamValues(url: string): any[];
-    /**
-     * 直接从当前 url 中获取参数，并转为 JSON
-     */
-    getParamsFast(): JSONType;
-    /**
-     * 直接从当前 url 中获取某个参数
-     * @param name 参数名
-     */
-    getParamFast(name: string): string;
-    /**
-     * 获取当前 url 中所有的参数名数组
-     */
-    getParamKeysFast(): string[];
-    /**
-     * 获取当前 url 中所有参数值数组
-     */
-    getParamValuesFast(): any[];
 }
-declare class UrlUtilFast {
-    constructor(urlUtil: UrlUtil);
-}
-declare const _default: UrlUtil;
-export default _default;
+declare const urlUtil: UrlUtil;
+export default urlUtil;

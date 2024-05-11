@@ -24,6 +24,7 @@ import UrlUtil from "./modules/common/UrlUtil";
 import TreeUtil from "./modules/common/TreeUtil";
 import ExePool from "./modules/execute/ExePool";
 import Executes from "./modules/execute/Executes";
+import ChineseDate from "./modules/dateTime/chinese/ChineseDate";
 
 export default {
     Str,
@@ -55,6 +56,7 @@ export default {
     TreeUtil,
     ExePool,
     Executes,
+    ChineseDate,
     setPatternPool(patternPool: PatternPool) {
         if (patternPool instanceof PatternPool) {
             this.PatternPool = patternPool;
