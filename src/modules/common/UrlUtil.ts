@@ -1,5 +1,6 @@
 import {JSONType} from "./JSONUtil";
 import StrUtil from "../string/StrUtil";
+import ValidateUtil from "../string/ValidateUtil";
 
 type KeysOfType<T, U> = {
     [P in keyof T]: T[P] extends U ? P : never;
@@ -11,6 +12,14 @@ type KeysOfType<T, U> = {
 export class UrlUtil {
 
     Fast;
+
+    /**
+     * 判断是否为 url
+     * @param str 要判断的字符串
+     */
+    isUrl(str: string): boolean {
+        return ValidateUtil.isUrlHttp(str);
+    }
 
     /**
      * 获取当前的 url 地址
@@ -79,6 +88,30 @@ export class UrlUtil {
         const params = this.getParams(url);
         return Object.values(params);
     }
+
+    /**
+     * 获取 url 中的域名
+     * @param url url 地址
+     */
+    getDomain(url: string): string {
+        if (!this.isUrl(url)) {
+            return '';
+        }
+        const match = url.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)/im);
+        return match && match[1];
+    }
+
+    /**
+     * 获取 url 中的 hash 参数
+     * @param url url 地址
+     */
+    getHash(url: string): string {
+        if (!this.isUrl(url)) {
+            return '';
+        }
+        const match = url.match(/(?:\#)(.*)/);
+        return match && match[1];
+    }
 }
 
 const urlUtil = new UrlUtil();
@@ -97,6 +130,12 @@ urlUtil.Fast = {
     },
     getParamValues(): any[] {
         return urlUtil.getParamValues(urlUtil.getUrl());
+    },
+    getDomain(): string {
+        return urlUtil.getDomain(urlUtil.getUrl());
+    },
+    getHash(): string {
+        return urlUtil.getHash(urlUtil.getUrl());
     }
 }
 

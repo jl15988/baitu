@@ -15,12 +15,11 @@
         '232': '2314e3'
     }))
 
-    console.log(UrlUtil.getParamsFast())
     console.log(UrlUtil.getParams())
     console.log(UrlUtil.getParam('_ijt'))
-    console.log(UrlUtil.getParamFast('_ijt'))
-    console.log(UrlUtil.getParamKeysFast())
-    console.log(UrlUtil.getParamValuesFast())
+    console.log(UrlUtil.getDomain('https://doc.hutool.cn/pages/ChineseDate/#%E4%BD%BF%E7%94%A8'))
+    console.log(UrlUtil.getDomain('aa://doc.hutool.cn/pages/ChineseDate/#%E4%BD%BF%E7%94%A8'))
+    console.log(UrlUtil.getHash('https://doc.hutool.cn/pages/ChineseDate/#%E4%BD%BF%E7%94%A8'))
 
     console.log("fast-----------")
     console.log(UrlUtil.Fast)

@@ -5,6 +5,11 @@ import { JSONType } from "./JSONUtil";
 export declare class UrlUtil {
     Fast: any;
     /**
+     * 判断是否为 url
+     * @param str 要判断的字符串
+     */
+    isUrl(str: string): boolean;
+    /**
      * 获取当前的 url 地址
      */
     getUrl(): string;
@@ -34,6 +39,16 @@ export declare class UrlUtil {
      * @param url url 地址
      */
     getParamValues(url: string): any[];
+    /**
+     * 获取 url 中的域名
+     * @param url url 地址
+     */
+    getDomain(url: string): string;
+    /**
+     * 获取 url 中的 hash 参数
+     * @param url url 地址
+     */
+    getHash(url: string): string;
 }
 declare const urlUtil: UrlUtil;
 export default urlUtil;

@@ -103,6 +103,29 @@ JSON 数据格式转为 GET 请求的 URL 参数
 
 
 
+## 7. 判断是否为 url - isUrl
+
+判断字符串是否为 url 格式
+
+
+
+## 8. 获取域名 - getDomain
+
+传入 url 获取 url 的域名
+
+
+
+## 9. 获取 Hash 参数 - getHash
+
+传入 url 获取 hash 参数
+
+
+
 ### 快速获取
 
-直接获取当前 url 地址中的参数值：getParamValuesFast
+通过 UrlUtil.Fast 来对当前 url 快速操作，如：
+
+```js
+urlUtil.Fast.getParams();
+```
+

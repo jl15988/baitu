@@ -49,7 +49,7 @@ export class PatternPool {
     /**
      * http网址
      */
-    readonly URL_HTTP = new RegExp("(https://|http://)?([\\w-]+\\.)+[\\w-]+(:\\d+)*(/[\\w- ./?%&=]*)?");
+    readonly URL_HTTP = new RegExp("^(https://|http://)?([\\w-]+\\.)+[\\w-]+(:\\d+)*(/[\\w- ./?%&=]*)?");
     /**
      * 车牌号
      */
