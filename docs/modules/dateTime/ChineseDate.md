@@ -6,8 +6,9 @@ tag:
  - 农历日期
 ---
 
-
 在某些场景中，需要用到农历日期，如：时间组件、万年历等，所以我们参考了[寿星天文历](https://github.com/sxwnl/sxwnl)，针对农历日期进行了封装，具有比较完善的农历信息，能够获取到**生肖、节气、节日、朝代、干支、农历名**等信息。
+
+该对象通过复杂的地月日公式计算出农历，并非速查表形式（除通过农历构建），故可追溯前古预知后今，可作为万年历使用。
 
 
 
@@ -24,6 +25,24 @@ const chineseDate = new ChineseDate(2024, 5, 13);
 ```js
 const chineseDateB = new ChineseDate(2024, 5);
 const chineseDateC = new ChineseDate(2024);
+```
+
+
+
+或者传入 Date 来构建
+
+```js
+var chineseDate7 = new ChineseDate(new Date());
+console.log(chineseDate7.toString()) // 甲辰龙年 四月初六
+```
+
+
+
+同样你也可以通过农历日期构造（适用于1900.1.31~2100.12.1）
+
+```js
+var chineseDate6 = ChineseDate.fromLunar(2024, 5);
+console.log(chineseDate6.toString()) // 甲辰龙年 五月初一
 ```
 
 
