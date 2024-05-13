@@ -80,7 +80,7 @@ export declare class DateUtil {
      * 13位或10位时间戳
      * @param dateTime 日期
      */
-    parse(dateTime: string | number | Date | DateTime): Date;
+    parse(dateTime: string | number | Date | DateTime): DateTime;
     /**
      * 将参数转为DateTime类型
      * @param dateTime

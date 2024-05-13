@@ -1,100 +1,68 @@
-interface DayInfo {
-    julian?: number;
-    month?: string;
-    nextMonth?: string;
-    monthSize?: number;
-    leapMonth?: boolean;
-    dayIndex?: number;
-    name?: string;
-    curDz?: number;
-    curXz?: number;
-    curLq?: number;
-    curMz?: number;
-    curXs?: number;
-    solarTerms?: string;
-    gan?: string;
-    zhi?: string;
-}
-interface DayInfos {
-    julian?: number;
-    index?: number;
-    year?: number;
-    month?: string;
-    monthNum?: number;
-    leapMonth?: boolean;
-    nextMonth?: string;
-    dayIndex?: number;
-    day?: string;
-    curDz?: number;
-    curXz?: number;
-    curLq?: number;
-    curMz?: number;
-    curXs?: number;
-}
-interface MonthInfos {
-    days?: DayInfos[];
-}
-interface MonthInfo {
-    index?: number;
-    name?: string;
-    nextName?: string;
-    isLeap?: boolean;
-    size?: number;
-    julian?: number;
-    gan?: string;
-    zhi?: string;
-}
-interface YearInfo {
-    dynasty?: string;
-    name?: string;
-    ruler?: string;
-    eraName?: string;
-    year?: number;
-    gan?: string;
-    zhi?: string;
-    shx?: string;
-    Lyear?: number;
-}
+import { DayAllInfo, DynastyInfo, FestivalInfo, MonthInfo, SolarTermsInfo, YearInfo } from "./ChineseDateUtil";
 declare class ChineseDate {
-    JRW: string[];
-    numCn: string[];
-    Gan: string[];
-    Zhi: string[];
-    ShX: string[];
-    Jq: string[];
-    Ym: string[];
-    Rm: string[];
-    Yxm: string[];
-    JRB: string[][];
-    JNB: (string | number)[];
-    constructor();
-    getDay(): void;
-    getDayName(u: any, r: any): void;
-    getFestival(year: number, month: number, day: number): {
-        A: string;
-        B: string;
-        C: string;
-    };
-    getNH(year: number): string;
+    year: number;
+    month: number;
+    day: number;
+    dayAllInfo: DayAllInfo;
+    constructor(year: number);
+    constructor(year: number, month: number);
+    constructor(year: number, month: number, day: number);
+    _check(): void;
     /**
-     * 获取年信息
-     * @param year 年
+     * 获取日的所有信息
      */
-    getYearInfo(year: number): YearInfo;
-    getMonthInfos(year: number, month: number): MonthInfos;
+    getAllInfo(): DayAllInfo;
+    /**
+     * 获取公历月所有日的农历信息
+     */
+    getMonthDays(): DayAllInfo[];
     /**
      * 获取月信息
-     * @param year 年
-     * @param month 月
      */
-    getMonthInfo(year: number, month: number): MonthInfo;
+    getMonth(): MonthInfo;
     /**
-     * 获取日信息
-     * @param year 年
-     * @param month 月
-     * @param day 日
+     * 获取年信息
      */
-    getDayInfo(year: number, month: number, day: number): DayInfo;
+    getYear(): YearInfo;
+    /**
+     * 获取农历节日
+     * 其中 super 为重要节日，如：“春节”
+     * common 为普通节日，如：“重阳节”
+     * other 为其他节日
+     */
+    getFestival(): FestivalInfo;
+    /**
+     * 获取生肖
+     */
+    getChineseZodiac(): string;
+    /**
+     * 获取天干
+     */
+    getGan(): string;
+    /**
+     * 获取地支
+     */
+    getZhi(): string;
+    /**
+     * 获取干支纪年
+     */
+    getCyclical(): string;
+    /**
+     * 获取黄帝纪年
+     */
+    getHuangdiYear(): number;
+    /**
+     * 获取朝代
+     */
+    getDynasty(): DynastyInfo;
+    /**
+     * 获取节气
+     */
+    getSolarTerms(): SolarTermsInfo;
+    /**
+     * 获取干支纪日
+     */
+    getCyclicalYMD(): string;
+    toString(): string;
 }
-declare const _default: ChineseDate;
-export default _default;
+export default ChineseDate;

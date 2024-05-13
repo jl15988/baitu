@@ -25,6 +25,7 @@ import UrlUtil from "./modules/common/UrlUtil";
 import TreeUtil from "./modules/common/TreeUtil";
 import ExePool from "./modules/execute/ExePool";
 import Executes from "./modules/execute/Executes";
+import ChineseDateUtil from "./modules/dateTime/chinese/ChineseDateUtil";
 import ChineseDate from "./modules/dateTime/chinese/ChineseDate";
 
 export {
@@ -58,6 +59,7 @@ export {
     TreeUtil,
     ExePool,
     Executes,
+    ChineseDateUtil,
     ChineseDate
 };
 

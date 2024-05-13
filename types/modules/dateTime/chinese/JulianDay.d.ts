@@ -5,6 +5,7 @@ declare class JulianDay {
     dt_T(t: any): number;
     dt_ext(y: any, jsd: any): number;
     dt_calc(y: any): number;
+    timeStr(jd: any): string;
 }
 declare const _default: JulianDay;
 export default _default;

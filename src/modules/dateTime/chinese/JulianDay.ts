@@ -56,6 +56,22 @@ class JulianDay {
         var t1 = (y - d[i]) / (d[i + 5] - d[i]) * 10, t2 = t1 * t1, t3 = t2 * t1;
         return d[i + 1] + d[i + 2] * t1 + d[i + 3] * t2 + d[i + 4] * t3;
     }
+
+    //提取jd中的时间(去除日期)
+    timeStr(jd) {
+        let h, m, s;
+        jd += 0.5;
+        jd = (jd - int2(jd));
+        s = int2(jd * 86400 + 0.5);
+        h = int2(s / 3600);
+        s -= h * 3600;
+        m = int2(s / 60);
+        s -= m * 60;
+        h = "0" + h;
+        m = "0" + m;
+        s = "0" + s;
+        return h.substr(h.length - 2, 2) + ':' + m.substr(m.length - 2, 2) + ':' + s.substr(s.length - 2, 2);
+    }
 }
 
 export default new JulianDay()

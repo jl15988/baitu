@@ -7,12 +7,36 @@
 <body>
 <script src="../../../lib/baitu.min.js"></script>
 <script>
-const {ChineseDate} = Baitu
+const {ChineseDateUtil, ChineseDate} = Baitu;
 
-// console.log(ChineseDate.getYearInfo(2024))
-// console.log(ChineseDate.getMonthInfo(2024, 5))
-console.log(ChineseDate.getDayInfo(2025, 1, 1))
-console.log(ChineseDate.getFestival(2025, 1, 1))
+var chineseDate = new ChineseDate(2024, 5, 13);
+var chineseDate2 = new ChineseDate(2024, 5, 1);
+var chineseDate3 = new ChineseDate(2024, 5, 5);
+var chineseDate4 = new ChineseDate(2024, 5);
+var chineseDate5 = new ChineseDate(450, 5);
+console.log(chineseDate.getAllInfo())
+console.log(chineseDate.getMonthDays())
+console.log(chineseDate.getMonth())
+console.log(chineseDate.getYear())
+console.log(chineseDate2.getFestival())
+console.log(chineseDate2.getChineseZodiac())
+console.log(chineseDate2.getGan())
+console.log(chineseDate2.getZhi())
+console.log(chineseDate2.getCyclical())
+console.log(chineseDate2.getHuangdiYear())
+console.log(chineseDate2.getDynasty())
+console.log(chineseDate5.getDynasty())
+console.log(chineseDate3.getSolarTerms())
+console.log(chineseDate3.getCyclicalYMD())
+console.log(chineseDate3.toString())
+console.log(chineseDate4.toString())
+
+// console.log(ChineseDateUtil.getYearInfo(2025))
+// console.log(ChineseDateUtil.getMonthInfo(2024, 5))
+// console.log(ChineseDateUtil.getDayAllInfo(2024, 5, 13))
+// console.log(ChineseDateUtil.getSolarTermsInfo(2024, 6, 21))
+// console.log(ChineseDateUtil.getFestival(2025, 1, 1))
+// console.log(ChineseDateUtil.getMonthDays(2025, 1))
 </script>
 </body>
 </html>
