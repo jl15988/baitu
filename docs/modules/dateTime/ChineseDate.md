@@ -124,7 +124,7 @@ console.log(chineseDate2.getChineseZodiac())
 
 
 
-## 8. 获取天支
+## 8. 获取干支
 
 ```js
 console.log(chineseDate2.getGan()) // 甲
