@@ -14,6 +14,8 @@ var chineseDate2 = new ChineseDate(2024, 5, 1);
 var chineseDate3 = new ChineseDate(2024, 5, 5);
 var chineseDate4 = new ChineseDate(2024, 5);
 var chineseDate5 = new ChineseDate(450, 5);
+var chineseDate6 = ChineseDate.fromLunar(2024, 5);
+var chineseDate7 = new ChineseDate(new Date());
 console.log(chineseDate.getAllInfo())
 console.log(chineseDate.getMonthDays())
 console.log(chineseDate.getMonth())
@@ -30,6 +32,8 @@ console.log(chineseDate3.getSolarTerms())
 console.log(chineseDate3.getCyclicalYMD())
 console.log(chineseDate3.toString())
 console.log(chineseDate4.toString())
+console.log(chineseDate6.toString())
+console.log(chineseDate7.toString())
 
 // console.log(ChineseDateUtil.getYearInfo(2025))
 // console.log(ChineseDateUtil.getMonthInfo(2024, 5))

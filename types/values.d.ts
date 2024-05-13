@@ -128,6 +128,7 @@ declare const _default: {
         getSolarTermsInfo(year: number, month: number, day: number): import("./modules/dateTime/chinese/ChineseDateUtil").SolarTermsInfo;
         qi_accurate(W: any): number;
         so_accurate(W: any): number;
+        lunar2solar(chineseYear: number, chineseMonth: number, chineseDay: number): Date;
     };
     ChineseDate: typeof ChineseDate;
     setPatternPool(patternPool: PatternPool): void;

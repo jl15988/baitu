@@ -164,6 +164,13 @@ declare class ChineseDateUtil {
     getSolarTermsInfo(year: number, month: number, day: number): SolarTermsInfo;
     qi_accurate(W: any): number;
     so_accurate(W: any): number;
+    /**
+     * 农历转公历
+     * @param chineseYear 农历年
+     * @param chineseMonth 农历月
+     * @param chineseDay 农历天
+     */
+    lunar2solar(chineseYear: number, chineseMonth: number, chineseDay: number): Date;
 }
 declare const _default: ChineseDateUtil;
 export default _default;

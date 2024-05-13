@@ -13,16 +13,55 @@ class ChineseDate {
     day: number;
     dayAllInfo: DayAllInfo;
 
-    constructor(year: number);
-    constructor(year: number, month: number);
-    constructor(year: number, month: number, day: number);
+    constructor(yearOrDate: number | Date);
+    constructor(yearOrDate: number | Date, month: number);
+    constructor(yearOrDate: number | Date, month: number, day: number);
 
-    constructor(year: number, month?: number, day?: number) {
-        this.year = year;
-        this.month = month || 1;
-        this.day = day || 1;
+    constructor(yearOrDate: number | Date, month?: number, day?: number) {
+        if (yearOrDate instanceof Date) {
+            this.year = yearOrDate.getFullYear();
+            this.month = yearOrDate.getMonth() + 1;
+            this.day = yearOrDate.getDate();
+        } else {
+            this.year = yearOrDate;
+            this.month = month || 1;
+            this.day = day || 1;
+        }
         this._check();
         return this;
+    }
+
+    /**
+     * 通过农历构建
+     * @param chineseYear 农历年
+     */
+    static fromLunar(chineseYear: number);
+    /**
+     * 通过农历构建
+     * @param chineseYear 农历年
+     * @param chineseMonth 农历月
+     */
+    static fromLunar(chineseYear: number, chineseMonth: number);
+    /**
+     * 通过农历构建
+     * @param chineseYear 农历年
+     * @param chineseMonth 农历月
+     * @param chineseDay 农历日
+     */
+    static fromLunar(chineseYear: number, chineseMonth: number, chineseDay: number);
+
+    /**
+     * 通过农历构建
+     * @param chineseYear 农历年
+     * @param chineseMonth 农历月
+     * @param chineseDay 农历日
+     */
+    static fromLunar(chineseYear: number, chineseMonth?: number, chineseDay?: number) {
+        const date = ChineseDateUtil.lunar2solar(chineseYear, chineseMonth || 1, chineseDay || 1);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return new ChineseDate(year, month, day);
     }
 
     _check(): void {

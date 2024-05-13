@@ -4,9 +4,27 @@ declare class ChineseDate {
     month: number;
     day: number;
     dayAllInfo: DayAllInfo;
-    constructor(year: number);
-    constructor(year: number, month: number);
-    constructor(year: number, month: number, day: number);
+    constructor(yearOrDate: number | Date);
+    constructor(yearOrDate: number | Date, month: number);
+    constructor(yearOrDate: number | Date, month: number, day: number);
+    /**
+     * 通过农历构建
+     * @param chineseYear 农历年
+     */
+    static fromLunar(chineseYear: number): any;
+    /**
+     * 通过农历构建
+     * @param chineseYear 农历年
+     * @param chineseMonth 农历月
+     */
+    static fromLunar(chineseYear: number, chineseMonth: number): any;
+    /**
+     * 通过农历构建
+     * @param chineseYear 农历年
+     * @param chineseMonth 农历月
+     * @param chineseDay 农历日
+     */
+    static fromLunar(chineseYear: number, chineseMonth: number, chineseDay: number): any;
     _check(): void;
     /**
      * 获取日的所有信息

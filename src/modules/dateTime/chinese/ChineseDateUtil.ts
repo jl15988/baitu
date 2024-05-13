@@ -4,6 +4,7 @@ import JR from "./data/JR";
 import SSQ from "./SSQ";
 import {JRW} from "./data/JRW";
 import Ephemeris from "./Ephemeris";
+import lunar2solar from "./lunar2solar";
 
 function int2(v) {
     return Math.floor(v);
@@ -1023,6 +1024,16 @@ class ChineseDateUtil {
     so_accurate(W) {
         let t = Ephemeris.MS_aLon_t(W) * 36525;
         return t - JulianDay.dt_T(t) + 8 / 24;
+    }
+
+    /**
+     * 农历转公历
+     * @param chineseYear 农历年
+     * @param chineseMonth 农历月
+     * @param chineseDay 农历天
+     */
+    lunar2solar(chineseYear: number, chineseMonth: number, chineseDay: number): Date {
+        return lunar2solar(chineseYear, chineseMonth, chineseDay);
     }
 }
 
