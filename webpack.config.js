@@ -2,6 +2,7 @@
 const path = require('path');
 const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+// const webpack = require("webpack");
 //使用exports暴露需要的方法
 module.exports = {
     //1，entry入口
@@ -9,6 +10,7 @@ module.exports = {
     //output输出---因为修改的属性较多，所依使用对象形式更改
     output: {
         filename: 'baitu.min.js',//默认情况下创建的文件名
+        // chunkFilename: '[name].js',
         path: path.resolve(__dirname, 'lib'),
         library: "Baitu",
         libraryTarget: "umd",
@@ -32,7 +34,15 @@ module.exports = {
             }
         ]
     },
-
+    // 将分散的js合并
+    // optimization: {
+    //     splitChunks: {
+    //         name: 'crypto-js',
+    //         chunks(chunk) {
+    //             return chunk === 'crypto-js'
+    //         }
+    //     }
+    // },
 //plugins插件
 //补充一些功能插件
     plugins: [

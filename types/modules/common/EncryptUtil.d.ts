@@ -1,14 +1,3 @@
-import Pkcs7 from 'crypto-js/pad-pkcs7';
-import Ansix923 from 'crypto-js/pad-ansix923';
-import Iso10126 from 'crypto-js/pad-iso10126';
-import Iso97971 from 'crypto-js/pad-iso97971';
-import NoPadding from 'crypto-js/pad-nopadding';
-import ZeroPadding from 'crypto-js/pad-zeropadding';
-import CFB from 'crypto-js/mode-cfb';
-import CTR from 'crypto-js/mode-ctr';
-import CTRGladman from 'crypto-js/mode-ctr-gladman';
-import ECB from 'crypto-js/mode-ecb';
-import OFB from 'crypto-js/mode-ofb';
 export declare class Base64Class {
     /**
      * 编码
@@ -37,14 +26,27 @@ export declare class RSA {
      */
     decodePrivate(str: string): string;
 }
-export type AESPadding = Pkcs7 | Ansix923 | Iso10126 | Iso97971 | NoPadding | ZeroPadding;
-export type AESMode = CFB | CTR | CTRGladman | ECB | OFB;
 declare class AESClass {
     secretKey: string;
     iv: string;
-    mode: AESMode;
-    padding: AESPadding;
-    pads: {
+    mode: any;
+    padding: any;
+    constructor(secretKey: string);
+    setIv(iv: string): void;
+    static build(secretKey: string): AESClass;
+    setPadding(padding: any): void;
+    setMode(mode: any): void;
+    encode(str: string): string;
+    decode(str: string): string;
+}
+declare class EncryptUtil {
+    CryptoJS: any;
+    JSEncrypt: any;
+    MD5Encrypt: any;
+    AESEncrypt: any;
+    Base64Encrypt: any;
+    CJUTF8: any;
+    AESPad: {
         Pkcs7: any;
         Ansix923: any;
         Iso10126: any;
@@ -52,21 +54,15 @@ declare class AESClass {
         NoPadding: any;
         ZeroPadding: any;
     };
-    mods: {
+    AESMod: {
         CFB: any;
         CTR: any;
         CTRGladman: any;
         ECB: any;
         OFB: any;
     };
-    constructor(secretKey: string);
-    static build(secretKey: string): AESClass;
-    setPadding(padding: AESPadding): void;
-    setMode(mode: AESMode): void;
-    encode(str: string): string;
-    decode(str: string): string;
-}
-declare class EncryptUtil {
+    setCryptoJS(CryptoJS: any): void;
+    setJSEncrypt(JSEncrypt: any): void;
     /**
      * Base64加密
      */
@@ -82,5 +78,5 @@ declare class EncryptUtil {
     RSA: typeof RSA;
     AES: typeof AESClass;
 }
-declare const _default: EncryptUtil;
-export default _default;
+declare const encryptUtil: EncryptUtil;
+export default encryptUtil;

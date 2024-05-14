@@ -75,6 +75,8 @@ export declare class ArrayUtil {
      * @param arrs 要取差集的数组集
      */
     difference(...arrs: any): any[];
+    groupBy(): void;
+    orderBy(): void;
 }
 declare const _default: ArrayUtil;
 export default _default;

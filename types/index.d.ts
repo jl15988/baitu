@@ -54,6 +54,29 @@ declare const Baitu: {
     };
     SnowflakeIdWorker: typeof SnowflakeIdWorker;
     EncryptUtil: {
+        CryptoJS: any;
+        JSEncrypt: any;
+        MD5Encrypt: any;
+        AESEncrypt: any;
+        Base64Encrypt: any;
+        CJUTF8: any;
+        AESPad: {
+            Pkcs7: any;
+            Ansix923: any;
+            Iso10126: any;
+            Iso97971: any;
+            NoPadding: any;
+            ZeroPadding: any;
+        };
+        AESMod: {
+            CFB: any;
+            CTR: any;
+            CTRGladman: any;
+            ECB: any;
+            OFB: any;
+        };
+        setCryptoJS(CryptoJS: any): void;
+        setJSEncrypt(JSEncrypt: any): void;
         Base64: import("./modules/common/EncryptUtil").Base64Class;
         MD5: (str: string) => string;
         RSA: typeof import("./modules/common/EncryptUtil").RSA;
@@ -63,21 +86,7 @@ declare const Baitu: {
                 iv: string;
                 mode: any;
                 padding: any;
-                pads: {
-                    Pkcs7: any;
-                    Ansix923: any;
-                    Iso10126: any;
-                    Iso97971: any;
-                    NoPadding: any;
-                    ZeroPadding: any;
-                };
-                mods: {
-                    CFB: any;
-                    CTR: any;
-                    CTRGladman: any;
-                    ECB: any;
-                    OFB: any;
-                };
+                setIv(iv: string): void;
                 setPadding(padding: any): void;
                 setMode(mode: any): void;
                 encode(str: string): string;
@@ -88,21 +97,7 @@ declare const Baitu: {
                 iv: string;
                 mode: any;
                 padding: any;
-                pads: {
-                    Pkcs7: any;
-                    Ansix923: any;
-                    Iso10126: any;
-                    Iso97971: any;
-                    NoPadding: any;
-                    ZeroPadding: any;
-                };
-                mods: {
-                    CFB: any;
-                    CTR: any;
-                    CTRGladman: any;
-                    ECB: any;
-                    OFB: any;
-                };
+                setIv(iv: string): void;
                 setPadding(padding: any): void;
                 setMode(mode: any): void;
                 encode(str: string): string;

@@ -155,6 +155,14 @@ export class ArrayUtil {
             return acc;
         }, []);
     }
+
+    groupBy() {
+
+    }
+
+    orderBy() {
+
+    }
 }
 
 export default new ArrayUtil();

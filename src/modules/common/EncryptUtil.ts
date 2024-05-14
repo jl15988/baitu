@@ -1,22 +1,3 @@
-import Base64 from 'crypto-js/enc-base64';
-import Utf8 from 'crypto-js/enc-utf8';
-import MD5 from 'crypto-js/md5';
-import AES from 'crypto-js/aes';
-import WordArray from 'crypto-js/lib-typedarrays';
-import Pkcs7 from 'crypto-js/pad-pkcs7';
-import Ansix923 from 'crypto-js/pad-ansix923';
-import Iso10126 from 'crypto-js/pad-iso10126';
-import Iso97971 from 'crypto-js/pad-iso97971';
-import NoPadding from 'crypto-js/pad-nopadding';
-import ZeroPadding from 'crypto-js/pad-zeropadding';
-import CFB from 'crypto-js/mode-cfb';
-import CTR from 'crypto-js/mode-ctr';
-import CTRGladman from 'crypto-js/mode-ctr-gladman';
-import ECB from 'crypto-js/mode-ecb';
-import OFB from 'crypto-js/mode-ofb';
-import * as Base64C from 'crypto-js/enc-base64';
-import {JSEncrypt} from "jsencrypt";
-
 export class Base64Class {
 
     /**
@@ -24,7 +5,7 @@ export class Base64Class {
      * @param str 字符串
      */
     encode(str: string) {
-        return Base64.stringify(Utf8.parse(str));
+        return encryptUtil.Base64Encrypt.stringify(encryptUtil.CJUTF8.parse(str));
     }
 
     /**
@@ -32,7 +13,7 @@ export class Base64Class {
      * @param str 加密的字符串
      */
     decode(str: string) {
-        return Base64.parse(str).toString(Utf8);
+        return encryptUtil.Base64Encrypt.parse(str).toString(encryptUtil.CJUTF8);
     }
 }
 
@@ -55,7 +36,7 @@ export class RSA {
      */
     encodePublic(str: string): string {
         const publicKey = this.publicKey;
-        const encrypt = new JSEncrypt();
+        const encrypt = new encryptUtil.JSEncrypt();
         if (!publicKey) {
             throw new Error("publicKey no find");
         }
@@ -73,7 +54,7 @@ export class RSA {
      */
     decodePrivate(str: string): string {
         const privateKey = this.privateKey;
-        const encrypt = new JSEncrypt();
+        const encrypt = new encryptUtil.JSEncrypt();
         if (!privateKey) {
             throw new Error("privateKey no find");
         }
@@ -86,72 +67,106 @@ export class RSA {
     }
 }
 
-export type AESPadding = Pkcs7 | Ansix923 | Iso10126 | Iso97971 | NoPadding | ZeroPadding;
-
-export type AESMode = CFB | CTR | CTRGladman | ECB | OFB;
-
 class AESClass {
 
     secretKey: string;
     iv: string;
-    mode: AESMode;
-    padding: AESPadding;
-    pads = {
-        Pkcs7,
-        Ansix923,
-        Iso10126,
-        Iso97971,
-        NoPadding,
-        ZeroPadding
-    }
-    mods = {
-        CFB,
-        CTR,
-        CTRGladman,
-        ECB,
-        OFB
-    }
+    mode;
+    padding;
 
     constructor(secretKey: string) {
-        this.secretKey = Utf8.parse(secretKey);
-        this.iv = WordArray.create(WordArray.random(16));
+        this.secretKey = encryptUtil.CJUTF8.parse(secretKey);
+        this.padding = encryptUtil.AESPad.Pkcs7;
+        this.mode = encryptUtil.AESMod.ECB;
+    }
+
+    setIv(iv: string) {
+        this.iv = encryptUtil.CJUTF8.parse.parse(iv);
     }
 
     static build(secretKey: string) {
         return new AESClass(secretKey);
     }
 
-    setPadding(padding: AESPadding) {
+    setPadding(padding) {
         this.padding = padding;
     }
 
-    setMode(mode: AESMode) {
+    setMode(mode) {
         this.mode = mode;
     }
 
     encode(str: string): string {
-        const ciphertext = AES.encrypt(str, this.secretKey, {
+        const ciphertext = encryptUtil.AESEncrypt.encrypt(str, this.secretKey, {
             mode: this.mode,
             padding: this.padding,
             iv: this.iv
         }).ciphertext;
-        console.log(ciphertext)
-        return ciphertext.toString(Base64C);
+        return ciphertext.toString(encryptUtil.Base64Encrypt);
     }
 
     decode(str: string): string {
-        console.log(Base64C.parse(str))
-        return AES.decrypt({
-            ciphertext: Base64C.parse(str)
+        return encryptUtil.AESEncrypt.decrypt({
+            ciphertext: encryptUtil.Base64Encrypt.parse(str)
         }, this.secretKey, {
             mode: this.mode,
             padding: this.padding,
             iv: this.iv
-        }).toString(Utf8);
+        }).toString(encryptUtil.CJUTF8);
     }
 }
 
 class EncryptUtil {
+
+    CryptoJS;
+    JSEncrypt;
+    MD5Encrypt;
+    AESEncrypt;
+    Base64Encrypt;
+    CJUTF8;
+    AESPad = {
+        Pkcs7: undefined,
+        Ansix923: undefined,
+        Iso10126: undefined,
+        Iso97971: undefined,
+        NoPadding: undefined,
+        ZeroPadding: undefined
+    };
+    AESMod = {
+        CFB: undefined,
+        CTR: undefined,
+        CTRGladman: undefined,
+        ECB: undefined,
+        OFB: undefined
+    };
+
+    setCryptoJS(CryptoJS) {
+        this.CryptoJS = CryptoJS;
+        if (CryptoJS) {
+            this.Base64Encrypt = CryptoJS.enc.Base64;
+            this.CJUTF8 = CryptoJS.enc.Utf8;
+            this.MD5Encrypt = CryptoJS.MD5;
+            this.AESEncrypt = CryptoJS.AES;
+
+            this.AESPad.Pkcs7 = CryptoJS.pad.Pkcs7;
+            this.AESPad.Ansix923 = CryptoJS.pad.Ansix923;
+            this.AESPad.Iso10126 = CryptoJS.pad.Iso10126;
+            this.AESPad.Iso97971 = CryptoJS.pad.Iso97971;
+            this.AESPad.NoPadding = CryptoJS.pad.NoPadding;
+            this.AESPad.ZeroPadding = CryptoJS.pad.ZeroPadding;
+
+            this.AESMod.CFB = CryptoJS.mode.CFB;
+            this.AESMod.CTR = CryptoJS.mode.CTR;
+            this.AESMod.CTRGladman = CryptoJS.mode.CTRGladman;
+            this.AESMod.ECB = CryptoJS.mode.ECB;
+            this.AESMod.OFB = CryptoJS.mode.OFB;
+        }
+    }
+
+    setJSEncrypt(JSEncrypt) {
+        this.JSEncrypt = JSEncrypt;
+    }
+
     /**
      * Base64加密
      */
@@ -161,7 +176,7 @@ class EncryptUtil {
      * @param str 字符串
      */
     MD5: (str: string) => string = (str: string) => {
-        return MD5(str).toString();
+        return this.MD5Encrypt(str).toString();
     }
     /**
      * RSA非对称加密
@@ -170,4 +185,6 @@ class EncryptUtil {
     AES = AESClass
 }
 
-export default new EncryptUtil();
+const encryptUtil = new EncryptUtil();
+
+export default encryptUtil;

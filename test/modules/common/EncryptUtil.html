@@ -27,8 +27,8 @@
     console.log("------------")
     console.log(EncryptUtil.AES.build)
     let aes = EncryptUtil.AES.build("1234567890123456");
-    aes.setPadding(aes.pads.Pkcs7);
-    aes.setMode(aes.mods.ECB);
+    // aes.setPadding(aes.pads.Pkcs7);
+    // aes.setMode(aes.mods.ECB);
     const aesEncode = aes.encode("11111");
     console.log(aesEncode)
     console.log(aes.decode(aesEncode))
