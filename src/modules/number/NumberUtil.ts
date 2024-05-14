@@ -1,6 +1,4 @@
-import Num from './Num'
-import LongNumber from "../number/LongNumber";
-import StrUtil from "../string/StrUtil";
+import Long from "long";
 
 /**
  * 数字工具
@@ -13,7 +11,7 @@ export class NumberUtil {
      * @param fractionDigits 小数位，默认两位
      */
     fixed(number: number, fractionDigits: number = 2): number {
-        return Number(new Num(number).toFixed(fractionDigits));
+        return Number(number.toFixed(fractionDigits));
     }
 
     /**
@@ -22,7 +20,7 @@ export class NumberUtil {
      * @param fractionDigits 小数位，默认两位
      */
     fixedCut(number: number, fractionDigits: number = 2): number {
-        return Number(new Num(number).toFixedCut(fractionDigits));
+        return Number(number.toString().match(new RegExp(`^\\d+(?:\\.\\d{0,${fractionDigits}})?`)));
     }
 
     /**
@@ -30,7 +28,7 @@ export class NumberUtil {
      * @param number 数字
      */
     floor(number: number): number {
-        return Number(new Num(number).floor());
+        return Math.floor(number);
     }
 
     /**
@@ -38,43 +36,42 @@ export class NumberUtil {
      * @param number 数字
      */
     ceil(number: number): number {
-        return Number(new Num(number).ceil());
+        return Math.ceil(number);
     }
 
     /**
      * 位运算或
      * @param numbers 数字
      */
-    bitwiseOr(...numbers: (number | LongNumber)[]) {
-        let binaryString1 = this.toBinaryString(numbers[0]);
-        for (let i = 1; i <= numbers.length; i++) {
-            const binaryString2 = this.toBinaryString(numbers[i]);
-            // 确保两个二进制字符串长度相同，较短的字符串前面补 0
-            const maxLength = Math.max(binaryString1.length, binaryString2.length);
-            const paddedBinaryString1 = StrUtil.padStart(binaryString1, maxLength, '0');
-            const paddedBinaryString2 = StrUtil.padStart(binaryString2, maxLength, '0');
-            // 对每个位执行按位或操作
-            let resultBinaryString = '';
-            for (let i = 0; i < maxLength; i++) {
-                const bit1 = paddedBinaryString1[i];
-                const bit2 = paddedBinaryString2[i];
-                resultBinaryString += (bit1 === '1' || bit2 === '1') ? '1' : '0';
-            }
-            binaryString1 = resultBinaryString;
+    bitwiseOr(...numbers: (Long | string | number)[]) {
+        let number = Long.fromValue(numbers[0]);
+        for (let i = 1; i < numbers.length; i++) {
+            number = number.or(Long.fromValue(numbers[i]));
         }
-        // 将二进制字符串转换回 BigNumber
-        return new LongNumber(binaryString1, 2);
+        return number;
+    }
+
+    /**
+     * 位运算并
+     * @param numbers 数字
+     */
+    bitwiseAnd(...numbers: (Long | string | number)[]) {
+        let number = Long.fromValue(numbers[0]);
+        for (let i = 1; i < numbers.length; i++) {
+            number = number.and(Long.fromValue(numbers[i]));
+        }
+        return number;
     }
 
     /**
      * 将数字转换为二进制字符串
      * @param number 数字
      */
-    toBinaryString(number: number | LongNumber): string {
-        let bigNum = new LongNumber(number);
+    toBinaryString(number: (Long | string | number)): string {
+        let bigNum = Long.fromValue(number);
         let binaryString = bigNum.toString(2); // 转换为二进制字符串
         // 去除开头的 '0.'（如果有的话），因为 bigNum.toString(2) 可能会返回 '0.xxxxxx' 的形式
-        binaryString = binaryString.replace(/^0\./, '');
+        // binaryString = binaryString.replace(/^0\./, '');
         return binaryString.toString();
     }
 
@@ -83,9 +80,9 @@ export class NumberUtil {
      * @param number 数字
      * @param digit 位数
      */
-    leftShift(number: number | LongNumber, digit: number): LongNumber {
-        const bigNum = new LongNumber(number);
-        return new LongNumber(bigNum.times(new LongNumber(2).pow(digit)));
+    leftShift(number: (Long | string | number), digit: (Long | number)): Long {
+        const bigNum = Long.fromValue(number);
+        return bigNum.shiftLeft(digit);
     }
 
     /**
@@ -93,10 +90,9 @@ export class NumberUtil {
      * @param number 数字
      * @param digit 位数
      */
-    rightShift(number: number | LongNumber, digit: number): LongNumber {
-        // 右移操作（除以 2 的 n 次幂，并可能进行四舍五入）
-        const bigNum = new LongNumber(number);
-        return new LongNumber(bigNum.dividedBy(new LongNumber(2).pow(digit))); // round(0) 表示不进行小数部分的四舍五入
+    rightShift(number: (Long | string | number), digit: (Long | number)): Long {
+        const bigNum = Long.fromValue(number);
+        return bigNum.shiftRight(digit);
     }
 
     /**

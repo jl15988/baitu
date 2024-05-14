@@ -4,7 +4,6 @@ import StrUtil from "./modules/string/StrUtil";
 import DateTime, {DateField, MonthField, WeekDay} from "./modules/dateTime/DateTime";
 import DateUtil from "./modules/dateTime/DateUtil";
 import NumberUtil from "./modules/number/NumberUtil";
-import Num from "./modules/number/Num";
 import Throttle from "./modules/common/Throttle";
 import Debounce from "./modules/common/Debounce";
 import FileUtil from "./modules/file/FileUtil";
@@ -27,6 +26,7 @@ import ExePool from "./modules/execute/ExePool";
 import Executes from "./modules/execute/Executes";
 import ChineseDateUtil from "./modules/dateTime/chinese/ChineseDateUtil";
 import ChineseDate from "./modules/dateTime/chinese/ChineseDate";
+import Long from "long";
 
 export {
     Str,
@@ -36,7 +36,6 @@ export {
     WeekDay,
     MonthField,
     DateUtil,
-    Num,
     NumberUtil,
     Throttle,
     Debounce,
@@ -60,7 +59,8 @@ export {
     ExePool,
     Executes,
     ChineseDateUtil,
-    ChineseDate
+    ChineseDate,
+    Long
 };
 
 const Baitu = values;

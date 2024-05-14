@@ -1,12 +1,12 @@
 import Str from "./modules/string/Str";
 import DateTime, { DateField, MonthField, WeekDay } from "./modules/dateTime/DateTime";
-import Num from "./modules/number/Num";
 import Throttle from "./modules/common/Throttle";
 import Debounce from "./modules/common/Debounce";
 import { PatternPool } from "./modules/common/PatternPool";
 import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
 import ExePool from "./modules/execute/ExePool";
 import ChineseDate from "./modules/dateTime/chinese/ChineseDate";
+import Long from "long";
 declare const _default: {
     Str: typeof Str;
     StrUtil: import("./modules/string/StrUtil").StrUtil;
@@ -15,7 +15,6 @@ declare const _default: {
     WeekDay: typeof WeekDay;
     MonthField: typeof MonthField;
     DateUtil: import("./modules/dateTime/DateUtil").DateUtil;
-    Num: typeof Num;
     NumberUtil: import("./modules/number/NumberUtil").NumberUtil;
     Throttle: typeof Throttle;
     Debounce: typeof Debounce;
@@ -131,6 +130,7 @@ declare const _default: {
         lunar2solar(chineseYear: number, chineseMonth: number, chineseDay: number): Date;
     };
     ChineseDate: typeof ChineseDate;
+    Long: typeof Long;
     setPatternPool(patternPool: PatternPool): void;
 };
 export default _default;

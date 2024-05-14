@@ -49,8 +49,8 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "bignumber.js": "^9.1.2",
     "crypto-js": "^4.2.0",
-    "jsencrypt": "^3.3.2"
+    "jsencrypt": "^3.3.2",
+    "long": "^5.2.3"
   }
 }

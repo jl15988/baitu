@@ -3,7 +3,6 @@ import StrUtil from "./modules/string/StrUtil";
 import DateTime, { DateField, MonthField, WeekDay } from "./modules/dateTime/DateTime";
 import DateUtil from "./modules/dateTime/DateUtil";
 import NumberUtil from "./modules/number/NumberUtil";
-import Num from "./modules/number/Num";
 import Throttle from "./modules/common/Throttle";
 import Debounce from "./modules/common/Debounce";
 import FileUtil from "./modules/file/FileUtil";
@@ -26,7 +25,8 @@ import ExePool from "./modules/execute/ExePool";
 import Executes from "./modules/execute/Executes";
 import ChineseDateUtil from "./modules/dateTime/chinese/ChineseDateUtil";
 import ChineseDate from "./modules/dateTime/chinese/ChineseDate";
-export { Str, StrUtil, DateTime, DateField, WeekDay, MonthField, DateUtil, Num, NumberUtil, Throttle, Debounce, FileUtil, HexUtil, FileTypeMagicMap, FileTypeMimeMap, ObjectUtil, DesensitizedUtil, ArrayUtil, PatternPool, ValidateUtil, ImgUtil, IDUtil, SnowflakeIdWorker, EncryptUtil, JSONUtil, JSONType, UrlUtil, TreeUtil, ExePool, Executes, ChineseDateUtil, ChineseDate };
+import Long from "long";
+export { Str, StrUtil, DateTime, DateField, WeekDay, MonthField, DateUtil, NumberUtil, Throttle, Debounce, FileUtil, HexUtil, FileTypeMagicMap, FileTypeMimeMap, ObjectUtil, DesensitizedUtil, ArrayUtil, PatternPool, ValidateUtil, ImgUtil, IDUtil, SnowflakeIdWorker, EncryptUtil, JSONUtil, JSONType, UrlUtil, TreeUtil, ExePool, Executes, ChineseDateUtil, ChineseDate, Long };
 declare const Baitu: {
     Str: typeof Str;
     StrUtil: import("./modules/string/StrUtil").StrUtil;
@@ -35,7 +35,6 @@ declare const Baitu: {
     WeekDay: typeof WeekDay;
     MonthField: typeof MonthField;
     DateUtil: import("./modules/dateTime/DateUtil").DateUtil;
-    Num: typeof Num;
     NumberUtil: import("./modules/number/NumberUtil").NumberUtil;
     Throttle: typeof Throttle;
     Debounce: typeof Debounce;
@@ -151,6 +150,7 @@ declare const Baitu: {
         lunar2solar(chineseYear: number, chineseMonth: number, chineseDay: number): Date;
     };
     ChineseDate: typeof ChineseDate;
+    Long: typeof Long;
     setPatternPool(patternPool: import("./modules/common/PatternPool").PatternPool): void;
 };
 export default Baitu;

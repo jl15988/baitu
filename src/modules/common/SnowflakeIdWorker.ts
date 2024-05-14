@@ -1,5 +1,5 @@
-import LongNumber from "../number/LongNumber";
 import NumberUtil from "../number/NumberUtil";
+import Long from "long";
 
 /**
  * 雪花ID生成器
@@ -100,10 +100,10 @@ export default class SnowflakeIdWorker {
 
         this.lastTimestamp = timestamp;
         // 由于低版本js高位数会丢失精度，所以采用高精度计算
-        const timestampLong = new LongNumber(timestamp - this.startTimestamp).leftShift(this.timestampLeftShift);
-        const dataCenterLong = new LongNumber(this.dataCenterId).leftShift(this.workerIdBits + this.sequenceBits);
-        const workerLong = new LongNumber(this.workerId).leftShift(this.workerIdShift);
-        return NumberUtil.bitwiseOr(timestampLong, dataCenterLong, workerLong, this.sequence).toString();
+        const timestampLong = Long.fromValue(timestamp - this.startTimestamp).shiftLeft(this.timestampLeftShift);
+        const dataCenterLong = Long.fromValue(this.dataCenterId).shiftLeft(this.workerIdBits + this.sequenceBits);
+        const workerLong = Long.fromValue(this.workerId).shiftLeft(this.workerIdShift);
+        return NumberUtil.bitwiseOr(timestampLong.toString(), dataCenterLong.toString(), workerLong.toString(), this.sequence).toString();
         // return ((timestamp - this.startTimestamp) << this.timestampLeftShift) | (this.dataCenterId << (this.workerIdBits + this.sequenceBits)) | (this.workerId << this.workerIdShift) | this.sequence;
     }
 }

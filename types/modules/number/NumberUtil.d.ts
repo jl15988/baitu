@@ -1,4 +1,4 @@
-import LongNumber from "../number/LongNumber";
+import Long from "long";
 /**
  * 数字工具
  */
@@ -29,24 +29,29 @@ export declare class NumberUtil {
      * 位运算或
      * @param numbers 数字
      */
-    bitwiseOr(...numbers: (number | LongNumber)[]): LongNumber;
+    bitwiseOr(...numbers: (Long | string | number)[]): Long;
+    /**
+     * 位运算并
+     * @param numbers 数字
+     */
+    bitwiseAnd(...numbers: (Long | string | number)[]): Long;
     /**
      * 将数字转换为二进制字符串
      * @param number 数字
      */
-    toBinaryString(number: number | LongNumber): string;
+    toBinaryString(number: (Long | string | number)): string;
     /**
      * 位运算左移
      * @param number 数字
      * @param digit 位数
      */
-    leftShift(number: number | LongNumber, digit: number): LongNumber;
+    leftShift(number: (Long | string | number), digit: (Long | number)): Long;
     /**
      * 位运算右移
      * @param number 数字
      * @param digit 位数
      */
-    rightShift(number: number | LongNumber, digit: number): LongNumber;
+    rightShift(number: (Long | string | number), digit: (Long | number)): Long;
     /**
      * 判断数字是否为空
      * @param number 数字
