@@ -1,7 +1,7 @@
 /**
  * 16进制工具
  */
-export declare class HexUtil {
+declare class HexUtil {
     /**
      * 字符串转16进制字符串，UTF8编码
      * @param str 字符串

@@ -2,7 +2,7 @@ import Long from "long";
 /**
  * 数字工具
  */
-export declare class NumberUtil {
+declare class NumberUtil {
     /**
      * 保留两位小数，四舍五入
      * @param number 数字

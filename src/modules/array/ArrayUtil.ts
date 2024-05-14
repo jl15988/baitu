@@ -3,7 +3,7 @@ import ObjectUtil from "../object/ObjectUtil";
 /**
  * 数组工具
  */
-export class ArrayUtil {
+class ArrayUtil {
 
     /**
      * 将数组循环拼接

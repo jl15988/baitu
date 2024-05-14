@@ -2,7 +2,7 @@ import DateTime, { DateField } from "./DateTime";
 /**
  * 日期工具
  */
-export declare class DateUtil {
+declare class DateUtil {
     /**
      * 秒毫秒值
      */

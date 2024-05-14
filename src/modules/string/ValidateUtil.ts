@@ -3,7 +3,7 @@ import patternPoolInstance from "../common/PatternPool";
 /**
  * 验证工具
  */
-export class ValidateUtil {
+class ValidateUtil {
 
     /**
      * 校验字符串是否符合正则表达式

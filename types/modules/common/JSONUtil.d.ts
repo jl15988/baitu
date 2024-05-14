@@ -7,7 +7,7 @@ export type JSONType = {
 /**
  * JSON工具
  */
-export declare class JSONUtil {
+declare class JSONUtil {
     /**
      * 复制
      * @param json json

@@ -1,7 +1,7 @@
 /**
  * 验证工具
  */
-export declare class ValidateUtil {
+declare class ValidateUtil {
     /**
      * 校验字符串是否符合正则表达式
      * @param str 字符串

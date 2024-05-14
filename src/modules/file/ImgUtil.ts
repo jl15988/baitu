@@ -16,7 +16,7 @@ export type ImgResult = {
 /**
  * 图片工具
  */
-export class ImgUtil {
+class ImgUtil {
 
     /**
      * Html 图片转 Blob

@@ -12,7 +12,7 @@ import HexUtil from "./modules/common/HexUtil";
 import ObjectUtil from "./modules/object/ObjectUtil";
 import DesensitizedUtil from "./modules/string/DesensitizedUtil";
 import ArrayUtil from "./modules/array/ArrayUtil";
-import {PatternPool} from "./modules/common/PatternPool";
+import PatternPool from "./modules/common/PatternPool";
 import ValidateUtil from "./modules/string/ValidateUtil";
 import ImgUtil from "./modules/file/ImgUtil";
 import IDUtil from "./modules/common/IDUtil";
@@ -45,7 +45,7 @@ export default {
     ObjectUtil,
     DesensitizedUtil,
     ArrayUtil,
-    PatternPool: new PatternPool(),
+    PatternPool,
     ValidateUtil,
     ImgUtil,
     IDUtil,
@@ -58,10 +58,5 @@ export default {
     Executes,
     ChineseDateUtil,
     ChineseDate,
-    Long,
-    setPatternPool(patternPool: PatternPool) {
-        if (patternPool instanceof PatternPool) {
-            this.PatternPool = patternPool;
-        }
-    }
+    Long
 };

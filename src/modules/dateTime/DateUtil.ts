@@ -5,7 +5,7 @@ import ObjectUtil from "../object/ObjectUtil";
 /**
  * 日期工具
  */
-export class DateUtil {
+class DateUtil {
 
     /**
      * 秒毫秒值

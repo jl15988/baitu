@@ -9,7 +9,7 @@ export type ImageFile = {
 /**
  * 文件工具
  */
-export declare class FileUtil {
+declare class FileUtil {
     /**
      * 获取文件主名
      * @param fileName 文件名

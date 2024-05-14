@@ -1,7 +1,7 @@
 /**
  * 数组工具
  */
-export declare class ArrayUtil {
+declare class ArrayUtil {
     /**
      * 将数组循环拼接
      * @param arr 数组

@@ -3,7 +3,7 @@ import ArrayUtil from "../array/ArrayUtil";
 /**
  * 对象工具
  */
-export class ObjectUtil {
+class ObjectUtil {
 
     /**
      * 判断任意一种类型数据是否为空：字符串、null、undefined、数组、对象等

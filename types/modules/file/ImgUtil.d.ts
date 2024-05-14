@@ -13,7 +13,7 @@ export type ImgResult = {
 /**
  * 图片工具
  */
-export declare class ImgUtil {
+declare class ImgUtil {
     /**
      * Html 图片转 Blob
      * @param img 图片

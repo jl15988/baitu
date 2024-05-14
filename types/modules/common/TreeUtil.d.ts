@@ -11,7 +11,7 @@ export type TreeNodeMapper = (current: any, parent?: any, parentChildList?: any[
  * @param current 当前元素
  */
 export type TreeLeafNodeMapper = (current: any) => any;
-export declare class TreeUtil {
+declare class TreeUtil {
     /**
      * 默认的级别属性名
      */

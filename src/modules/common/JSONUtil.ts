@@ -8,7 +8,7 @@ export type JSONType = {
 /**
  * JSON工具
  */
-export class JSONUtil {
+class JSONUtil {
 
     /**
      * 复制

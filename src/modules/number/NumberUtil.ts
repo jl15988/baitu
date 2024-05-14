@@ -3,7 +3,7 @@ import Long from "long";
 /**
  * 数字工具
  */
-export class NumberUtil {
+class NumberUtil {
 
     /**
      * 保留两位小数，四舍五入

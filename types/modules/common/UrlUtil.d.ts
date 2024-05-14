@@ -2,7 +2,7 @@ import { JSONType } from "./JSONUtil";
 /**
  * Url工具
  */
-export declare class UrlUtil {
+declare class UrlUtil {
     Fast: any;
     /**
      * 判断是否为 url

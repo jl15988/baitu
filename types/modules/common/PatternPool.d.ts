@@ -1,83 +1,77 @@
 /**
  * 正则池
  */
-export declare class PatternPool {
+declare const PatternPool: {
     /**
      * 数字
      */
-    readonly NUMBERS: RegExp;
+    NUMBERS: RegExp;
     /**
      * 英文
      */
-    readonly WORD: RegExp;
+    WORD: RegExp;
     /**
      * 中文
      */
-    readonly CHINESE: RegExp;
+    CHINESE: RegExp;
     /**
      * IPV4
      */
-    readonly IPV4: RegExp;
+    IPV4: RegExp;
     /**
      * IPV6
      */
-    readonly IPV6: RegExp;
+    IPV6: RegExp;
     /**
      * 钱
      */
-    readonly MONEY: RegExp;
+    MONEY: RegExp;
     /**
      * 邮箱
      */
-    readonly EMAIL: RegExp;
+    EMAIL: RegExp;
     /**
      * 域名
      */
-    readonly DOMAIN_NAME: RegExp;
+    DOMAIN_NAME: RegExp;
     /**
      * 手机号
      */
-    readonly MOBILE: RegExp;
+    MOBILE: RegExp;
     /**
      * 固定电话
      */
-    readonly LANDLINE: RegExp;
+    LANDLINE: RegExp;
     /**
      * 身份证号
      */
-    readonly ID_CARD: RegExp;
+    ID_CARD: RegExp;
     /**
      * http网址
      */
-    readonly URL_HTTP: RegExp;
+    URL_HTTP: RegExp;
     /**
      * 车牌号
      */
-    readonly PLATE_NUMBER: RegExp;
+    PLATE_NUMBER: RegExp;
     /**
      * 日期
      */
-    readonly DATE: RegExp;
+    DATE: RegExp;
     /**
      * 时间
      */
-    readonly TIME: RegExp;
+    TIME: RegExp;
     /**
      * 空白行
      */
-    readonly BLANK_LINE: RegExp;
-    /**
-     * 转为正则对象
-     * @param str 字符串
-     */
-    toReg(str: any): RegExp;
+    BLANK_LINE: RegExp;
     /**
      * 添加正则
      * @param map 正则对象
      */
     add(map: {
-        [key: string]: string | RegExp;
+        [key: string]: RegExp;
     }): void;
-}
-declare const _default: PatternPool;
-export default _default;
+};
+export default PatternPool;

@@ -45,7 +45,7 @@ export type DesensitizedReserveParam = {
 /**
  * 脱敏工具
  */
-export class DesensitizedUtil {
+class DesensitizedUtil {
 
     /**
      * 脱敏

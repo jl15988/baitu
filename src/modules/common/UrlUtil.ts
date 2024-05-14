@@ -9,7 +9,7 @@ type KeysOfType<T, U> = {
 /**
  * Url工具
  */
-export class UrlUtil {
+class UrlUtil {
 
     Fast;
 

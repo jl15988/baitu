@@ -14,7 +14,7 @@ export type ImageFile = {
 /**
  * 文件工具
  */
-export class FileUtil {
+class FileUtil {
 
     /**
      * 获取文件主名

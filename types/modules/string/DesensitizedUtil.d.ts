@@ -43,7 +43,7 @@ export type DesensitizedReserveParam = {
 /**
  * 脱敏工具
  */
-export declare class DesensitizedUtil {
+declare class DesensitizedUtil {
     /**
      * 脱敏
      * @param str 字符串
