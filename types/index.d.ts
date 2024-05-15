@@ -28,6 +28,7 @@ import ChineseDate from "./modules/dateTime/chinese/ChineseDate";
 import Long from "long";
 export { Str, StrUtil, DateTime, DateField, WeekDay, MonthField, DateUtil, NumberUtil, Throttle, Debounce, FileUtil, HexUtil, FileTypeMagicMap, FileTypeMimeMap, ObjectUtil, DesensitizedUtil, ArrayUtil, PatternPool, ValidateUtil, ImgUtil, IDUtil, SnowflakeIdWorker, EncryptUtil, JSONUtil, JSONType, UrlUtil, TreeUtil, ExePool, Executes, ChineseDateUtil, ChineseDate, Long };
 declare const Baitu: {
+    Long: typeof Long;
     Str: typeof Str;
     StrUtil: {
         isBlank(str: string): boolean;
@@ -1321,7 +1322,5 @@ declare const Baitu: {
         lunar2solar(chineseYear: number, chineseMonth: number, chineseDay: number): Date;
     };
     ChineseDate: typeof ChineseDate;
-    Long: typeof Long;
-    setPatternPool(patternPool: any): void;
 };
 export default Baitu;

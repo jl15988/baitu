@@ -1,13 +1,7 @@
-import Str from "./modules/string/Str";
-import DateTime, { DateField, MonthField, WeekDay } from "./modules/dateTime/DateTime";
-import Throttle from "./modules/common/Throttle";
-import Debounce from "./modules/common/Debounce";
-import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
-import ExePool from "./modules/execute/ExePool";
-import ChineseDate from "./modules/dateTime/chinese/ChineseDate";
-import Long from "long";
+import * as Baitu from './index';
 declare const _default: {
-    Str: typeof Str;
+    Long: typeof Baitu.Long;
+    Str: typeof Baitu.Str;
     StrUtil: {
         isBlank(str: string): boolean;
         isNotBlank(str: string): boolean;
@@ -30,27 +24,27 @@ declare const _default: {
         toKebab(str: string, spacer?: string): string;
         toHump(str: string, ...spacers: string[]): string;
         format(str: string, ...args: any[]): string;
-        formatMap(str: string, map: import("./modules/common/JSONUtil").JSONType): string;
+        formatMap(str: string, map: Baitu.JSONType): string;
         appendIfNotEmpty(str: string, appends: string): string;
     };
-    DateTime: typeof DateTime;
-    DateField: typeof DateField;
-    WeekDay: typeof WeekDay;
-    MonthField: typeof MonthField;
+    DateTime: typeof Baitu.DateTime;
+    DateField: typeof Baitu.DateField;
+    WeekDay: typeof Baitu.WeekDay;
+    MonthField: typeof Baitu.MonthField;
     DateUtil: {
         date(): Date;
-        dateTime(): DateTime;
+        dateTime(): Baitu.DateTime;
         now(): number;
-        parse(dateTime: string | number | DateTime | Date): DateTime;
-        toDateTime(dateTime: string | number | DateTime | Date): DateTime;
-        format(date: string | number | DateTime | Date, format?: string): string;
-        formatDateTime(date?: string | number | DateTime | Date): string;
-        formatDate(date?: string | number | DateTime | Date): string;
-        daysOfMonth(date: DateTime | Date): number;
-        daysOfYear(date: DateTime | Date): number;
-        isLeapYear(date: DateTime | Date): boolean;
-        compare(date1: DateTime | Date, date2: DateTime | Date, dateField?: DateField): number;
-        age(date: DateTime | Date): number;
+        parse(dateTime: string | number | Baitu.DateTime | Date): Baitu.DateTime;
+        toDateTime(dateTime: string | number | Baitu.DateTime | Date): Baitu.DateTime;
+        format(date: string | number | Baitu.DateTime | Date, format?: string): string;
+        formatDateTime(date?: string | number | Baitu.DateTime | Date): string;
+        formatDate(date?: string | number | Baitu.DateTime | Date): string;
+        daysOfMonth(date: Baitu.DateTime | Date): number;
+        daysOfYear(date: Baitu.DateTime | Date): number;
+        isLeapYear(date: Baitu.DateTime | Date): boolean;
+        compare(date1: Baitu.DateTime | Date, date2: Baitu.DateTime | Date, dateField?: Baitu.DateField): number;
+        age(date: Baitu.DateTime | Date): number;
         convertSeconds(secondsValue: number): {
             days: number;
             hours: number;
@@ -69,16 +63,16 @@ declare const _default: {
         fixedCut(number: number, fractionDigits?: number): number;
         floor(number: number): number;
         ceil(number: number): number;
-        bitwiseOr(...numbers: (string | number | Long)[]): Long;
-        bitwiseAnd(...numbers: (string | number | Long)[]): Long;
-        toBinaryString(number: string | number | Long): string;
-        leftShift(number: string | number | Long, digit: number | Long): Long;
-        rightShift(number: string | number | Long, digit: number | Long): Long;
+        bitwiseOr(...numbers: (string | number | Baitu.Long)[]): Baitu.Long;
+        bitwiseAnd(...numbers: (string | number | Baitu.Long)[]): Baitu.Long;
+        toBinaryString(number: string | number | Baitu.Long): string;
+        leftShift(number: string | number | Baitu.Long, digit: number | Baitu.Long): Baitu.Long;
+        rightShift(number: string | number | Baitu.Long, digit: number | Baitu.Long): Baitu.Long;
         isEmpty(number: number): boolean;
         defaultIfEmpty(number: number, defaultNumber: number): number;
     };
-    Throttle: typeof Throttle;
-    Debounce: typeof Debounce;
+    Throttle: typeof Baitu.Throttle;
+    Debounce: typeof Baitu.Debounce;
     FileUtil: {
         getMainName(fileName: string): string;
         getTypeSimple(fileName: string): string;
@@ -90,7 +84,7 @@ declare const _default: {
         getUint8Array(file: File, len?: number): Promise<Uint8Array>;
         getTypeMagic(file: File): Promise<string>;
         isTypeMagic(file: File, type: string): Promise<boolean>;
-        toImage(file: File): Promise<import("./modules/file/FileUtil").ImageFile>;
+        toImage(file: File): Promise<import("src/modules/file/FileUtil").ImageFile>;
         download(file: File, filename?: string, mime?: string): void;
         downloadBlob(blob: Blob, filename: string): void;
         blobToFile(blob: any, fileName: any): File;
@@ -1100,16 +1094,16 @@ declare const _default: {
     DesensitizedUtil: {
         of(str: string, startIndex?: number, length?: number, pad?: string): string;
         reserve(str: string, headLen?: number, tailLen?: number, pad?: string): string;
-        with(params: import("./modules/string/DesensitizedUtil").DesensitizedParam): string;
+        with(params: import("src/modules/string/DesensitizedUtil").DesensitizedParam): string;
         mobile(str: string, startIndex?: number, length?: number, pad?: string): string;
         fullName(str: string, startIndex?: number, length?: number, pad?: string): string;
         fullName2(str: string): string;
         idCard(str: string, headLen?: number, tailLen?: number, pad?: string): string;
         bankAccount(str: string, headLen?: number, tailLen?: number, pad?: string): string;
-        mobileWith(params: import("./modules/string/DesensitizedUtil").DesensitizedParam): string;
-        fullNameWith(params: import("./modules/string/DesensitizedUtil").DesensitizedParam): string;
-        idCardWith(params: import("./modules/string/DesensitizedUtil").DesensitizedReserveParam): string;
-        bankAccountWith(params: import("./modules/string/DesensitizedUtil").DesensitizedReserveParam): string;
+        mobileWith(params: import("src/modules/string/DesensitizedUtil").DesensitizedParam): string;
+        fullNameWith(params: import("src/modules/string/DesensitizedUtil").DesensitizedParam): string;
+        idCardWith(params: import("src/modules/string/DesensitizedUtil").DesensitizedReserveParam): string;
+        bankAccountWith(params: import("src/modules/string/DesensitizedUtil").DesensitizedReserveParam): string;
     };
     ArrayUtil: {
         repeat(arr: (string | number)[], count: number): string;
@@ -1169,7 +1163,7 @@ declare const _default: {
     };
     ImgUtil: {
         toBlob(img: HTMLImageElement, type?: string): Promise<Blob>;
-        cut(file: File, x: number, y: number, w: number, h: number, quality?: number): Promise<import("./modules/file/ImgUtil").ImgResult>;
+        cut(file: File, x: number, y: number, w: number, h: number, quality?: number): Promise<import("src/modules/file/ImgUtil").ImgResult>;
         dataURLtoBlob(dataurl: string): Blob;
         resize(file: File, maxWidth: number, maxHeight: number, quality?: number): Promise<unknown>;
         getDataURL(file: File | Blob): string;
@@ -1181,9 +1175,9 @@ declare const _default: {
     };
     IDUtil: {
         uuid(simple?: boolean): string;
-        snowflake(workerId?: number, dataCenterId?: number): SnowflakeIdWorker;
+        snowflake(workerId?: number, dataCenterId?: number): Baitu.SnowflakeIdWorker;
     };
-    SnowflakeIdWorker: typeof SnowflakeIdWorker;
+    SnowflakeIdWorker: typeof Baitu.SnowflakeIdWorker;
     EncryptUtil: {
         CryptoJS: any;
         JSEncrypt: any;
@@ -1208,9 +1202,9 @@ declare const _default: {
         };
         setCryptoJS(CryptoJS: any): void;
         setJSEncrypt(JSEncrypt: any): void;
-        Base64: import("./modules/common/EncryptUtil").Base64Class;
+        Base64: import("src/modules/common/EncryptUtil").Base64Class;
         MD5: (str: string) => string;
-        RSA: typeof import("./modules/common/EncryptUtil").RSA;
+        RSA: typeof import("src/modules/common/EncryptUtil").RSA;
         AES: {
             new (secretKey: string): {
                 secretKey: string;
@@ -1237,16 +1231,16 @@ declare const _default: {
         };
     };
     JSONUtil: {
-        copy(json: import("./modules/common/JSONUtil").JSONType, ...fields: string[]): import("./modules/common/JSONUtil").JSONType;
-        toParams(json: import("./modules/common/JSONUtil").JSONType): string;
-        getJSONFromString(str: string): import("./modules/common/JSONUtil").JSONType[];
+        copy(json: Baitu.JSONType, ...fields: string[]): Baitu.JSONType;
+        toParams(json: Baitu.JSONType): string;
+        getJSONFromString(str: string): Baitu.JSONType[];
     };
     UrlUtil: {
         Fast: any;
         isUrl(str: string): boolean;
         getUrl(): string;
-        jsonToParams(json: import("./modules/common/JSONUtil").JSONType): string;
-        getParams(url: string): import("./modules/common/JSONUtil").JSONType;
+        jsonToParams(json: Baitu.JSONType): string;
+        getParams(url: string): Baitu.JSONType;
         getParam(url: string, name: string): string;
         getParamKeys(url: string): string[];
         getParamValues(url: string): any[];
@@ -1257,13 +1251,13 @@ declare const _default: {
         LEVEL_NAME: string;
         LEVEL_BEGIN: number;
         BUILT_TAG: string;
-        buildTree(list: any[], idName: string, parentName: string, childName: string, levelName?: string, mapper?: import("./modules/common/TreeUtil").TreeNodeMapper, leafMapper?: import("./modules/common/TreeUtil").TreeLeafNodeMapper): any[];
-        buildCommonTree(list: any[], idName: string, parentName: string, childName: string, levelName: string, mapper: import("./modules/common/TreeUtil").TreeNodeMapper, leafMapper: import("./modules/common/TreeUtil").TreeLeafNodeMapper): any[];
+        buildTree(list: any[], idName: string, parentName: string, childName: string, levelName?: string, mapper?: import("src/modules/common/TreeUtil").TreeNodeMapper, leafMapper?: import("src/modules/common/TreeUtil").TreeLeafNodeMapper): any[];
+        buildCommonTree(list: any[], idName: string, parentName: string, childName: string, levelName: string, mapper: import("src/modules/common/TreeUtil").TreeNodeMapper, leafMapper: import("src/modules/common/TreeUtil").TreeLeafNodeMapper): any[];
         filterRoot(list: any[], levelName?: string): any[];
-        buildTreeMapper(list: any[], idName: string, parentName: string, mapper: import("./modules/common/TreeUtil").TreeNodeMapper, leafMapper?: import("./modules/common/TreeUtil").TreeLeafNodeMapper): void;
-        toTreeMapper(list: any[], obj: any, idName: string, parentName: string, mapper: import("./modules/common/TreeUtil").TreeNodeMapper, leafMapper?: import("./modules/common/TreeUtil").TreeLeafNodeMapper, parentLevel?: number): void;
+        buildTreeMapper(list: any[], idName: string, parentName: string, mapper: import("src/modules/common/TreeUtil").TreeNodeMapper, leafMapper?: import("src/modules/common/TreeUtil").TreeLeafNodeMapper): void;
+        toTreeMapper(list: any[], obj: any, idName: string, parentName: string, mapper: import("src/modules/common/TreeUtil").TreeNodeMapper, leafMapper?: import("src/modules/common/TreeUtil").TreeLeafNodeMapper, parentLevel?: number): void;
     };
-    ExePool: typeof ExePool;
+    ExePool: typeof Baitu.ExePool;
     Executes: {
         sleep(millis: number): Promise<unknown>;
         toPromise(fun: Function | Promise<any>): Promise<any>;
@@ -1282,25 +1276,23 @@ declare const _default: {
         Yxm: string[];
         JRB: string[][];
         JNB: (string | number)[];
-        getFestival(year: number, month: number, day: number): import("./modules/dateTime/chinese/ChineseDateUtil").FestivalInfo;
-        getFestivalByDayAllInfo(dayAllInfo: import("./modules/dateTime/chinese/ChineseDateUtil").DayAllInfo): import("./modules/dateTime/chinese/ChineseDateUtil").FestivalInfo;
+        getFestival(year: number, month: number, day: number): import("src/modules/dateTime/chinese/ChineseDateUtil").FestivalInfo;
+        getFestivalByDayAllInfo(dayAllInfo: import("src/modules/dateTime/chinese/ChineseDateUtil").DayAllInfo): import("src/modules/dateTime/chinese/ChineseDateUtil").FestivalInfo;
         getChineseZodiac(chineseYear: number): string;
         getGan(chineseYear: number): string;
         getZhi(chineseYear: number): string;
         getCyclical(chineseYear: number): string;
         getHuangdiYear(chineseYear: number): number;
-        getDynasty(year: number): import("./modules/dateTime/chinese/ChineseDateUtil").DynastyInfo;
-        getMonthDays(year: number, month: number): import("./modules/dateTime/chinese/ChineseDateUtil").DayAllInfo[];
-        getMonthInfo(chineseYear: number, chineseMonth: number): import("./modules/dateTime/chinese/ChineseDateUtil").MonthInfo;
-        getDaySimpleInfo(year: number, month: number, day: number): import("./modules/dateTime/chinese/ChineseDateUtil").DayAllInfo;
-        getDayAllInfo(year: number, month: number, day: number): import("./modules/dateTime/chinese/ChineseDateUtil").DayAllInfo;
-        getSolarTermsInfo(year: number, month: number, day: number): import("./modules/dateTime/chinese/ChineseDateUtil").SolarTermsInfo;
+        getDynasty(year: number): import("src/modules/dateTime/chinese/ChineseDateUtil").DynastyInfo;
+        getMonthDays(year: number, month: number): import("src/modules/dateTime/chinese/ChineseDateUtil").DayAllInfo[];
+        getMonthInfo(chineseYear: number, chineseMonth: number): import("src/modules/dateTime/chinese/ChineseDateUtil").MonthInfo;
+        getDaySimpleInfo(year: number, month: number, day: number): import("src/modules/dateTime/chinese/ChineseDateUtil").DayAllInfo;
+        getDayAllInfo(year: number, month: number, day: number): import("src/modules/dateTime/chinese/ChineseDateUtil").DayAllInfo;
+        getSolarTermsInfo(year: number, month: number, day: number): import("src/modules/dateTime/chinese/ChineseDateUtil").SolarTermsInfo;
         qi_accurate(W: any): number;
         so_accurate(W: any): number;
         lunar2solar(chineseYear: number, chineseMonth: number, chineseDay: number): Date;
     };
-    ChineseDate: typeof ChineseDate;
-    Long: typeof Long;
-    setPatternPool(patternPool: any): void;
+    ChineseDate: typeof Baitu.ChineseDate;
 };
 export default _default;
