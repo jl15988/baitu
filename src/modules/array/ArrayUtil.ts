@@ -163,6 +163,19 @@ class ArrayUtil {
     orderBy() {
 
     }
+
+    /**
+     * 指定值与数组中数值比较大小，找出应该存放的位置
+     * @param arr
+     * @param val
+     */
+    findInsertIndex(arr: number[], val: number) {
+        let i = 0;
+        while (i < arr.length && arr[i] < val) {
+            i++;
+        }
+        return i;
+    }
 }
 
 export default new ArrayUtil();
