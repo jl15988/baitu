@@ -58,8 +58,9 @@ declare class ArrayUtil {
     /**
      * 去重
      * @param arr 要去重的数组
+     * @param uniMapper 去重处理器，默认按当前元素去重
      */
-    unique(arr: any[]): any[];
+    unique(arr: any[], uniMapper?: (cur: any) => any): any[];
     /**
      * 取交集
      * @param arrs 要取交集的数组集

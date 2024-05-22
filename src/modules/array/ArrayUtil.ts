@@ -115,11 +115,15 @@ class ArrayUtil {
     /**
      * 去重
      * @param arr 要去重的数组
+     * @param uniMapper 去重处理器，默认按当前元素去重
      */
-    unique(arr: any[]): any[] {
+    unique(arr: any[], uniMapper?: (cur) => any): any[] {
+        const uniArr = [];
         return arr.reduce((acc, cur) => {
-            if (!acc.includes(cur)) {
+            const uniK = uniMapper ? uniMapper(cur) : cur;
+            if (!uniArr.includes(uniK)) {
                 acc.push(cur);
+                uniArr.push(uniK);
             }
             return acc;
         }, []);
@@ -131,7 +135,7 @@ class ArrayUtil {
      */
     intersection(...arrs: any[]): any[] {
         const [first, ...rest] = arrs;
-        return first.filter(item => rest.every(array => array.includes(item)));
+        return this.unique(first.filter(item => rest.every(array => array.includes(item))));
     }
 
     /**
@@ -147,8 +151,8 @@ class ArrayUtil {
      * @param arrs 要取差集的数组集
      */
     difference(...arrs: any): any[] {
-        const arrf = this.intersection(arrs);
-        return [...arrs].reduce((acc, curr) => {
+        const arrf = this.intersection(...arrs);
+        return [].concat(...arrs).reduce((acc, curr) => {
             if (!acc.includes(curr) && !arrf.includes(curr)) {
                 acc.push(curr);
             }
