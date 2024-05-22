@@ -134,6 +134,29 @@ declare class StrUtil {
      * @param appends 要追加的字符串
      */
     appendIfNotEmpty(str: string, appends: string): string;
+    /**
+     * 获取字符串的 unicode 总和
+     * @param str 字符串
+     */
+    getUnicodeSum(str: string): number;
+    /**
+     * 获取字符串的 unicode，默认获取第一个字符
+     * @param str 字符串
+     * @param index 要获取的字符下标
+     */
+    getUnicode(str: string, index?: number): number;
+    /**
+     * 比较两个字符串大小（按 unicode 总和比较），前者小于后者时结果小于 0，相反大于 0，等于时为 0
+     * @param str1 字符串 1
+     * @param str2 字符串 2
+     */
+    compare(str1: string, str2: string): number;
+    /**
+     * 比较两个字符串大小（按第一个字符 unicode 比较），前者小于后者时结果小于 0，相反大于 0，等于时为 0
+     * @param str1 字符串 1
+     * @param str2 字符串 2
+     */
+    compareByHead(str1: string, str2: string): number;
 }
 declare const _default: StrUtil;
 export default _default;

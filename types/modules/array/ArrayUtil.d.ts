@@ -75,8 +75,37 @@ declare class ArrayUtil {
      * @param arrs 要取差集的数组集
      */
     difference(...arrs: any): any[];
-    groupBy(): void;
-    orderBy(): void;
+    /**
+     * 分组
+     * @param arr 数组
+     * @param keyMapper 分组关键字处理器
+     */
+    groupBy(arr: any[], keyMapper: (cur: any) => any): any;
+    /**
+     * 多字段排序，排序的字段可指定排序规则，如 ["age desc", "height asc"]
+     * @param arr 数组
+     * @param orderKeys 排序的字段
+     */
+    orderBy(arr: any[], orderKeys: string[]): any[];
+    /**
+     * 按字段正序排序，如果没有字段，则默认按数组项排序
+     * @param arr 数组
+     * @param orderKey 排序的字段
+     */
+    orderByAsc(arr: any[], orderKey?: string): any[];
+    /**
+     * 按字段倒序排序，如果没有字段，则默认按数组项排序
+     * @param arr 数组
+     * @param orderKey 排序的字段
+     */
+    orderByDesc(arr: any[], orderKey?: string): any[];
+    /**
+     * 指定值与数组中数值比较大小，找出应该存放的位置
+     * @param arr 数组
+     * @param val 值
+     * @param keyMapper 字段处理器，为空时默认取当前元素
+     */
+    findIndex(arr: any[], val: number | string, keyMapper?: (cur: any) => any): number;
 }
 declare const _default: ArrayUtil;
 export default _default;

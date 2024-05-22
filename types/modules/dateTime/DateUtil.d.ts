@@ -145,6 +145,11 @@ declare class DateUtil {
         minute: string;
         second: string;
     }, pad?: boolean): string;
+    /**
+     * 获取日期为当月第几个星期几
+     * @param date 日期
+     */
+    getWeekdayWhichOfMonth(date?: Date): number;
 }
 declare const _default: DateUtil;
 export default _default;

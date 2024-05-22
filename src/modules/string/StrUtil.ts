@@ -266,6 +266,54 @@ class StrUtil {
         }
         return '';
     }
+
+    /**
+     * 获取字符串的 unicode 总和
+     * @param str 字符串
+     */
+    getUnicodeSum(str: string): number {
+        let unicode = 0;
+        for (let i = 0; i < str.length;) {
+            let codePoint = str.codePointAt(i);
+
+            // 如果当前字符是UTF-16代理对的一部分，则需要递增索引两次
+            if (codePoint >= 0x10000) { // 代理对的码点范围
+                i += 2;
+            } else {
+                i += 1;
+            }
+
+            unicode += codePoint;
+        }
+        return unicode;
+    }
+
+    /**
+     * 获取字符串的 unicode，默认获取第一个字符
+     * @param str 字符串
+     * @param index 要获取的字符下标
+     */
+    getUnicode(str: string, index: number = 0): number {
+        return str.codePointAt(index);
+    }
+
+    /**
+     * 比较两个字符串大小（按 unicode 总和比较），前者小于后者时结果小于 0，相反大于 0，等于时为 0
+     * @param str1 字符串 1
+     * @param str2 字符串 2
+     */
+    compare(str1: string, str2: string): number {
+        return this.getUnicodeSum(str1) - this.getUnicodeSum(str2);
+    }
+
+    /**
+     * 比较两个字符串大小（按第一个字符 unicode 比较），前者小于后者时结果小于 0，相反大于 0，等于时为 0
+     * @param str1 字符串 1
+     * @param str2 字符串 2
+     */
+    compareByHead(str1: string, str2: string): number {
+        return this.getUnicode(str1) - this.getUnicode(str2);
+    }
 }
 
 export default new StrUtil();

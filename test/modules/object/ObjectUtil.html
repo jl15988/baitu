@@ -62,6 +62,16 @@
     console.log(ObjectUtil.appendIfNotEmpty(0, "香蕉"))
     console.log(ObjectUtil.appendIfNotEmpty(null, "香蕉"))
     console.log(ObjectUtil.appendIfNotEmpty({}, "香蕉"))
+
+    console.log(ObjectUtil.compare(1, 2))
+    console.log(ObjectUtil.compare(10, 2))
+    console.log(ObjectUtil.compare(10, "2"))
+    console.log(ObjectUtil.compare("10", 2))
+    console.log(ObjectUtil.compare("10", "2"))
+    console.log(ObjectUtil.compare("a", "b"))
+    console.log(ObjectUtil.compare("b", "b"))
+    console.log(ObjectUtil.compare("e", "b"))
+    console.log(ObjectUtil.compare("edfs", "bdsf"))
 </script>
 </body>
 </html>

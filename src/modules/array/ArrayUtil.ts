@@ -156,24 +156,81 @@ class ArrayUtil {
         }, []);
     }
 
-    // todo 待完善
-
-    groupBy() {
-
+    /**
+     * 分组
+     * @param arr 数组
+     * @param keyMapper 分组关键字处理器
+     */
+    groupBy(arr: any[], keyMapper: (cur) => any) {
+        return arr.reduce((res, item) => {
+            const key = keyMapper(item).toString();
+            if (!res[key]) {
+                res[key] = [];
+            }
+            res[key].push(item);
+            return res;
+        }, {});
     }
 
-    orderBy() {
+    /**
+     * 多字段排序，排序的字段可指定排序规则，如 ["age desc", "height asc"]
+     * @param arr 数组
+     * @param orderKeys 排序的字段
+     */
+    orderBy(arr: any[], orderKeys: string[]) {
+        for (let orderKey of orderKeys) {
+            if (orderKey.endsWith(" desc")) {
+                arr = this.orderByDesc(arr, orderKey.replace(" desc", ""));
+            } else {
+                arr = this.orderByAsc(arr, orderKey.replace(" asc", ""));
+            }
+        }
+        return arr;
+    }
 
+    /**
+     * 按字段正序排序，如果没有字段，则默认按数组项排序
+     * @param arr 数组
+     * @param orderKey 排序的字段
+     */
+    orderByAsc(arr: any[], orderKey?: string) {
+        arr = this.deepCopy(arr);
+        return arr.sort((a, b) => {
+            let v1 = a, v2 = b;
+            if (orderKey) {
+                v1 = a[orderKey];
+                v2 = b[orderKey];
+            }
+            return ObjectUtil.compare(v1, v2);
+        });
+    }
+
+    /**
+     * 按字段倒序排序，如果没有字段，则默认按数组项排序
+     * @param arr 数组
+     * @param orderKey 排序的字段
+     */
+    orderByDesc(arr: any[], orderKey?: string) {
+        arr = this.deepCopy(arr);
+        return arr.sort((a, b) => {
+            let v1 = a, v2 = b;
+            if (orderKey) {
+                v1 = a[orderKey];
+                v2 = b[orderKey];
+            }
+            return ObjectUtil.compare(v2, v1);
+        })
     }
 
     /**
      * 指定值与数组中数值比较大小，找出应该存放的位置
-     * @param arr
-     * @param val
+     * @param arr 数组
+     * @param val 值
+     * @param keyMapper 字段处理器，为空时默认取当前元素
      */
-    findInsertIndex(arr: number[], val: number) {
+    findIndex(arr: any[], val: number | string, keyMapper?: (cur) => any) {
         let i = 0;
-        while (i < arr.length && arr[i] < val) {
+        while (i < arr.length && ObjectUtil.compare(keyMapper ? keyMapper(arr[i]) : arr[i], val) < 0) {
             i++;
         }
         return i;

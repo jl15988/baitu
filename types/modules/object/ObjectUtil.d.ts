@@ -18,6 +18,12 @@ declare class ObjectUtil {
      * @param appends 追加的值
      */
     appendIfNotEmpty(obj: any, appends: any): string;
+    /**
+     * 比较数字或字符串大小
+     * @param obj1 数字或字符串
+     * @param obj2 数字或字符串
+     */
+    compare(obj1: string | number, obj2: string | number): number;
 }
 declare const _default: ObjectUtil;
 export default _default;

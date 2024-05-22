@@ -9,7 +9,9 @@
 </body>
 <script src="../../../lib/baitu.min.js"></script>
 <script>
+    console.log(Baitu)
     const {ArrayUtil} = Baitu;
+    console.log(ArrayUtil)
     const res = ArrayUtil.repeat(['a', 1, 'c'], 3);
     console.log(res);
 
@@ -42,5 +44,47 @@
     let arr3 = [2, 3]
     console.log(ArrayUtil.fixedPush(arr3, 3, 4, 5, 6))
     console.log(arr3)
+
+    console.log("---------------groupBy")
+    const arr4 = [{
+        name: '1',
+        age: 23,
+        h: 150
+    }, {
+        name: '2',
+        age: 20,
+        h: 160
+    }, {
+        name: '3',
+        age: 23,
+        h: 178
+    }, {
+        name: '4',
+        age: 25,
+        h: 160
+    }, {
+        name: '5',
+        age: 20,
+        h: 180
+    }]
+    console.log(ArrayUtil.groupBy(arr4, item => item.age))
+
+    console.log("------------orderby")
+    console.log(ArrayUtil.orderBy(arr4, ["age asc", "h desc"]))
+    console.log(ArrayUtil.orderByDesc(arr4, "age"))
+    console.log(ArrayUtil.orderByAsc(arr4, "age"))
+    console.log(ArrayUtil.orderByAsc(arr4, "name"))
+    console.log(ArrayUtil.orderByDesc(arr4, "name"))
+    console.log(ArrayUtil.orderByDesc(arr4))
+
+    console.log("---------------findIndex")
+    const arr5 = ["2", "a", "ds", "6", "12"]
+    const arr6 = ["a", "a", "ds", "6", "12"]
+    console.log(ArrayUtil.findIndex(arr5, 3))
+    console.log(ArrayUtil.findIndex(arr6, 3))
+    console.log(ArrayUtil.findIndex(arr6, "c"))
+    console.log("arr4")
+    console.log(ArrayUtil.findIndex(arr4, "2", (item) => item.name))
+    console.log(ArrayUtil.findIndex(arr4, "24", (item) => item.age))
 </script>
 </html>
