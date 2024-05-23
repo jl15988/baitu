@@ -50,11 +50,11 @@ export declare class RSA {
     /**
      * 设置公钥
      */
-    setPublicKey(key: string): any;
+    setPublicKey(key: string): this;
     /**
      * 设置私钥
      */
-    setPrivateKey(key: string): any;
+    setPrivateKey(key: string): this;
     /**
      * 公钥加密
      * @param str 字符串

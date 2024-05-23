@@ -99,14 +99,16 @@ export class RSA {
      * 设置公钥
      */
     setPublicKey(key: string) {
-        return this.instance.setPublicKey(key);
+        this.instance.setPublicKey(key);
+        return this;
     }
 
     /**
      * 设置私钥
      */
     setPrivateKey(key: string) {
-        return this.instance.setPrivateKey(key);
+        this.instance.setPrivateKey(key);
+        return this;
     }
 
     /**
@@ -168,7 +170,7 @@ class AESClass {
     }
 
     setIv(iv: string) {
-        this.iv = CryptoGroup.CryptoEnc.Utf8.parse.parse(iv);
+        this.iv = CryptoGroup.CryptoEnc.Utf8.parse(iv);
     }
 
     static build(secretKey: string) {
