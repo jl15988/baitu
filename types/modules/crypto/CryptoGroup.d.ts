@@ -1,4 +1,4 @@
-declare class CryptoENC {
+declare class CryptoEnc {
     Utf8: any;
     Utf16: any;
     Base64: any;
@@ -44,11 +44,15 @@ declare class RSASignMethod {
     sha512: any;
     ripemd160: any;
 }
+declare class CryptoLib {
+    WordArray: any;
+}
 declare class CryptoGroup {
     CryptoJS: any;
     JSEncrypt: any;
     AESEncrypt: any;
-    CryptoENC: CryptoENC;
+    CryptoLib: CryptoLib;
+    CryptoEnc: CryptoEnc;
     CryptoPad: CryptoPad;
     CryptoMod: CryptoMod;
     /**

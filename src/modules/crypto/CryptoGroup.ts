@@ -1,4 +1,4 @@
-class CryptoENC {
+class CryptoEnc {
     Utf8
     Utf16
     Base64
@@ -55,11 +55,16 @@ class RSASignMethod {
     ripemd160
 }
 
+class CryptoLib {
+    WordArray
+}
+
 class CryptoGroup {
     CryptoJS;
     JSEncrypt;
     AESEncrypt;
-    CryptoENC = new CryptoENC()
+    CryptoLib = new CryptoLib()
+    CryptoEnc = new CryptoEnc()
     CryptoPad = new CryptoPad()
     CryptoMod = new CryptoMod()
     /**
@@ -76,11 +81,13 @@ class CryptoGroup {
         if (CryptoJS) {
             this.AESEncrypt = CryptoJS.AES;
 
-            this.CryptoENC.Base64 = CryptoJS.enc.Base64;
-            this.CryptoENC.Utf8 = CryptoJS.enc.Utf8;
-            this.CryptoENC.Utf16 = CryptoJS.enc.Utf16;
-            this.CryptoENC.Base64url = CryptoJS.enc.Base64url;
-            this.CryptoENC.Hex = CryptoJS.enc.Hex;
+            this.CryptoLib.WordArray = CryptoJS.lib.WordArray;
+
+            this.CryptoEnc.Base64 = CryptoJS.enc.Base64;
+            this.CryptoEnc.Utf8 = CryptoJS.enc.Utf8;
+            this.CryptoEnc.Utf16 = CryptoJS.enc.Utf16;
+            this.CryptoEnc.Base64url = CryptoJS.enc.Base64url;
+            this.CryptoEnc.Hex = CryptoJS.enc.Hex;
 
             this.CryptoMethod.MD5 = CryptoJS.MD5;
             this.CryptoMethod.SHA1 = CryptoJS.SHA1;

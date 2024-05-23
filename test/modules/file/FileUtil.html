@@ -27,6 +27,7 @@
                 FileUtil.getTypeMagic(file, 100).then(res => console.log(res))
                 FileUtil.isTypeMagic(file, "png").then(res => console.log(res))
                 FileUtil.toImage(file).then(res => console.log(res)).catch(e => console.log(e))
+                FileUtil.getMD5(file).then(res => console.log(res))
             } catch (error) {
                 console.error('Error reading file:', error);
             }

@@ -10,9 +10,8 @@
 </body>
 <script src="../../../lib/baitu.min.js"></script>
 <script>
-    Baitu.putTo((k, tool) => {
-        window[k] = tool;
-    });
+    const {HexUtil} = Baitu
+    console.log(HexUtil.encode(''))
     const encodeStr = HexUtil.encode("百涂工具");
     console.log("编码：", encodeStr);
     const decodeStr = HexUtil.decode(encodeStr);

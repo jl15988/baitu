@@ -41,20 +41,23 @@ declare class FileUtil {
      * 获取文件的16进制字符串
      * @param file 文件
      * @param len 截取文件的长度
+     * @param start 截取文件的开始
      */
-    getHexString(file: File, len?: number): Promise<string>;
+    getHexString(file: File, len?: number, start?: number): Promise<string>;
     /**
      * 获取文件Buffer
      * @param file 文件
      * @param len 截取文件的长度
+     * @param start 截取文件的开始
      */
-    getArrayBuffer(file: File | Blob, len?: number): Promise<string | ArrayBuffer>;
+    getArrayBuffer(file: File | Blob, len?: number, start?: number): Promise<string | ArrayBuffer>;
     /**
      * 获取文件的Uint8数组
      * @param file 文件
      * @param len 截取文件的长度
+     * @param start 截取文件的开始
      */
-    getUint8Array(file: File, len?: number): Promise<Uint8Array>;
+    getUint8Array(file: File, len?: number, start?: number): Promise<Uint8Array>;
     /**
      * 通过魔数获取文件类型（byte值获取）
      * 不总是准确的，因为不是所有的文件类型都有唯一的魔数
@@ -87,6 +90,20 @@ declare class FileUtil {
      */
     downloadBlob(blob: Blob, filename: string): void;
     blobToFile(blob: any, fileName: any): File;
+    /**
+     * 获取文件的 MD5
+     * @param file 文件
+     * @param len 截取文件的长度
+     * @param start 截取文件的开始
+     */
+    getMD5(file: File, len?: number, start?: number): Promise<string>;
+    /**
+     * 获取文件的 SHA256，该方法依赖于 CryptoJs，使用前请先通过 CryptoGroup.initCryptoJS 方法初始化 CryptoJs
+     * @param file 文件
+     * @param len 截取文件的长度
+     * @param start 截取文件的开始
+     */
+    getSha256(file: File, len?: number, start?: number): Promise<string>;
 }
 declare const _default: FileUtil;
 export default _default;

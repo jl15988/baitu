@@ -7,7 +7,7 @@ export class Base64Class {
      * @param str 字符串
      */
     encode(str: string) {
-        return CryptoGroup.CryptoENC.Base64.stringify(CryptoGroup.CryptoENC.Utf8.parse(str));
+        return CryptoGroup.CryptoEnc.Base64.stringify(CryptoGroup.CryptoEnc.Utf8.parse(str));
     }
 
     /**
@@ -15,7 +15,7 @@ export class Base64Class {
      * @param str 加密的字符串
      */
     decode(str: string) {
-        return CryptoGroup.CryptoENC.Base64.parse(str).toString(CryptoGroup.CryptoENC.Utf8);
+        return CryptoGroup.CryptoEnc.Base64.parse(str).toString(CryptoGroup.CryptoEnc.Utf8);
     }
 }
 
@@ -162,13 +162,13 @@ class AESClass {
     padding;
 
     constructor(secretKey: string) {
-        this.secretKey = CryptoGroup.CryptoENC.Utf8.parse(secretKey);
+        this.secretKey = CryptoGroup.CryptoEnc.Utf8.parse(secretKey);
         this.padding = CryptoGroup.CryptoPad.Pkcs7;
         this.mode = CryptoGroup.CryptoMod.ECB;
     }
 
     setIv(iv: string) {
-        this.iv = CryptoGroup.CryptoENC.Utf8.parse.parse(iv);
+        this.iv = CryptoGroup.CryptoEnc.Utf8.parse.parse(iv);
     }
 
     static build(secretKey: string) {
@@ -189,17 +189,17 @@ class AESClass {
             padding: this.padding,
             iv: this.iv
         }).ciphertext;
-        return ciphertext.toString(CryptoGroup.CryptoENC.Base64);
+        return ciphertext.toString(CryptoGroup.CryptoEnc.Base64);
     }
 
     decode(str: string): string {
         return CryptoGroup.AESEncrypt.decrypt({
-            ciphertext: CryptoGroup.CryptoENC.Base64.parse(str)
+            ciphertext: CryptoGroup.CryptoEnc.Base64.parse(str)
         }, this.secretKey, {
             mode: this.mode,
             padding: this.padding,
             iv: this.iv
-        }).toString(CryptoGroup.CryptoENC.Utf8);
+        }).toString(CryptoGroup.CryptoEnc.Utf8);
     }
 }
 
