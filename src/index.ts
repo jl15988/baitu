@@ -18,7 +18,8 @@ import ValidateUtil from "./modules/string/ValidateUtil";
 import ImgUtil from "./modules/file/ImgUtil";
 import IDUtil from "./modules/common/IDUtil";
 import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
-import EncryptUtil from "./modules/common/EncryptUtil";
+import CryptoUtil from "./modules/crypto/CryptoUtil";
+import CryptoGroup from "./modules/crypto/CryptoGroup";
 import JSONUtil, {JSONType} from "./modules/common/JSONUtil";
 import UrlUtil from "./modules/common/UrlUtil";
 import TreeUtil from "./modules/common/TreeUtil";
@@ -51,7 +52,8 @@ export {
     ImgUtil,
     IDUtil,
     SnowflakeIdWorker,
-    EncryptUtil,
+    CryptoUtil,
+    CryptoGroup,
     JSONUtil,
     JSONType,
     UrlUtil,
