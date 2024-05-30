@@ -113,6 +113,35 @@ class ArrayUtil {
     }
 
     /**
+     * 深合并
+     * @param targets 目标数组
+     * @param sources 源数组
+     */
+    deepAssign(targets: (object | object[])[], sources: (object | object[])[]): any[] {
+        if (!sources || !Array.isArray(sources)) {
+            return targets
+        }
+        return sources.map((item, index) => {
+            if (item === undefined || item === null) {
+                return targets[index]
+            }
+            if (Array.isArray(item)) {
+                if (!!targets[index] && !Array.isArray(targets[index])) {
+                    return this.deepAssign([], item)
+                }
+                // @ts-ignore
+                return this.deepAssign(targets[index] || [], item);
+            } else if (typeof item === 'object') {
+                if (!!targets[index] && Array.isArray(targets[index])) {
+                    return ObjectUtil.deepAssign({}, item)
+                }
+                return ObjectUtil.deepAssign(targets[index] || {}, item);
+            }
+            return item;
+        });
+    }
+
+    /**
      * 去重
      * @param arr 要去重的数组
      * @param uniMapper 去重处理器，默认按当前元素去重

@@ -54,6 +54,64 @@ class ObjectUtil {
     }
 
     /**
+     * 深合并，对于 source 中没有的属性不会覆盖
+     * @param target 目标对象
+     * @param sources 源对象
+     */
+    deepAssign(target: object, ...sources: object[]): object {
+        if (!sources) {
+            return target;
+        }
+        for (let source of sources) {
+            if (typeof source !== "object") {
+                continue
+            }
+            for (const key in source) {
+                if (source.hasOwnProperty(key)) {
+                    const value = source[key];
+                    if (value === undefined || value === null) continue
+                    if (Array.isArray(value)) {
+                        if (!!value && !Array.isArray(value)) {
+                            target[key] = ArrayUtil.deepAssign([], source[key])
+                        } else {
+                            target[key] = ArrayUtil.deepAssign(target[key] || [], source[key])
+                        }
+                    } else {
+                        if (typeof value !== 'object') {
+                            target[key] = value
+                        } else {
+                            if (!!target[key] && Array.isArray(target[key])) {
+                                target[key] = this.deepAssign({}, value)
+                            } else {
+                                target[key] = this.deepAssign(target[key] || {}, value)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return target;
+    }
+
+    /**
+     * 深合并，target 不可为空，target[targetKey] 可为空，默认赋值为 {}
+     * @param target 目标对象
+     * @param targetKey 目标对象 key
+     * @param sources 源对象
+     */
+    deepAssignByKey<T extends object>(target: T, targetKey: keyof T, ...sources: object[]): object {
+        if (!sources) {
+            return target;
+        }
+        if (!target[targetKey]) {
+            // @ts-ignore
+            target[targetKey] = {}
+        }
+        // @ts-ignore
+        return this.deepAssign(target[targetKey], ...sources);
+    }
+
+    /**
      * 当对象不为空时追加对应的值
      * @param obj 对象
      * @param appends 追加的值
