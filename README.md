@@ -1,11 +1,15 @@
 # 百涂工具（Baitu）
 
 
-![](https://img.shields.io/badge/gitee-jl15988-000000?logo=gitee&link=https://gitee.com/jl15988) ![](https://img.shields.io/badge/gitee-baitu-000000?logo=gitee&link=https://gitee.com/jl15988/baitu) ![NPM](https://img.shields.io/npm/l/baitu) ![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/baitu) ![npm](https://img.shields.io/npm/v/baitu)
+[![License](https://img.shields.io/npm/l/baitu?color=5470c6)](https://gitee.com/jl15988/baitu/blob/master/LICENSE) [![Latest npm release](https://img.shields.io/npm/v/baitu?color=91cc75)](https://www.npmjs.com/package/baitu) [![NPM downloads](https://img.shields.io/npm/dm/baitu.svg?label=npm%20downloads&style=flat&color=fac858)](https://www.npmjs.com/package/baitu)
 
 一个小而全的前端工具包
 
 A small and comprehensive front-end toolkit.
+
+## Baitu v2.0 优化重构
+
+由于 v 1.0 中存在方法过于繁重，意图不明确等问题，造成使用中效率低下等情况，现以简化方法、优化体积、提升效率为目标进行优化重构升级，敬请期待
 
 ## 介绍
 
@@ -37,7 +41,7 @@ vue2
 ```js
 import Baitu from "baitu";
 
-Vue.prototype.$btu = Baitu;
+Vue.prototype.$bu = Baitu;
 ```
 
 
@@ -49,13 +53,3 @@ import {DateTime} from "baitu"
 DateTime.create();
 new DateTime();
 ```
-
-
-## 文档
-
-[http://www.jl15988.com/baitu-doc/](http://www.jl15988.com/baitu-doc/)
-
-对于数字计算确保精度发现了个开源的：[decimal.js](https://github.com/MikeMcl/decimal.js) ，因为功能复杂，有时间简单集成一下。
-
-文档更新会有所延时，具体功能见具体代码，在 TypeScript 环境下，工具方法的 API 注释面面俱全。
-更多功能开发中...

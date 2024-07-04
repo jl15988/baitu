@@ -10,7 +10,7 @@ const banner =
     '\n * ' +
     pkg.description +
     '\n * Copyright (c)' +
-    ' jl15988(https://gitee.com/jl15988).' +
+    ' 会功夫的李白(https://gitee.com/jl15988).' +
     '\n * This source code is licensed under the MIT license(https://gitee.com/jl15988/baitu/blob/master/LICENSE).' +
     '\n */'
 const sourcemap = false
