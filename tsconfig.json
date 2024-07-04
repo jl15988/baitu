@@ -1,16 +1,12 @@
 {
   "compilerOptions": {
-    "module": "nodenext",
-    "target": "ES2018",
-    "outDir": "lib",
+    "module": "ESNext",
+    "target": "ESNext",
+    "strict": true,
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
     "declaration": true,
-    "declarationDir": "types",
-    "baseUrl": "./",
-//    "paths": {
-//      "@/*": [
-//        "src/*"
-//      ]
-//    }
+    "baseUrl": "./"
   },
   "include": [
     "src/**/*.ts"

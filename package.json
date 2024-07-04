@@ -5,16 +5,12 @@
   "description": "A small and comprehensive front-end toolkit.",
   "main": "/lib/baitu.min.js",
   "files": [
-    "lib",
-    "src",
+    "dist",
     "types"
   ],
   "scripts": {
-    "build": "webpack",
-    "docs:build": "vuepress-vite build docs",
-    "docs:clean-dev": "vuepress-vite dev docs --clean-cache",
-    "docs:dev": "vuepress-vite dev docs",
-    "docs:update-package": "pnpm dlx vp-update"
+    "example": "webpack serve --config webpack.config.js --mode=development",
+    "build": "rollup -c"
   },
   "typings": "/types/index.d.ts",
   "repository": {
@@ -35,16 +31,16 @@
   "author": "jl15988",
   "license": "MIT",
   "devDependencies": {
-    "@vuepress/bundler-vite": "2.0.0-rc.9",
-    "@vuepress/plugin-search": "^2.0.0-rc.24",
+    "@rollup/plugin-terser": "^0.4.4",
     "clean-webpack-plugin": "^4.0.0",
+    "html-webpack-plugin": "^5.6.0",
+    "rollup": "^4.18.0",
+    "rollup-plugin-typescript2": "^0.36.0",
     "terser-webpack-plugin": "^5.3.10",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.2",
+    "vitepress": "^1.2.3",
     "vue": "^3.4.21",
-    "vuepress": "2.0.0-rc.9",
-    "vuepress-plugin-search-pro": "^2.0.0-rc.36",
-    "vuepress-theme-hope": "2.0.0-rc.36",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4"
   },
