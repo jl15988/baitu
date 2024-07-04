@@ -7,11 +7,5 @@
     "esModuleInterop": true,
     "declaration": true,
     "baseUrl": "./"
-  },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  }
 }

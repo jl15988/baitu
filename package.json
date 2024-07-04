@@ -3,14 +3,30 @@
   "private": false,
   "version": "1.1.8",
   "description": "A small and comprehensive front-end toolkit.",
-  "main": "/lib/baitu.min.js",
+  "type": "module",
+  "main": "./dist/baitu.esm.js",
+  "common": "./dist/baitu.cjs.js",
+  "module": "./dist/baitu.esm.js",
+  "browser": "./dist/baitu.browser.js",
+  "unpkg": "./dist/baitu.browser.min.js",
+  "jsdelivr": "./dist/baitu.browser.min.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/baitu.esm.js",
+      "require": "./dist/baitu.cjs.js"
+    },
+    "./package": "./package.json"
+  },
   "files": [
     "dist",
     "types"
   ],
   "scripts": {
     "example": "webpack serve --config webpack.config.js --mode=development",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "toPublish": "npm publish --registry=https://registry.npmjs.org --access=public"
   },
   "typings": "/types/index.d.ts",
   "repository": {

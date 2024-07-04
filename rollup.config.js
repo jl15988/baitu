@@ -36,7 +36,7 @@ function createEntry(options) {
                     compilerOptions: {
                         declaration: options.format === 'types',
                     },
-                    exclude: ['src', 'example'],
+                    exclude: ['example'],
                 }
             }),
         ],
