@@ -10,33 +10,31 @@ class ArrayUtil {
      * @param arr 数组
      * @param count 循环次数
      */
-    repeat(arr: (string | number)[], count: number): string {
+    repeat(arr: any[], count: number): string {
         return arr.join('').repeat(count);
     }
 
     /**
-     * 获取数组的最后一个元素
+     * 获取数组后面的元素
+     * <p>默认获取数组最后一项，可通过 count 指定获取数量，如果只获取一项，则直接返回**该项**，如果获取的大于一项，则返回**数组**</p>
      * @param arr 数组
-     * @param defaultItem 如果为空时，返回的默认值，非必传
+     * @param count 获取的项数
      */
-    finalItem(arr: any[], defaultItem?: any) {
-        if (ObjectUtil.isEmpty(arr)) {
-            return defaultItem;
+    finals<D>(arr: D[], count: number = 1): D | D[] | undefined {
+        if (count === 0) return undefined;
+        if (this.isEmpty(arr)) {
+            return undefined;
         }
-        return arr[arr.length - 1] || defaultItem;
-    }
-
-    /**
-     * 向数组中添加新的元素并返回，如果数组为空，则返回包含新元素的数组
-     * @param arr 数组
-     * @param item 新元素
-     */
-    push(arr: any[] | null, item: any): any[] {
-        if (Array.isArray(arr) && arr.length >= 0) {
-            arr.push(item);
-            return arr;
+        let finals = []
+        if (count > 0) {
+            finals = arr.slice(-count);
+        } else {
+            finals = arr.slice(0, -count);
         }
-        return [item];
+        if (count === 1) {
+            return finals[0] || undefined
+        }
+        return finals;
     }
 
     /**
@@ -65,7 +63,12 @@ class ArrayUtil {
     }
 
     /**
-     * 固定长度首部添加元素，返回删除的元素（向数组开头添加元素，如果长度超出指定长度，则删除尾部元素）
+     * 固长首部追加
+     * <p>
+     *     指定数组长度，如果数组不满足长度，则向数组首部追加指定元素
+     *      <li>如果追加元素后超出指定长度，则从数组**尾部开始删除**超出数量，并返回删除的元素</li>
+     *      <li>如果追加元素后不满足长度，则将继续追加最后一项元素，直到满足长度</li>
+     * </p>
      * @param array 数组
      * @param len 固定的长度
      * @param items 要添加的元素
@@ -75,12 +78,22 @@ class ArrayUtil {
         let deleteArr = [];
         if (array.length > len) {
             deleteArr = array.splice(len, array.length - len);
+        } else if (array.length < len) {
+            for (let i = 0; i < len - array.length; i++) {
+                array.unshift(items.reverse()[0])
+            }
         }
         return deleteArr;
     }
 
     /**
-     * 固定长度尾部添加元素，返回删除的元素（向数组最后添加元素，如果长度超出指定长度，则删除首部元素）
+     * 固长追加
+     * <p>
+     *     指定数组长度，如果数组长度不满足长度，则在数组尾部追加指定元素
+     *     <li>如果追加元素后，超出指定长度，则从数组**首部开始删除**超出数量，并返回删除的元素</li>
+     *     <li>如果追加元素后，未满足长度，则继续追加指定最后一项元素，直到满足长度</li>
+     * </p>
+     *
      * @param array 数组
      * @param len 固定的长度
      * @param items 要添加的元素
@@ -90,6 +103,10 @@ class ArrayUtil {
         let deleteArr = [];
         if (array.length > len) {
             deleteArr = array.splice(0, array.length - len);
+        } else if (array.length < len) {
+            for (let i = 0; i < len - array.length; i++) {
+                array.push(items.reverse()[0]);
+            }
         }
         return deleteArr;
     }
