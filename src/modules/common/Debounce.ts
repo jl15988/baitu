@@ -1,7 +1,9 @@
 /**
  * 全局防抖池
  */
-const globalDebouncePool = {};
+const globalDebouncePool: {
+    [name: string]: Debounce
+} = {};
 
 /**
  * 默认的防抖名称
@@ -12,9 +14,9 @@ const defaultDebounceName = "defaultDebounceName";
  * 防抖（无论多长时间，只有最后一次执行达到指定时长才执行）
  */
 class Debounce {
-    private timer = null;
-    private withTimer = null;
-    name: string = null;
+    private timer: undefined | number | NodeJS.Timeout = undefined;
+    private withTimer: undefined | number | NodeJS.Timeout = undefined;
+    name: undefined | string = undefined;
 
     constructor(name?: string) {
         if (name) {
@@ -75,6 +77,7 @@ class Debounce {
     with(fn: Function, delay: number): Function {
         const _this = this;
         return function () {
+            // @ts-ignore
             const context = this;
             const args = arguments;
             if (_this.withTimer !== null) {
@@ -120,7 +123,7 @@ class Debounce {
             } catch (e) {
             }
         }
-        delete globalDebouncePool[this.name];
+        delete globalDebouncePool[this.name!];
     }
 }
 

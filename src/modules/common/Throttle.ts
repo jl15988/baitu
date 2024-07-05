@@ -1,7 +1,9 @@
 /**
  * 全局节流池
  */
-const globalThrottlePool = {};
+const globalThrottlePool: {
+    [name: string]: Throttle
+} = {};
 
 /**
  * 默认的节流名称
@@ -12,9 +14,9 @@ const defaultThrottleName = "defaultThrottleName";
  * 节流（一段时间内只执行一次）
  */
 class Throttle {
-    private timer = null;
-    private withTimer = null;
-    name: string = null;
+    private timer: undefined | number | NodeJS.Timeout = undefined;
+    private withTimer: undefined | number | NodeJS.Timeout = undefined;
+    name: undefined | string = undefined;
 
     constructor(name?: string) {
         if (name) {
@@ -55,14 +57,14 @@ class Throttle {
             if (!this.timer) {
                 fn();
                 this.timer = setTimeout(() => {
-                    this.timer = null;
+                    this.timer = undefined;
                     this.destroy();
                     console.log(globalThrottlePool)
                 }, delay);
             }
         } else if (!this.timer) {
             this.timer = setTimeout(() => {
-                this.timer = null;
+                this.timer = undefined;
                 fn();
                 this.destroy();
                 console.log(globalThrottlePool)
@@ -90,19 +92,20 @@ class Throttle {
     with(fn: Function, delay: number, immediate: boolean = true): Function {
         const _this = this;
         return function () {
+            // @ts-ignore
             const context = this;
             const args = arguments;
             if (immediate) {
                 if (!_this.withTimer) {
                     fn.apply(context, args);
                     _this.withTimer = setTimeout(() => {
-                        _this.withTimer = null;
+                        _this.withTimer = undefined;
                         _this.destroy();
                     }, delay);
                 }
             } else if (!_this.withTimer) {
                 _this.withTimer = setTimeout(() => {
-                    _this.withTimer = null;
+                    _this.withTimer = undefined;
                     fn.apply(context, args);
                     _this.destroy();
                 }, delay);
@@ -143,7 +146,7 @@ class Throttle {
             } catch (e) {
             }
         }
-        delete globalThrottlePool[this.name];
+        delete globalThrottlePool[this.name!];
     }
 }
 
