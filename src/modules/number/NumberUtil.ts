@@ -40,7 +40,7 @@ class NumberUtil {
     }
 
     /**
-     * 位运算或
+     * “或”位运算
      * @param numbers 数字
      */
     bitwiseOr(...numbers: (Long | string | number)[]) {
@@ -52,7 +52,7 @@ class NumberUtil {
     }
 
     /**
-     * 位运算并
+     * “并”位运算
      * @param numbers 数字
      */
     bitwiseAnd(...numbers: (Long | string | number)[]) {
@@ -99,8 +99,9 @@ class NumberUtil {
      * 判断数字是否为空
      * @param number 数字
      */
-    isEmpty(number: number): boolean {
-        return !number;
+    isEmpty(number: number | undefined | null): boolean {
+        // 不能使用!，0 不算空
+        return number === undefined || number === null;
     }
 
     /**
@@ -108,8 +109,8 @@ class NumberUtil {
      * @param number 数字
      * @param defaultNumber 默认数字
      */
-    defaultIfEmpty(number: number, defaultNumber: number): number {
-        return this.isEmpty(number) ? defaultNumber : number;
+    defaultIfEmpty(number: number | undefined | null, defaultNumber: number): number {
+        return this.isEmpty(number) ? defaultNumber : number!;
     }
 }
 

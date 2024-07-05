@@ -8,12 +8,16 @@ import NumberUtil from "../number/NumberUtil";
  * @param parentChildList 父级子元素集合
  * @param level 当前层级
  */
-export type TreeNodeMapper = (current: any, parent?: any, parentChildList?: any[], level?: number) => any;
+export type TreeNodeMapper<T> = (current: T, parent?: T, parentChildList?: T[], level?: number) => T;
 /**
  * 树叶子节点处理函数
  * @param current 当前元素
  */
-export type TreeLeafNodeMapper = (current: any) => any;
+export type TreeLeafNodeMapper<T> = (current: T) => T;
+
+type TreeNodeType<C extends string | number | symbol, T> = T & {
+    [P in C]: TreeNodeType<C, T>[]
+}
 
 class TreeUtil {
 
@@ -40,15 +44,18 @@ class TreeUtil {
      * @param mapper 节点处理函数
      * @param leafMapper 叶子节点处理函数
      */
-    buildTree(list: any[], idName: string, parentName: string, childName: string, levelName?: string, mapper?: TreeNodeMapper, leafMapper?: TreeLeafNodeMapper): any[] {
+    buildTree<T extends (Record<I, any> & Record<P, any>), I extends string, P extends string, C extends string, R extends TreeNodeType<C, T>>
+    (list: T[], idName: I, parentName: P, childName: C, levelName?: string, mapper?: TreeNodeMapper<T>, leafMapper?: TreeLeafNodeMapper<T>): R[] {
         if (!list) return [];
         let newList = ArrayUtil.deepCopy(list);
         levelName = levelName || this.LEVEL_NAME;
         this.buildTreeMapper(newList, idName, parentName, (current, parent, parentChildList, level) => {
             if (level !== this.LEVEL_BEGIN) {
                 // 根节点遍历时没有父级
+                // @ts-ignore
                 parent[childName] = parentChildList;
             }
+            // @ts-ignore
             current[levelName] = level;
             mapper && mapper(current, parent, parentChildList, level);
             return current;
@@ -66,7 +73,8 @@ class TreeUtil {
      * @param mapper 节点处理函数
      * @param leafMapper 叶子节点处理函数
      */
-    buildCommonTree(list: any[], idName: string, parentName: string, childName: string, levelName: string, mapper: TreeNodeMapper, leafMapper: TreeLeafNodeMapper): any[] {
+    buildCommonTree<T extends (Record<I, any> & Record<P, any>), I extends string, P extends string, C extends string, R extends TreeNodeType<C, T>>
+    (list: T[], idName: I, parentName: P, childName: C, levelName?: string, mapper?: TreeNodeMapper<T>, leafMapper?: TreeLeafNodeMapper<T>): R[] {
         return this.filterRoot(this.buildTree(list, idName, parentName, childName, levelName, mapper, leafMapper))
     }
 
@@ -75,8 +83,9 @@ class TreeUtil {
      * @param list 数组
      * @param levelName 级别属性名
      */
-    filterRoot(list: any[], levelName?: string) {
+    filterRoot<T>(list: T[], levelName?: string) {
         levelName = levelName || this.LEVEL_NAME;
+        // @ts-ignore
         return list.filter(item => item[levelName] === this.LEVEL_BEGIN);
     }
 
@@ -88,12 +97,14 @@ class TreeUtil {
      * @param mapper 节点处理函数
      * @param leafMapper 叶子节点处理函数
      */
-    buildTreeMapper(list: any[], idName: string, parentName: string, mapper: TreeNodeMapper, leafMapper?: TreeLeafNodeMapper): void {
+    buildTreeMapper<T extends (Record<I, any> & Record<P, any>), I extends string, P extends string>
+    (list: T[], idName: I, parentName: P, mapper: TreeNodeMapper<T>, leafMapper?: TreeLeafNodeMapper<T>): void {
         if (ArrayUtil.isEmpty(list)) return;
         for (let item of list) {
             const level = this.LEVEL_BEGIN;
+            // @ts-ignore
             if (item[this.BUILT_TAG]) return;
-            mapper && mapper(item, null, [], level);
+            mapper && mapper(item, undefined, [], level);
             this.toTreeMapper(list, item, idName, parentName, mapper, leafMapper, level);
         }
     }
@@ -108,10 +119,13 @@ class TreeUtil {
      * @param leafMapper 叶子节点处理函数
      * @param parentLevel 上级层级
      */
-    toTreeMapper(list: any[], obj: any, idName: string, parentName: string, mapper: TreeNodeMapper, leafMapper?: TreeLeafNodeMapper, parentLevel?: number): void {
+    toTreeMapper<T extends (Record<I, any> & Record<P, any>), I extends string, P extends string, C extends string, R extends TreeNodeType<C, T>>
+    (list: T[], obj: T, idName: I, parentName: P, mapper: TreeNodeMapper<T>, leafMapper?: TreeLeafNodeMapper<T>, parentLevel?: number): void {
         const childList = [];
         for (let item of list) {
+            // @ts-ignore
             if (item[parentName] === obj[idName]) {
+                // @ts-ignore
                 item[this.BUILT_TAG] = true;
                 childList.push(item);
             }
