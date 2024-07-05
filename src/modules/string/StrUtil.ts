@@ -1,5 +1,4 @@
 import ArrayUtil from "../array/ArrayUtil";
-import {JSONType} from "../common/JSONUtil";
 
 /**
  * 字符串工具
@@ -11,7 +10,7 @@ class StrUtil {
      * @param str 字符串
      */
     isBlank(str: string): boolean {
-        return (!str || /^\s*$/.test(str.trim()));
+        return !str || /^\s*$/.test(str.trim());
     }
 
     /**
@@ -27,7 +26,7 @@ class StrUtil {
      * @param str 字符串
      */
     isEmpty(str: string): boolean {
-        return str === null || str === undefined || str.length === 0;
+        return !str;
     }
 
     /**
@@ -39,7 +38,7 @@ class StrUtil {
     }
 
     /**
-     * 如果字符串为null返回默认值，否则返回原字符串
+     * 如果字符串为 null 返回默认值，否则返回原字符串
      * @param str 字符串
      * @param defaultStr 默认值
      */
@@ -145,7 +144,7 @@ class StrUtil {
     }
 
     /**
-     * 在字符串开始填充额外的字符串
+     * 指定字符串长度，如果字符串长度不满足长度，则在首部填充指定字符串，直到满足长度
      * @param str 字符串
      * @param len 目标长度
      * @param pad 要填充的字符串
@@ -156,7 +155,7 @@ class StrUtil {
     }
 
     /**
-     * 在字符串结束填充额外的字符串
+     * 指定字符串长度，如果字符串长度不满足长度，则在尾部填充指定字符串，直到满足长度
      * @param str 字符串
      * @param len 目标长度
      * @param pad 要填充的字符串
@@ -167,7 +166,7 @@ class StrUtil {
     }
 
     /**
-     * 按长度分割字符串转为数组
+     * 按长度分割字符串并转为数组
      * @param str 字符串
      * @param chunkSize 分割长度
      */
@@ -183,11 +182,11 @@ class StrUtil {
     }
 
     /**
-     * 分割字符串为固定长度数组
+     * 分割字符串为固定长度并转为数组
      * @param str 字符串
      * @param count 数组长度
      */
-    chunkCount(str: string, count: number): string[] {
+    chunkFixed(str: string, count: number): string[] {
         if (count <= 0) {
             throw new Error('Count must be a positive integer');
         }
@@ -218,7 +217,7 @@ class StrUtil {
     /**
      * 转驼峰
      * @param str 字符串
-     * @param spacers 连接符 默认['-', '_']
+     * @param spacers 连接符 默认 '-', '_'
      */
     toHump(str: string, ...spacers: string[]) {
         if (ArrayUtil.isEmpty(spacers)) {
@@ -228,7 +227,7 @@ class StrUtil {
     }
 
     /**
-     * 字符串格式化
+     * 字符串格式化，将字符串中的 **{}** 替换为指定内容
      * @param str 字符串
      * @param args 格式化项
      */
@@ -244,19 +243,19 @@ class StrUtil {
     }
 
     /**
-     * 字符串 Map 格式化
+     * 字符串 Map 格式化，将字符串中的 **{key}** 替换成 map 对应 key 的值，如果没有对应值，则默认为 ''
      * @param str 字符串
      * @param map 参数
      */
-    formatMap(str: string, map: JSONType) {
+    formatMap(str: string, map: Record<string, string | number | boolean>) {
         for (let jsonKey in map) {
-            str = str.replace(new RegExp(`{${jsonKey}}`, 'g'), map[jsonKey]);
+            str = str.replace(new RegExp(`{${jsonKey}}`, 'g'), map[jsonKey].toString() || '');
         }
         return str;
     }
 
     /**
-     * 当字符串不为空时追加对应的字符串
+     * 当字符串不为空时追加对应的字符串，否则返回空字符串
      * @param str 字符串
      * @param appends 要追加的字符串
      */
@@ -275,6 +274,9 @@ class StrUtil {
         let unicode = 0;
         for (let i = 0; i < str.length;) {
             let codePoint = str.codePointAt(i);
+            if (codePoint == undefined) {
+                throw new Error(`${str[i]} is not a valid code point`);
+            }
 
             // 如果当前字符是UTF-16代理对的一部分，则需要递增索引两次
             if (codePoint >= 0x10000) { // 代理对的码点范围
@@ -293,7 +295,7 @@ class StrUtil {
      * @param str 字符串
      * @param index 要获取的字符下标
      */
-    getUnicode(str: string, index: number = 0): number {
+    getUnicode(str: string, index: number = 0): number | undefined {
         return str.codePointAt(index);
     }
 
@@ -312,7 +314,15 @@ class StrUtil {
      * @param str2 字符串 2
      */
     compareByHead(str1: string, str2: string): number {
-        return this.getUnicode(str1) - this.getUnicode(str2);
+        const val1 = this.getUnicode(str1)
+        if (val1 === undefined) {
+            throw new Error(`${str1} is not a valid code point`);
+        }
+        const val2 = this.getUnicode(str2)
+        if (val2 === undefined) {
+            throw new Error(`${str2} is not a valid code point`)
+        }
+        return val1 - val2;
     }
 }
 
