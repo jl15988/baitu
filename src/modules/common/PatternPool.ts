@@ -86,11 +86,7 @@ export function definePattern<T extends Record<string, RegExp>>(options: T = {} 
     type PatternPoolKeyType = keyof typeof PatternPool
     type OptionsKeyType = keyof T
     // @ts-ignore
-    const patternPool: {
-        [key in PatternPoolKeyType]: typeof PatternPool[key]
-    } & {
-        [key in OptionsKeyType]: T[key]
-    } = PatternPool
+    const patternPool: Pick<typeof PatternPool, PatternPoolKeyType> & Pick<T, OptionsKeyType> = PatternPool
     return {
         patternPool
     }
