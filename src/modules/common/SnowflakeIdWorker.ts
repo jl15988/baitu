@@ -1,8 +1,10 @@
 import NumberUtil from "../number/NumberUtil";
 import Long from "long";
 
+let globalSnowflake: undefined | SnowflakeIdWorker = undefined
+
 /**
- * 雪花ID生成器
+ * 雪花 ID 生成器，需自行处理生成器对象唯一性，因为不同的对象生成的 id 可能会有重复，或者调用静态方法 global 以获取全局雪花对象
  */
 export default class SnowflakeIdWorker {
     /**
@@ -66,7 +68,17 @@ export default class SnowflakeIdWorker {
         this.sequenceMask = -1 ^ (-1 << this.sequenceBits);
     }
 
-    _tilNextMillis(lastTimestamp) {
+    /**
+     * 获取全局雪花对象
+     * @param workerId 机器ID
+     * @param dataCenterId 数据中心ID
+     */
+    static global(workerId?: number, dataCenterId?: number) {
+        if (globalSnowflake) return globalSnowflake
+        return new SnowflakeIdWorker(workerId, dataCenterId)
+    }
+
+    _tilNextMillis(lastTimestamp: number) {
         let timestamp = this._timeGen();
         while (timestamp <= lastTimestamp) {
             timestamp = this._timeGen();
