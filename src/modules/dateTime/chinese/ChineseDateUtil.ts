@@ -838,6 +838,7 @@ class ChineseDateUtil {
             qk++
         }
         if (julian === SSQ.ZQ[qk]) {
+            if (!dayInfo.solarTerms) dayInfo.solarTerms = {}
             dayInfo.solarTerms.name = this.Jq[qk];
         }
 
