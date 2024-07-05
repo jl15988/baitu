@@ -6,11 +6,11 @@
   "main": "/lib/baitu.min.js",
   "files": [
     "lib",
-    "src",
     "types"
   ],
   "scripts": {
     "build": "webpack",
+    "toPublish": "npm publish --registry=https://registry.npmjs.org --access=public",
     "docs:build": "vuepress-vite build docs",
     "docs:clean-dev": "vuepress-vite dev docs --clean-cache",
     "docs:dev": "vuepress-vite dev docs",

@@ -5,9 +5,14 @@
     <title>ChineseDate</title>
 </head>
 <body>
-<script src="../../../lib/baitu.min.js"></script>
+<script src="https://unpkg.com/baitu/lib/baitu.min.js"></script>
 <script>
 const {ChineseDateUtil, ChineseDate} = Baitu;
+
+for (let number of [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]) {
+    var chineseDatez = new ChineseDate(2024, 7, number);
+    console.log(chineseDatez.getFestival())
+}
 
 var chineseDate = new ChineseDate(2024, 5, 13);
 var chineseDate2 = new ChineseDate(2024, 5, 1);
