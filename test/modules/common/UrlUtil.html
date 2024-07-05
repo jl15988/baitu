@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<script src="../../../lib/baitu.min.js"></script>
+<script src="https://unpkg.com/baitu/lib/baitu.min.js"></script>
 <script>
     const {UrlUtil} = Baitu;
     console.log(UrlUtil.jsonToParams({
@@ -23,6 +23,7 @@
 
     console.log("fast-----------")
     console.log(UrlUtil.Fast)
+    console.log(UrlUtil.Fast.getParams())
     console.log(UrlUtil.Fast.getParam("_ijt"))
 </script>
 </body>

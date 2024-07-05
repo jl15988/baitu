@@ -1,11 +1,4 @@
 /**
- * JSON类型
- */
-export type JSONType = {
-    [key: string]: any
-}
-
-/**
  * JSON工具
  */
 class JSONUtil {
@@ -15,8 +8,8 @@ class JSONUtil {
      * @param json json
      * @param fields 要复制的属性
      */
-    copy(json: JSONType, ...fields: string[]) {
-        const result: JSONType = {};
+    copy(json: Record<string, any>, ...fields: string[]) {
+        const result: Record<string, any> = {};
         Object.keys(json).forEach((key) => {
             if (fields.includes(key)) {
                 result[key] = json[key];
@@ -29,7 +22,7 @@ class JSONUtil {
      * json 转 url 参数
      * @param json json
      */
-    toParams(json: JSONType): string {
+    toParams(json: Record<string, any>): string {
         return Object.keys(json).map(function (key) {
             return encodeURIComponent(key) + '=' +
                 encodeURIComponent(json[key]);
@@ -40,9 +33,9 @@ class JSONUtil {
      * 提取字符串中的 JSON
      * @param str 字符串
      */
-    getJSONFromString(str: string): JSONType[] {
+    getJSONFromString(str: string): Record<string, any>[] {
         const regex = /\{.*?\}/gs;
-        const matches = str.match(regex);
+        const matches = str.match(regex) || [];
         return matches.map(match => {
             try {
                 return JSON.parse(match);

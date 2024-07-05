@@ -13,14 +13,14 @@ import HexUtil from "./modules/common/HexUtil";
 import ObjectUtil from "./modules/object/ObjectUtil";
 import DesensitizedUtil from "./modules/string/DesensitizedUtil";
 import ArrayUtil from "./modules/array/ArrayUtil";
-import PatternPool from "./modules/common/PatternPool";
+import {definePattern} from "./modules/common/PatternPool";
 import ValidateUtil from "./modules/string/ValidateUtil";
 import ImgUtil from "./modules/file/ImgUtil";
 import IDUtil from "./modules/common/IDUtil";
 import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
 import CryptoUtil from "./modules/crypto/CryptoUtil";
 import CryptoGroup from "./modules/crypto/CryptoGroup";
-import JSONUtil, {JSONType} from "./modules/common/JSONUtil";
+import JSONUtil from "./modules/common/JSONUtil";
 import UrlUtil from "./modules/common/UrlUtil";
 import TreeUtil from "./modules/common/TreeUtil";
 import ExePool from "./modules/execute/ExePool";
@@ -47,7 +47,7 @@ export {
     ObjectUtil,
     DesensitizedUtil,
     ArrayUtil,
-    PatternPool,
+    definePattern,
     ValidateUtil,
     ImgUtil,
     IDUtil,
@@ -55,7 +55,6 @@ export {
     CryptoUtil,
     CryptoGroup,
     JSONUtil,
-    JSONType,
     UrlUtil,
     TreeUtil,
     ExePool,

@@ -19,7 +19,23 @@ class ValidateUtil {
      * @param str 字符串
      */
     isNumber(str: string): boolean {
-        return patternPoolInstance.NUMBERS.test(str);
+        return patternPoolInstance.NUMBER.test(str);
+    }
+
+    /**
+     * 是否为整数
+     * @param str 字符串
+     */
+    isInteger(str: string): boolean {
+        return patternPoolInstance.INTEGER.test(str);
+    }
+
+    /**
+     * 是否为小数（不包括整数）
+     * @param str 字符串
+     */
+    isDecimal(str: string): boolean {
+        return patternPoolInstance.DECIMAL.test(str);
     }
 
     isChinese(str: string): boolean {

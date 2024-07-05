@@ -5,7 +5,15 @@ const PatternPool = {
     /**
      * 数字
      */
-    NUMBERS: new RegExp("\\d+"),
+    NUMBER: /^[+-]?\d+(?:\.\d+)?$/,
+    /**
+     * 整数
+     */
+    INTEGER: /^[+-]?\d+$/,
+    /**
+     * 小数（不包含整数）
+     */
+    DECIMAL: /^[+-]?(?:0|\d{1,}\.\d+)$/,
     /**
      * 英文
      */
@@ -66,15 +74,25 @@ const PatternPool = {
      * 空白行
      */
     BLANK_LINE: new RegExp("\\n\\s*\\r"),
+}
 
-    /**
-     * 添加正则
-     * @param map 正则对象
-     */
-    add(map: { [key: string]: RegExp }) {
-        for (let key in map) {
-            this[key] = map[key]
-        }
+/**
+ * 定义正则池，相同 key 的正则将会覆盖
+ * @param options 正则项
+ */
+export function definePattern<T extends Record<string, RegExp>>(options: T = {} as T) {
+    Object.assign(PatternPool, options)
+
+    type PatternPoolKeyType = keyof typeof PatternPool
+    type OptionsKeyType = keyof T
+    // @ts-ignore
+    const patternPool: {
+        [key in PatternPoolKeyType]: typeof PatternPool[key]
+    } & {
+        [key in OptionsKeyType]: T[key]
+    } = PatternPool
+    return {
+        patternPool
     }
 }
 
