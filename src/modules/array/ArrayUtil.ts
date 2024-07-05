@@ -161,11 +161,11 @@ class ArrayUtil {
     /**
      * 去重
      * @param arr 要去重的数组
-     * @param uniMapper 去重处理器，默认按当前元素去重
+     * @param uniMapper 去重处理器，默认按当前元素去重，或者自定义，如：(cur: any) => cur.id
      */
-    unique(arr: any[], uniMapper?: (cur) => any): any[] {
-        const uniArr = [];
-        return arr.reduce((acc, cur) => {
+    unique<T>(arr: T[], uniMapper?: (cur: T) => any): T[] {
+        const uniArr: any[] = [];
+        return arr.reduce((acc: T[], cur: T) => {
             const uniK = uniMapper ? uniMapper(cur) : cur;
             if (!uniArr.includes(uniK)) {
                 acc.push(cur);
@@ -179,7 +179,7 @@ class ArrayUtil {
      * 取交集
      * @param arrs 要取交集的数组集
      */
-    intersection(...arrs: any[]): any[] {
+    intersection<T>(...arrs: T[][]): T[] {
         const [first, ...rest] = arrs;
         return this.unique(first.filter(item => rest.every(array => array.includes(item))));
     }
@@ -188,18 +188,18 @@ class ArrayUtil {
      * 取并集
      * @param arrs 要取并集的数组集
      */
-    union(...arrs: any[]): any[] {
-        return this.unique([].concat(...arrs));
+    union<T>(...arrs: T[][]): T[] {
+        return this.unique(([] as T[]).concat(...arrs));
     }
 
     /**
      * 取差集
      * @param arrs 要取差集的数组集
      */
-    difference(...arrs: any): any[] {
-        const arrf = this.intersection(...arrs);
-        return [].concat(...arrs).reduce((acc, curr) => {
-            if (!acc.includes(curr) && !arrf.includes(curr)) {
+    difference<T>(...arrs: T[][]): T[] {
+        const intersection = this.intersection(...arrs);
+        return ([] as T[]).concat(...arrs).reduce((acc: T[], curr) => {
+            if (!acc.includes(curr) && !intersection.includes(curr)) {
                 acc.push(curr);
             }
             return acc;
@@ -211,15 +211,15 @@ class ArrayUtil {
      * @param arr 数组
      * @param keyMapper 分组关键字处理器
      */
-    groupBy(arr: any[], keyMapper: (cur) => any) {
-        return arr.reduce((res, item) => {
-            const key = keyMapper(item).toString();
+    groupBy<T, K extends string | number>(arr: T[], keyMapper: (cur: T) => K): Record<K, T[]> {
+        return arr.reduce((res, item: T) => {
+            const key = keyMapper(item);
             if (!res[key]) {
-                res[key] = [];
+                res[key] = [] as T[];
             }
             res[key].push(item);
             return res;
-        }, {});
+        }, {} as Record<K, T[]>);
     }
 
     /**
@@ -227,11 +227,13 @@ class ArrayUtil {
      * @param arr 数组
      * @param orderKeys 排序的字段
      */
-    orderBy(arr: any[], orderKeys: string[]) {
+    orderBy<T>(arr: T[], orderKeys: string[]): T[] {
         for (let orderKey of orderKeys) {
             if (orderKey.endsWith(" desc")) {
+                // @ts-ignore
                 arr = this.orderByDesc(arr, orderKey.replace(" desc", ""));
             } else {
+                // @ts-ignore
                 arr = this.orderByAsc(arr, orderKey.replace(" asc", ""));
             }
         }
@@ -243,10 +245,9 @@ class ArrayUtil {
      * @param arr 数组
      * @param orderKey 排序的字段
      */
-    orderByAsc(arr: any[], orderKey?: string) {
-        arr = this.deepCopy(arr);
+    orderByAsc<T>(arr: T[], orderKey?: keyof T): T[] {
         return arr.sort((a, b) => {
-            let v1 = a, v2 = b;
+            let v1: T | any = a, v2: T | any = b;
             if (orderKey) {
                 v1 = a[orderKey];
                 v2 = b[orderKey];
@@ -260,10 +261,10 @@ class ArrayUtil {
      * @param arr 数组
      * @param orderKey 排序的字段
      */
-    orderByDesc(arr: any[], orderKey?: string) {
+    orderByDesc<T>(arr: T[], orderKey?: keyof T): T[] {
         arr = this.deepCopy(arr);
         return arr.sort((a, b) => {
-            let v1 = a, v2 = b;
+            let v1: T | any = a, v2: T | any = b;
             if (orderKey) {
                 v1 = a[orderKey];
                 v2 = b[orderKey];
@@ -278,7 +279,7 @@ class ArrayUtil {
      * @param val 值
      * @param keyMapper 字段处理器，为空时默认取当前元素
      */
-    findIndex(arr: any[], val: number | string, keyMapper?: (cur) => any) {
+    findIndex<T>(arr: T[], val: number | string, keyMapper?: (cur: T) => any) {
         let i = 0;
         while (i < arr.length && ObjectUtil.compare(keyMapper ? keyMapper(arr[i]) : arr[i], val) < 0) {
             i++;
