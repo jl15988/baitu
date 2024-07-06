@@ -1,4 +1,6 @@
 import CryptoGroup, {RSASignMethodRel} from "./CryptoGroup";
+import {JSEncrypt} from "jsencrypt";
+import CryptoJS from "crypto-js";
 
 export class Base64Class {
 
@@ -7,7 +9,10 @@ export class Base64Class {
      * @param str 字符串
      */
     encode(str: string) {
-        return CryptoGroup.CryptoEnc.Base64.stringify(CryptoGroup.CryptoEnc.Utf8.parse(str));
+        if (!CryptoGroup.CryptoJS) {
+            throw new Error("Please initialize CryptoJS first.");
+        }
+        return CryptoGroup.CryptoJS.enc.Base64.stringify(CryptoGroup.CryptoJS.enc.Utf8.parse(str));
     }
 
     /**
@@ -15,33 +20,20 @@ export class Base64Class {
      * @param str 加密的字符串
      */
     decode(str: string) {
-        return CryptoGroup.CryptoEnc.Base64.parse(str).toString(CryptoGroup.CryptoEnc.Utf8);
-    }
-}
-
-class RSABuilder {
-    private publicKeyValue: string;
-    private privateKeyValue: string;
-
-    publicKey(key: string) {
-        this.publicKeyValue = key;
-        return this;
-    }
-
-    privateKey(key: string) {
-        this.privateKeyValue = key;
-        return this;
-    }
-
-    build() {
-        return new RSA(this.publicKeyValue, this.privateKeyValue);
+        if (!CryptoGroup.CryptoJS) {
+            throw new Error("Please initialize CryptoJS first.");
+        }
+        return CryptoGroup.CryptoJS.enc.Base64.parse(str).toString(CryptoGroup.CryptoJS.enc.Utf8);
     }
 }
 
 export class RSA {
-    private instance;
+    private readonly instance?: JSEncrypt;
 
     constructor(publicKey?: string, privateKey?: string) {
+        if (!CryptoGroup.JSEncrypt) {
+            throw new Error("Please initialize JSEncrypt first.");
+        }
         this.instance = new CryptoGroup.JSEncrypt();
         if (publicKey) {
             this.instance.setPublicKey(publicKey);
@@ -51,19 +43,7 @@ export class RSA {
         }
     }
 
-    /**
-     * 链式构造
-     */
-    static builder() {
-        return new RSABuilder();
-    }
-
-    /**
-     * 函式构造
-     * @param publicKey 公钥
-     * @param privateKey 私钥
-     */
-    static build(publicKey?: string, privateKey?: string) {
+    static create(publicKey?: string, privateKey?: string) {
         return new RSA(publicKey, privateKey);
     }
 
@@ -71,6 +51,9 @@ export class RSA {
      * 生成公钥
      */
     getPublicKey() {
+        if (!this.instance) {
+            throw new Error("JSEncrypt instance is not define.");
+        }
         return this.instance.getPublicKey();
     }
 
@@ -78,6 +61,9 @@ export class RSA {
      * 生成私钥
      */
     getPrivateKey() {
+        if (!this.instance) {
+            throw new Error("JSEncrypt instance is not define.");
+        }
         return this.instance.getPrivateKey();
     }
 
@@ -85,6 +71,9 @@ export class RSA {
      * 生成公钥（去掉前后缀）
      */
     getSimplePublicKey() {
+        if (!this.instance) {
+            throw new Error("JSEncrypt instance is not define.");
+        }
         return this.instance.getPublicKey().replace("-----BEGIN PUBLIC KEY-----\n", "").replace("\n-----END PUBLIC KEY-----", "");
     }
 
@@ -92,6 +81,9 @@ export class RSA {
      * 生成私钥（去掉前后缀）
      */
     getSimplePrivateKey() {
+        if (!this.instance) {
+            throw new Error("JSEncrypt instance is not define.");
+        }
         return this.instance.getPrivateKey().replace("-----BEGIN RSA PRIVATE KEY-----\n", "").replace("\n-----END RSA PRIVATE KEY-----", "");
     }
 
@@ -99,6 +91,9 @@ export class RSA {
      * 设置公钥
      */
     setPublicKey(key: string) {
+        if (!this.instance) {
+            throw new Error("JSEncrypt instance is not define.");
+        }
         this.instance.setPublicKey(key);
         return this;
     }
@@ -107,6 +102,9 @@ export class RSA {
      * 设置私钥
      */
     setPrivateKey(key: string) {
+        if (!this.instance) {
+            throw new Error("JSEncrypt instance is not define.");
+        }
         this.instance.setPrivateKey(key);
         return this;
     }
@@ -116,6 +114,9 @@ export class RSA {
      * @param str 字符串
      */
     encode(str: string): string {
+        if (!this.instance) {
+            throw new Error("JSEncrypt instance is not define.");
+        }
         const res = this.instance.encrypt(str);
         if (!res) {
             throw new Error("encode fail");
@@ -128,6 +129,9 @@ export class RSA {
      * @param str 字符串
      */
     decode(str: string): string {
+        if (!this.instance) {
+            throw new Error("JSEncrypt instance is not define.");
+        }
         const res = this.instance.decrypt(str);
         if (!res) {
             throw new Error("encode fail");
@@ -142,6 +146,9 @@ export class RSA {
      * @param digestMethod 摘要方法
      */
     sign(str: string, digestMethod: RSASignMethodRel): string | false {
+        if (!this.instance) {
+            throw new Error("JSEncrypt instance is not define.");
+        }
         return this.instance.sign(str, digestMethod.method, digestMethod.type);
     }
 
@@ -152,56 +159,69 @@ export class RSA {
      * @param digestMethod 摘要方法
      */
     verify(str: string, signature: string, digestMethod: RSASignMethodRel): boolean {
+        if (!this.instance) {
+            throw new Error("JSEncrypt instance is not define.");
+        }
         return this.instance.verify(str, signature, digestMethod.method);
     }
 }
 
 class AESClass {
 
-    secretKey: string;
-    iv: string;
-    mode;
-    padding;
+    secretKey: CryptoJS.lib.WordArray;
+    iv?: CryptoJS.lib.WordArray;
+    mode: typeof CryptoJS.mode.ECB;
+    padding: typeof CryptoJS.pad.Pkcs7;
 
     constructor(secretKey: string) {
-        this.secretKey = CryptoGroup.CryptoEnc.Utf8.parse(secretKey);
-        this.padding = CryptoGroup.CryptoPad.Pkcs7;
-        this.mode = CryptoGroup.CryptoMod.ECB;
+        if (!CryptoGroup.CryptoJS) {
+            throw new Error("Please initialize CryptoJS first.");
+        }
+        this.secretKey = CryptoGroup.CryptoJS.enc.Utf8.parse(secretKey);
+        this.padding = CryptoGroup.CryptoJS.pad.Pkcs7;
+        this.mode = CryptoGroup.CryptoJS.mode.ECB;
     }
 
     setIv(iv: string) {
-        this.iv = CryptoGroup.CryptoEnc.Utf8.parse(iv);
+        if (!CryptoGroup.CryptoJS) {
+            throw new Error("Please initialize CryptoJS first.");
+        }
+        this.iv = CryptoGroup.CryptoJS.enc.Utf8.parse(iv);
     }
 
     static build(secretKey: string) {
         return new AESClass(secretKey);
     }
 
-    setPadding(padding) {
+    setPadding(padding: typeof CryptoJS.pad.Pkcs7) {
         this.padding = padding;
     }
 
-    setMode(mode) {
+    setMode(mode: typeof CryptoJS.mode.ECB) {
         this.mode = mode;
     }
 
     encode(str: string): string {
-        const ciphertext = CryptoGroup.AESEncrypt.encrypt(str, this.secretKey, {
+        if (!CryptoGroup.CryptoJS) {
+            throw new Error("Please initialize CryptoJS first.");
+        }
+        const ciphertext = CryptoGroup.CryptoJS.AES.encrypt(str, this.secretKey, {
             mode: this.mode,
             padding: this.padding,
             iv: this.iv
         }).ciphertext;
-        return ciphertext.toString(CryptoGroup.CryptoEnc.Base64);
+        return ciphertext.toString(CryptoGroup.CryptoJS.enc.Base64);
     }
 
     decode(str: string): string {
-        return CryptoGroup.AESEncrypt.decrypt({
-            ciphertext: CryptoGroup.CryptoEnc.Base64.parse(str)
-        }, this.secretKey, {
+        if (!CryptoGroup.CryptoJS) {
+            throw new Error("Please initialize CryptoJS first.");
+        }
+        return CryptoGroup.CryptoJS.AES.decrypt(str, this.secretKey, {
             mode: this.mode,
             padding: this.padding,
             iv: this.iv
-        }).toString(CryptoGroup.CryptoEnc.Utf8);
+        }).toString(CryptoGroup.CryptoJS.enc.Utf8);
     }
 }
 
@@ -216,7 +236,10 @@ class CryptoUtil {
      * @param str 字符串
      */
     MD5: (str: string) => string = (str: string) => {
-        return CryptoGroup.CryptoMethod.MD5(str).toString();
+        if (!CryptoGroup.CryptoJS) {
+            throw new Error("Please initialize CryptoJS first.");
+        }
+        return CryptoGroup.CryptoJS.MD5(str).toString();
     }
     /**
      * RSA非对称加密
