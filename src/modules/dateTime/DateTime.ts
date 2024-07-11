@@ -80,80 +80,90 @@ export type DateTimeObjectValues = {
     /**
      * 秒
      */
-    seconds: number
+    seconds: number,
+    /**
+     * 毫秒
+     */
+    milliseconds: number
 }
 
 /**
  * 日期时间对象
  */
-class DateTime extends Date {
-    firstWeek = 0;
+class DateTime {
+    firstWeek: number = 0
+    date: Date
 
-    static readonly DateField = DateField;
-    static readonly WeekDay = WeekDay;
+    constructor();
+    constructor(value: string | number | DateTime | Date);
+    constructor(year: number, monthIndex: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number);
 
-    static new(): DateTime;
-    static new(value: number | string): DateTime;
-    static new(year: number, month: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number): DateTime;
-
-    static new(...args) {
-        let month = null;
-        if (args.length > 1) {
-            month = args[1] - 1;
+    constructor(yearOrValue?: number | string | DateTime | Date, monthIndex?: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number) {
+        if (arguments.length === 0) {
+            this.date = new Date()
+            return this;
         }
-        switch (args.length) {
-            case 1:
-                return new DateTime(args[0]);
+        if (arguments.length === 1) {
+            if (yearOrValue instanceof Date) {
+                this.date = new Date(yearOrValue);
+            } else if (yearOrValue instanceof DateTime) {
+                this.date = new Date(yearOrValue.date);
+            } else {
+                this.date = new Date(yearOrValue!);
+            }
+            return this;
+        }
+        switch (arguments.length) {
             case 2:
-                return new DateTime(args[0], month);
+                this.date = new Date(<number>yearOrValue, monthIndex!);
+                return this;
             case 3:
-                return new DateTime(args[0], month, args[2]);
+                this.date = new Date(<number>yearOrValue, monthIndex!, date);
+                return this;
             case 4:
-                return new DateTime(args[0], month, args[2], args[3]);
+                this.date = new Date(<number>yearOrValue, monthIndex!, date, hours);
+                return this;
             case 5:
-                return new DateTime(args[0], month, args[2], args[3], args[4]);
+                this.date = new Date(<number>yearOrValue, monthIndex!, date, hours, minutes);
+                return this;
             case 6:
-                return new DateTime(args[0], month, args[2], args[3], args[4], args[5]);
+                this.date = new Date(<number>yearOrValue, monthIndex!, date, hours, minutes, seconds);
+                return this;
+            case 7:
+                this.date = new Date(<number>yearOrValue, monthIndex!, date, hours, minutes, seconds, ms);
+                return this;
             default:
-                return new DateTime();
+                this.date = new Date();
         }
+        return this;
     }
 
     static create(): DateTime;
     static create(value: number | string): DateTime;
-    static create(year: number, monthIndex: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number): DateTime;
+    static create(year: number, month: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number): DateTime;
 
-    static create(...args) {
-        switch (args.length) {
-            case 1:
-                return new DateTime(args[0]);
-            case 2:
-                return new DateTime(args[0], args[1]);
-            case 3:
-                return new DateTime(args[0], args[1], args[2]);
-            case 4:
-                return new DateTime(args[0], args[1], args[2], args[3]);
-            case 5:
-                return new DateTime(args[0], args[1], args[2], args[3], args[4]);
-            case 6:
-                return new DateTime(args[0], args[1], args[2], args[3], args[4], args[5]);
-            default:
-                return new DateTime();
+    static create(yearOrValue?: number | string, month?: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number) {
+        if (arguments.length === 0) {
+            return new DateTime();
         }
+        if (this.arguments.length === 1) {
+            return new DateTime(yearOrValue!);
+        }
+        return new DateTime(<number>yearOrValue, month! - 1, date, hours, minutes, seconds, ms);
     }
-
 
     /**
      * 日期年，月，日，周，时，分，秒对象数据
      */
     objectValues(): DateTimeObjectValues {
-        const year = this.getFullYear();
-        const monthIndex = this.getMonth();
-        const day = this.getDate();
-        const week = this.getDay();
-        const hours = this.getHours();
-        const minutes = this.getMinutes();
-        const seconds = this.getSeconds();
+        const year = this.date.getFullYear();
+        const monthIndex = this.date.getMonth();
+        const day = this.date.getDate();
+        const week = this.date.getDay();
+        const hours = this.date.getHours();
+        const minutes = this.date.getMinutes();
+        const seconds = this.date.getSeconds();
+        const milliseconds = this.date.getMilliseconds();
         return {
             year,
             monthIndex,
@@ -162,7 +172,8 @@ class DateTime extends Date {
             week,
             hours,
             minutes,
-            seconds
+            seconds,
+            milliseconds
         }
     }
 
@@ -176,7 +187,22 @@ class DateTime extends Date {
     }
 
     /**
+     * 转为时-分-秒类型的时间
+     * @returns {DateTime}
+     */
+    toTime(): DateTime {
+        const dateTime = new DateTime(0);
+        const values = this.objectValues();
+        dateTime.date.setHours(values.hours);
+        dateTime.date.setMinutes(values.minutes);
+        dateTime.date.setSeconds(values.seconds);
+        return dateTime;
+    }
+
+    /**
      * 格式化日期，默认格式：yyyy-MM-dd HH:mm:ss
+     *
+     * y年，M月份，d日，H小时，m分钟，s秒，q季度，S毫秒，w周
      * @param format 格式
      */
     format(format?: string) {
@@ -214,7 +240,7 @@ class DateTime extends Date {
      */
     endOfDay(): DateTime {
         const values = this.objectValues();
-        return new DateTime(values.year, values.monthIndex, values.day, 23, 59, 59);
+        return new DateTime(values.year, values.monthIndex, values.day, 23, 59, 59, 999);
     }
 
     /**
@@ -242,9 +268,8 @@ class DateTime extends Date {
      * @returns {Date}
      */
     beginOfMonth(): DateTime {
-        const year = this.getFullYear();
-        const month = this.getMonth();
-        return new DateTime(year, month, 1, 0, 0, 0)
+        const values = this.objectValues();
+        return new DateTime(values.year, values.monthIndex, 1, 0, 0, 0)
     }
 
     /**
@@ -252,9 +277,8 @@ class DateTime extends Date {
      * @returns {Date}
      */
     endOfMonth(): DateTime {
-        const year = this.getFullYear();
-        const month = this.getMonth() + 1;
-        return new DateTime(year, month, 0, 23, 59, 59);
+        const values = this.objectValues();
+        return new DateTime(values.year, values.monthIndex + 1, 0, 23, 59, 59, 999);
     }
 
     /**
@@ -262,7 +286,7 @@ class DateTime extends Date {
      * @returns {DateTime}
      */
     beginOfYear(): DateTime {
-        const year = this.getFullYear();
+        const year = this.date.getFullYear();
         return new DateTime(year, 0, 1, 0, 0, 0);
     }
 
@@ -271,16 +295,16 @@ class DateTime extends Date {
      * @returns {DateTime}
      */
     endOfYear(): DateTime {
-        const year = this.getFullYear();
-        return new DateTime(year + 1, 0, 0, 23, 59, 59);
+        const year = this.date.getFullYear();
+        return new DateTime(year + 1, 0, 0, 23, 59, 59, 999);
     }
 
     /**
      * 设置周开始周数
      * @param type 周数，见：{@link WeekDay}
      */
-    setFirstWeek(type: WeekDay): void {
-        this.firstWeek = type;
+    setFirstWeek(type: keyof typeof WeekDay): void {
+        this.firstWeek = WeekDay[type];
     }
 
     /**
@@ -289,37 +313,37 @@ class DateTime extends Date {
      * @param offset 偏移大小
      * @returns {DateTime}
      */
-    offset(type: DateField, offset: number): DateTime {
+    offset(type: keyof typeof DateField, offset: number): DateTime {
         if (!type) return this;
         const newDateTime = new DateTime(this);
         const values = newDateTime.objectValues();
         offset = offset || 0;
-        if (DateField.YEAR === type) {
+        if (DateField.YEAR === DateField[type]) {
             const tempDateTime = new DateTime(newDateTime);
-            newDateTime.setFullYear(values.year + Number(offset));
-            if (newDateTime.getMonth() !== tempDateTime.getMonth()
-                && newDateTime.getFullYear() === tempDateTime.getFullYear()) {
+            newDateTime.date.setFullYear(values.year + Number(offset));
+            if (newDateTime.date.getMonth() !== tempDateTime.date.getMonth()
+                && newDateTime.date.getFullYear() === tempDateTime.date.getFullYear()) {
                 // 如果偏移年份后月份不等于原来的月份，则说明月份超出了，取当月最后一天
-                newDateTime.setDate(0);
+                newDateTime.date.setDate(0);
             }
-        } else if (DateField.MONTH === type) {
+        } else if (DateField.MONTH === DateField[type]) {
             const tempDateTime = new DateTime(newDateTime);
-            newDateTime.setMonth(values.monthIndex + Number(offset));
-            if (newDateTime.getMonth() !== tempDateTime.getMonth() + Number(offset)
-                && newDateTime.getFullYear() === tempDateTime.getFullYear()) {
+            newDateTime.date.setMonth(values.monthIndex + Number(offset));
+            if (newDateTime.date.getMonth() !== tempDateTime.date.getMonth() + Number(offset)
+                && newDateTime.date.getFullYear() === tempDateTime.date.getFullYear()) {
                 // 如果月份-1后，月份不等于上个月数，则说明上个月天数超出了，取上月最后一天
-                newDateTime.setDate(0);
+                newDateTime.date.setDate(0);
             }
-        } else if (DateField.DAY === type) {
-            newDateTime.setDate(values.day + Number(offset));
-        } else if (DateField.WEEK === type) {
-            newDateTime.setDate(values.day + 7 * offset);
-        } else if (DateField.HOURS === type) {
-            newDateTime.setHours(values.hours = Number(offset));
-        } else if (DateField.MINUTES === type) {
-            newDateTime.setMinutes(values.minutes = Number(offset));
+        } else if (DateField.DAY === DateField[type]) {
+            newDateTime.date.setDate(values.day + Number(offset));
+        } else if (DateField.WEEK === DateField[type]) {
+            newDateTime.date.setDate(values.day + 7 * offset);
+        } else if (DateField.HOURS === DateField[type]) {
+            newDateTime.date.setHours(values.hours = Number(offset));
+        } else if (DateField.MINUTES === DateField[type]) {
+            newDateTime.date.setMinutes(values.minutes = Number(offset));
         } else {
-            newDateTime.setSeconds(values.seconds = Number(offset));
+            newDateTime.date.setSeconds(values.seconds = Number(offset));
         }
         return newDateTime;
     }
@@ -328,7 +352,7 @@ class DateTime extends Date {
      * 获取当月天数
      */
     daysOfMonth(): number {
-        return new Date(this.getFullYear(), this.getMonth() + 1, 0).getDate();
+        return new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0).getDate();
     }
 
     /**
@@ -342,14 +366,14 @@ class DateTime extends Date {
      * 是否闰年
      */
     isLeapYear(): boolean {
-        const year = this.getFullYear();
+        const year = this.date.getFullYear();
         return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
     }
 
     /**
      * 获取当前日期与指定日期之间的差值，当前-参数
      */
-    compare(date: Date | DateTime, dateField: DateField): number {
+    compare(date: Date | DateTime, dateField: keyof typeof DateField): number {
         return DateUtil.compare(this, date, dateField);
     }
 
@@ -364,16 +388,16 @@ class DateTime extends Date {
      * 年月数
      */
     yearMonthNumber() {
-        return parseInt(this.getFullYear() + StrUtil.padStart(String(this.getMonth() + 1), 2, "0"))
+        return parseInt(this.date.getFullYear() + StrUtil.padStart(String(this.date.getMonth() + 1), 2, "0"))
     }
 
     /**
      * 年月日数
      */
     yearMonthDayNumber() {
-        const month = StrUtil.padStart(String(this.getMonth() + 1), 2, "0");
-        const day = StrUtil.padStart(String(this.getDate()), 2, "0");
-        return parseInt(this.getFullYear() + month + day);
+        const month = StrUtil.padStart(String(this.date.getMonth() + 1), 2, "0");
+        const day = StrUtil.padStart(String(this.date.getDate()), 2, "0");
+        return parseInt(this.date.getFullYear() + month + day);
     }
 }
 

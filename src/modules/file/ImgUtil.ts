@@ -23,7 +23,7 @@ class ImgUtil {
      * @param img 图片
      * @param type MIME类型
      */
-    toBlob(img: HTMLImageElement, type?: string): Promise<Blob> {
+    toBlob(img: HTMLImageElement, type?: string): Promise<Blob | null> {
         return new Promise((resolve, reject) => {
             // 创建一个canvas元素
             const canvas = document.createElement('canvas');
@@ -32,7 +32,7 @@ class ImgUtil {
 
             // 将图像绘制到canvas上
             const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, img.width, img.height);
+            ctx?.drawImage(img, 0, 0, img.width, img.height);
 
             // 将canvas内容转换为Blob对象
             canvas.toBlob(function (blob) {
@@ -52,7 +52,7 @@ class ImgUtil {
      * @param h 剪裁的高度
      * @param quality 质量，0到1
      */
-    cut(file: File, x: number, y: number, w: number, h: number, quality: number = 1): Promise<ImgResult> {
+    cut(file: File, x: number, y: number, w: number, h: number, quality: number = 1): Promise<Partial<ImgResult>> {
         return new Promise((resolve, reject) => {
             FileUtil.toImage(file).then(imgFile => {
                 // 创建一个离屏Canvas元素
@@ -61,12 +61,12 @@ class ImgUtil {
                 canvas.width = w;
                 canvas.height = h;
                 // 使用drawImage进行剪裁
-                ctx.drawImage(imgFile.img, x, y, w, h, 0, 0, w, h);
+                ctx?.drawImage(imgFile.img, x, y, w, h, 0, 0, w, h);
 
-                const cutResult: ImgResult = {
-                    img: null,
-                    file: null,
-                    blob: null,
+                const cutResult: Partial<ImgResult> = {
+                    img: undefined,
+                    file: undefined,
+                    blob: undefined,
                     name: file.name,
                     type: imgFile.type,
                     quality: quality,
@@ -80,8 +80,8 @@ class ImgUtil {
 
                 // 转blob并下载
                 canvas.toBlob(blob => {
-                    cutResult.blob = blob;
-                    cutResult.file = FileUtil.blobToFile(blob, file.name);
+                    cutResult.blob = blob || undefined;
+                    cutResult.file = blob ? FileUtil.blobToFile(blob, file.name) : undefined;
 
                     // 将Canvas转换为DataURL
                     const dataURL = canvas.toDataURL(file.type);
@@ -98,6 +98,7 @@ class ImgUtil {
     }
 
     dataURLtoBlob(dataurl: string): Blob {
+        // @ts-ignore
         let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
             bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
         while (n--) {
@@ -132,13 +133,13 @@ class ImgUtil {
                 canvas.height = height;
 
                 // 绘制图片到canvas
-                ctx.clearRect(0, 0, width, height);
-                ctx.drawImage(img, 0, 0, width, height);
+                ctx?.clearRect(0, 0, width, height);
+                ctx?.drawImage(img, 0, 0, width, height);
 
-                const cutResult: ImgResult = {
-                    img: null,
-                    file: null,
-                    blob: null,
+                const cutResult: Partial<ImgResult> = {
+                    img: undefined,
+                    file: undefined,
+                    blob: undefined,
                     name: file.name,
                     type: file.type,
                     quality: quality,
@@ -149,8 +150,8 @@ class ImgUtil {
                 };
 
                 canvas.toBlob(blob => {
-                    cutResult.blob = blob;
-                    cutResult.file = FileUtil.blobToFile(blob, file.name);
+                    cutResult.blob = blob || undefined;
+                    cutResult.file = blob ? FileUtil.blobToFile(blob, file.name) : undefined;
 
                     // 将Canvas转换为DataURL
                     const dataURL = canvas.toDataURL(file.type);

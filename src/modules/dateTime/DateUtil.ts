@@ -58,7 +58,7 @@ class DateUtil {
     }
 
     /**
-     * 将特定格式转为DateTime
+     * 将特定格式转为 DateTime
      * 支持格式：
      * yyyy年MM月dd日HH(时/点)mm分ss秒
      * yyyy年MM月dd日 HH(时/点)mm分ss秒
@@ -172,31 +172,47 @@ class DateUtil {
 
     /**
      * 格式化日期，默认格式：yyyy-MM-dd HH:mm:ss
+     *
      * y年，M月份，d日，H小时，m分钟，s秒，q季度，S毫秒，w周
      * @param date 日期
      * @param format 格式
      */
-    format(date: string | number | Date | DateTime, format?: string): string {
-        if (!format) {
-            format = "yyyy-MM-dd HH:mm:ss"
-        }
+    format(date: string | number | Date | DateTime, format: string = "yyyy-MM-dd HH:mm:ss"): string {
         const newDate = this.parse(date);
+        const objectValues = newDate.objectValues();
         const timeSource = {
-            "M+": newDate.getMonth() + 1,     //月份
-            "d+": newDate.getDate(),     //日
-            "H+": newDate.getHours(),     //小时
-            "m+": newDate.getMinutes(),     //分
-            "s+": newDate.getSeconds(),     //秒
-            "q+": Math.floor((newDate.getMonth() + 3) / 3), //季度
-            "S": newDate.getMilliseconds(),    //毫秒
-            "w": newDate.getDay() // 周
+            "M+": objectValues.month,     //月份
+            "d+": objectValues.day,     //日
+            "H+": objectValues.hours,     //小时
+            "m+": objectValues.minutes,     //分
+            "s+": objectValues.seconds,     //秒
+            "q+": Math.floor((objectValues.monthIndex + 3) / 3), //季度
+            "SSS": objectValues.milliseconds,    //毫秒
+            "w+": objectValues.week // 周
         }
-        if (/(y+)/.test(format))
-            format = format.replace(RegExp.$1, (newDate.getFullYear() + "").substr(4 - RegExp.$1.length));
-        for (let k in timeSource)
-            if (new RegExp("(" + k + ")").test(format))
-                format = format.replace(RegExp.$1, (RegExp.$1.length == 1) ? (timeSource[k]) : (("00" + timeSource[k]).substr(("" + timeSource[k]).length)));
-        return format;
+        return format.replace(/(\w+)/g, (match) => {
+            // @ts-ignore
+            const val = timeSource[match];
+            if (/(y+)/.test(match)) {
+                if ('yy' === match) {
+                    return val.toString().substring(2)
+                }
+                return val
+            }
+            if (val) {
+                if (match.length === 1) {
+                    return val
+                }
+                return val.toString().padStart(2, '0');
+            }
+            return match;
+        })
+        // if (/(y+)/.test(format))
+        //     format = format.replace(RegExp.$1, (objectValues.year + "").substr(4 - RegExp.$1.length));
+        // for (let k in timeSource)
+        //     if (new RegExp("(" + k + ")").test(format))
+        //         format = format.replace(RegExp.$1, (RegExp.$1.length == 1) ? (timeSource[k]) : (("00" + timeSource[k]).substr(("" + timeSource[k]).length)));
+        // return format;
     }
 
     /**
@@ -238,59 +254,67 @@ class DateUtil {
     /**
      * 获取日期1减日期2的差值
      */
-    compare(date1: Date | DateTime, date2: Date | DateTime, dateField?: DateField): number {
+    compare(date1: Date | DateTime, date2: Date | DateTime, dateField?: keyof typeof DateField): number {
+        if (date1 instanceof DateTime) {
+            date1 = date1.date
+        }
+        if (date2 instanceof DateTime) {
+            date2 = date2.date
+        }
         const time1 = date1.getTime();
         const time2 = date2.getTime();
         const diff = time1 - time2;
         let result = diff;
-        if (DateField.SECONDS === dateField) {
-            result = diff / DateUtil.secondsMillis;
-        } else if (DateField.MINUTES === dateField) {
-            result = diff / DateUtil.minutesMillis;
-        } else if (DateField.HOURS === dateField) {
-            result = diff / DateUtil.hoursMillis;
-        } else if (DateField.DAY === dateField) {
-            result = diff / DateUtil.dayMillis;
-        } else if (DateField.WEEK === dateField) {
-            result = diff / DateUtil.weekMillis;
-        } else if (DateField.MONTH === dateField || DateField.YEAR === dateField) {
-            if (diff < 0) {
-                // 若date2大于date1，交换位置
-                const tempDate = date1;
-                date1 = date2;
-                date2 = tempDate;
-            }
-            let tempDate1 = new DateTime(date1);
-            let tempDate2 = new DateTime(date2);
+        if (dateField) {
+            if (DateField.SECONDS === DateField[dateField]) {
+                result = diff / DateUtil.secondsMillis;
+            } else if (DateField.MINUTES === DateField[dateField]) {
+                result = diff / DateUtil.minutesMillis;
+            } else if (DateField.HOURS === DateField[dateField]) {
+                result = diff / DateUtil.hoursMillis;
+            } else if (DateField.DAY === DateField[dateField]) {
+                result = diff / DateUtil.dayMillis;
+            } else if (DateField.WEEK === DateField[dateField]) {
+                result = diff / DateUtil.weekMillis;
+            } else if (DateField.MONTH === DateField[dateField] || DateField.YEAR === DateField[dateField]) {
+                if (diff < 0) {
+                    // 若date2大于date1，交换位置
+                    const tempDate = date1;
+                    date1 = date2;
+                    date2 = tempDate;
+                }
+                let tempDate1 = new DateTime(date1);
+                let tempDate2 = new DateTime(date2);
 
-            // 计算两日期月数差值
-            const year1 = date1.getFullYear();
-            const year2 = date2.getFullYear();
-            const month1 = date1.getMonth() + 1;
-            const month2 = date2.getMonth() + 1;
-            let num = (year1 - year2) * 12 + (month1 - month2);
-            // 取天数差值，标识大日期向小日期月份补天数后剩余的天数
-            const compareDay = date1.getDate() - date2.getDate();
-            if (compareDay === 0) {
-                // 天数差值一致，则为最终结果
-                result = num;
-            } else if (compareDay < 0) {
-                // 差值小于零，则说明小日期月份天数补全后，大日期月份天数不够了，所以取大日期的上个月
-                const monthDays = tempDate2.offset(DateField.MONTH, -1).daysOfMonth();
-                result = num - 1 + (monthDays + compareDay) / monthDays;
-            } else {
-                // 差值大于零，则直接用差值除大日期月份天数
-                const monthDays = tempDate1.daysOfMonth();
-                result = num + compareDay / monthDays;
-            }
-            // 添加符号
-            if (diff < 0) {
-                result = -result;
+                // 计算两日期月数差值
+                const year1 = date1.getFullYear();
+                const year2 = date2.getFullYear();
+                const month1 = date1.getMonth() + 1;
+                const month2 = date2.getMonth() + 1;
+                let num = (year1 - year2) * 12 + (month1 - month2);
+                // 取天数差值，标识大日期向小日期月份补天数后剩余的天数
+                const compareDay = date1.getDate() - date2.getDate();
+                if (compareDay === 0) {
+                    // 天数差值一致，则为最终结果
+                    result = num;
+                } else if (compareDay < 0) {
+                    // 差值小于零，则说明小日期月份天数补全后，大日期月份天数不够了，所以取大日期的上个月
+                    const monthDays = tempDate2.offset("MONTH", -1).daysOfMonth();
+                    result = num - 1 + (monthDays + compareDay) / monthDays;
+                } else {
+                    // 差值大于零，则直接用差值除大日期月份天数
+                    const monthDays = tempDate1.daysOfMonth();
+                    result = num + compareDay / monthDays;
+                }
+                // 添加符号
+                if (diff < 0) {
+                    result = -result;
+                }
             }
         } else {
             return NumberUtil.fixed(diff, 2);
         }
-        if (DateField.YEAR === dateField) {
+        if (DateField.YEAR === DateField[dateField]) {
             // 年份直接用月份除12
             result = result / 12;
         }
@@ -302,16 +326,18 @@ class DateUtil {
      * @param date 日期
      */
     age(date: Date | DateTime): number {
-        const nowDateTime = DateTime.new();
-        const nowYear = nowDateTime.getFullYear();
-        const nowMonth = nowDateTime.getMonth();
-        const birthYear = date.getFullYear();
-        const birthMonth = date.getMonth();
+        const dateObjectValues = new DateTime(date).objectValues()
+        const nowDateTime = new DateTime();
+        const objectValues = nowDateTime.objectValues();
+        const nowYear = objectValues.year;
+        const nowMonth = objectValues.monthIndex;
+        const birthYear = dateObjectValues.year;
+        const birthMonth = dateObjectValues.monthIndex;
         // 现在年-出生日期年
         let age = nowYear - birthYear;
         if (nowMonth === birthMonth) {
             // 若月份相等判断，若当前天小于出生日期天则未到出生日期，则减一
-            if (nowDateTime.getDate() < date.getDate()) {
+            if (objectValues.day < dateObjectValues.day) {
                 --age;
             }
         } else if (nowMonth < birthMonth) {

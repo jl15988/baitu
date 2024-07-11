@@ -88,8 +88,8 @@ class FileUtil {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = (e) => {
-                const buffer = e.target.result;
-                resolve(buffer);
+                const buffer = e.target?.result;
+                resolve(buffer || '');
             };
             reader.onerror = function (error) {
                 reject(error);
@@ -127,6 +127,7 @@ class FileUtil {
             this.getHexString(file, 100).then(res => {
                 for (let fileTypeMapKey in FileTypeMagicMap) {
                     if (res.toUpperCase().startsWith(fileTypeMapKey.toLocaleUpperCase())) {
+                        // @ts-ignore
                         resolve(FileTypeMagicMap[fileTypeMapKey]);
                     }
                 }
@@ -191,11 +192,13 @@ class FileUtil {
      * @param filename 文件名称
      */
     downloadBlob(blob: Blob, filename: string) {
+        // @ts-ignore
         if (typeof window.navigator["msSaveBlob"] !== 'undefined') {
             /*
             “HTML7007:一个或多个blob URL已通过关闭为其创建的blob而被吊销。
             这些URL将不再解析，因为支持该URL的数据已被释放。”
              */
+            // @ts-ignore
             window.navigator["msSaveBlob"](blob, filename)
         } else {
             const blobURL = window["URL"].createObjectURL(blob)
@@ -219,7 +222,7 @@ class FileUtil {
         }
     }
 
-    blobToFile(blob, fileName) {
+    blobToFile(blob: Blob, fileName: string) {
         return new File([blob], fileName, {
             type: blob.type,
             lastModified: Date.now()
@@ -251,7 +254,10 @@ class FileUtil {
     getSha256(file: File, len?: number, start?: number): Promise<string> {
         return new Promise((resolve, reject) => {
             this.getUint8Array(file, len, start).then(res => {
-                resolve(CryptoGroup.CryptoMethod.SHA256(CryptoGroup.CryptoLib.WordArray.create(res)).toString(CryptoGroup.CryptoEnc.Hex))
+                if (!CryptoGroup.CryptoJS) {
+                    throw new Error("Please initialize CryptoJS first.");
+                }
+                resolve(CryptoGroup.CryptoJS.SHA256(CryptoGroup.CryptoJS.lib.WordArray.create(res)).toString(CryptoGroup.CryptoJS.enc.Hex))
             }).catch(err => {
                 reject(err);
             });
