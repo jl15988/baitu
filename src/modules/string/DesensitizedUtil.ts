@@ -72,7 +72,7 @@ class DesensitizedUtil {
      * @param tailLen 脱尾部保留长度
      * @param pad 填充符号，默认*
      */
-    reserve(str: string, headLen?: number, tailLen?: number, pad?: string): string {
+    reserve(str: string, headLen: number = 0, tailLen: number = 0, pad?: string): string {
         return this.of(str, headLen, str.length - headLen - tailLen, pad);
     }
 

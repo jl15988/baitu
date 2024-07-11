@@ -12,9 +12,9 @@ export default class Executor {
     // 执行器id
     id: string;
     // 预执行
-    startFun: Function | Promise<any>;
+    startFun?: Function | Promise<any>;
     // 补充执行
-    endFun: Function | Promise<any>;
+    endFun?: Function | Promise<any>;
 
     constructor(fun: Function | Promise<any>) {
         this.fun = fun;

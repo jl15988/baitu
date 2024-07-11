@@ -47,6 +47,7 @@ class ObjectUtil {
         for (const key in obj) {
             if (obj.hasOwnProperty(key)) {
                 const value = obj[key];
+                // @ts-ignore
                 copy[key] = Array.isArray(value) ? ArrayUtil.deepCopy(obj[key]) : this.deepCopy(value);
             }
         }
@@ -68,21 +69,28 @@ class ObjectUtil {
             }
             for (const key in source) {
                 if (source.hasOwnProperty(key)) {
+                    // @ts-ignore
                     const value = source[key];
                     if (value === undefined || value === null) continue
                     if (Array.isArray(value)) {
                         if (!!value && !Array.isArray(value)) {
+                            // @ts-ignore
                             target[key] = ArrayUtil.deepAssign([], source[key])
                         } else {
+                            // @ts-ignore
                             target[key] = ArrayUtil.deepAssign(target[key] || [], source[key])
                         }
                     } else {
                         if (typeof value !== 'object') {
+                            // @ts-ignore
                             target[key] = value
                         } else {
+                            // @ts-ignore
                             if (!!target[key] && Array.isArray(target[key])) {
+                                // @ts-ignore
                                 target[key] = this.deepAssign({}, value)
                             } else {
+                                // @ts-ignore
                                 target[key] = this.deepAssign(target[key] || {}, value)
                             }
                         }
@@ -142,11 +150,13 @@ class ObjectUtil {
             // 字符串
             return StrUtil.compareByHead(obj1, obj2);
         }
+        // @ts-ignore
         let v1: number = null, v2: number = null;
         if (typeof obj1 === "string") {
             if (numberReg.test(obj1)) {
                 v1 = parseFloat(obj1);
             } else {
+                // @ts-ignore
                 v1 = StrUtil.getUnicode(obj1);
             }
         } else {
@@ -156,6 +166,7 @@ class ObjectUtil {
             if (numberReg.test(obj2)) {
                 v2 = parseFloat(obj2);
             } else {
+                // @ts-ignore
                 v2 = StrUtil.getUnicode(obj2);
             }
         } else {

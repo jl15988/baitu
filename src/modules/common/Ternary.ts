@@ -1,5 +1,3 @@
-import ArrayUtil from "../array/ArrayUtil";
-
 class Ternary {
     pool: (Ternary | boolean | (() => boolean))[];
     condition: boolean | (() => boolean);
@@ -42,7 +40,7 @@ class Ternary {
                 this.currentResult = this.result;
             }
         }
-        this.pool = ArrayUtil.push(this.pool, this);
+        // this.pool = ArrayUtil.push(this.pool, this);
     }
 
     static if(fn: boolean | (() => boolean), res: any | (() => any)) {

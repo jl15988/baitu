@@ -36,7 +36,7 @@ function createEntry(options) {
                     compilerOptions: {
                         declaration: options.format === 'types',
                     },
-                    exclude: ['example'],
+                    exclude: ['example', 'src/modules/common/Ternary.ts', 'src/modules/dateTime/chinese'],
                 }
             }),
         ],

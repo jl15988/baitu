@@ -41,7 +41,7 @@ class ArrayUtil {
      * 判断数组是否为空数组
      * @param array 数组
      */
-    isEmpty(array: any[]): boolean {
+    isEmpty(array?: any[]): boolean {
         return !array || array.length === 0;
     }
 
@@ -49,7 +49,7 @@ class ArrayUtil {
      * 判断数组为非空数组
      * @param array 数组
      */
-    isNotEmpty(array: any[]): boolean {
+    isNotEmpty(array?: any[]): boolean {
         return !this.isEmpty(array);
     }
 
