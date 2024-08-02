@@ -28,6 +28,7 @@ import Executes from "./modules/execute/Executes";
 // import ChineseDateUtil from "./modules/dateTime/chinese/ChineseDateUtil";
 // import ChineseDate from "./modules/dateTime/chinese/ChineseDate";
 import Long from "long";
+import RenderUtil from "./modules/common/RenderUtil";
 
 export {
     Str,
@@ -59,7 +60,8 @@ export {
     TreeUtil,
     ExePool,
     Executes,
-    Long
+    Long,
+    RenderUtil
 };
 
 const Baitu = values;

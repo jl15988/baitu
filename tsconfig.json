@@ -7,5 +7,6 @@
     "esModuleInterop": true,
     "declaration": true,
     "baseUrl": "./"
-  }
+  },
+  "exclude": ["src/modules/common/Ternary.ts", "src/modules/dateTime/chinese"]
 }

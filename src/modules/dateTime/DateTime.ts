@@ -94,6 +94,10 @@ class DateTime {
     firstWeek: number = 0
     date: Date
 
+    toString() {
+        return this.date.toString()
+    }
+
     constructor();
     constructor(value: string | number | DateTime | Date);
     constructor(year: number, monthIndex: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number);
@@ -150,6 +154,45 @@ class DateTime {
             return new DateTime(yearOrValue!);
         }
         return new DateTime(<number>yearOrValue, month! - 1, date, hours, minutes, seconds, ms);
+    }
+
+    /**
+     * 获取月份
+     */
+    month() {
+        return this.date.getMonth() + 1
+    }
+
+    getFullYear() {
+        return this.date.getFullYear();
+    }
+
+    getMonth() {
+        return this.date.getMonth();
+    }
+
+    getDate() {
+        return this.date.getDate();
+    }
+
+    getDay() {
+        return this.date.getDay();
+    }
+
+    getHours() {
+        return this.date.getHours();
+    }
+
+    getMinutes() {
+        return this.date.getMinutes();
+    }
+
+    getSeconds() {
+        return this.date.getSeconds();
+    }
+
+    getMilliseconds() {
+        return this.date.getMilliseconds();
     }
 
     /**
@@ -398,6 +441,52 @@ class DateTime {
         const month = StrUtil.padStart(String(this.date.getMonth() + 1), 2, "0");
         const day = StrUtil.padStart(String(this.date.getDate()), 2, "0");
         return parseInt(this.date.getFullYear() + month + day);
+    }
+
+    /**
+     * 获取月天数
+     */
+    getMonthDayNumber() {
+        return this.endOfMonth().date.getDate()
+    }
+
+    /**
+     * 判断当天是否为周末
+     */
+    isWeekEnd() {
+        return WeekDay.SUN === this.date.getDay() || WeekDay.SAT === this.date.getDay()
+    }
+
+    /**
+     * 判断当前时间是否在指定时间之前
+     * @param date 指定时间
+     */
+    isBefore(date: Date | DateTime) {
+        return DateUtil.compare(this, date) < 0
+    }
+
+    /**
+     * 判断当前时间是否在指定时间之前或等于
+     * @param date 指定时间
+     */
+    isBeforeOrEquals(date: Date | DateTime) {
+        return DateUtil.compare(this, date) <= 0
+    }
+
+    /**
+     * 判断当前时间是否在指定时间之后
+     * @param date 指定时间
+     */
+    isAfter(date: Date | DateTime) {
+        return DateUtil.compare(this, date) > 0
+    }
+
+    /**
+     * 判断当前时间是否在指定时间之后或等于
+     * @param date 指定时间
+     */
+    isAfterOrEquals(date: Date | DateTime) {
+        return DateUtil.compare(this, date) >= 0
     }
 }
 

@@ -1,8 +1,10 @@
 import {createApp, defineComponent} from 'vue'
+import {DateTime} from "../src/index";
 
 const App = defineComponent({
     setup() {
-
+        var dateTime = new DateTime(2024, 7, 17);
+        console.log(dateTime.toString())
     }
 })
 

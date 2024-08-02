@@ -41,7 +41,7 @@ class ArrayUtil {
      * 判断数组是否为空数组
      * @param array 数组
      */
-    isEmpty(array?: any[]): boolean {
+    isEmpty(array?: any[] | null): boolean {
         return !array || array.length === 0;
     }
 
@@ -49,7 +49,7 @@ class ArrayUtil {
      * 判断数组为非空数组
      * @param array 数组
      */
-    isNotEmpty(array?: any[]): boolean {
+    isNotEmpty(array?: any[] | null): boolean {
         return !this.isEmpty(array);
     }
 
@@ -58,7 +58,8 @@ class ArrayUtil {
      * @param array 判空的数组
      * @param defaultArray 替换的数组
      */
-    defaultIfEmpty(array: any[], defaultArray: any[]): any[] {
+    defaultIfEmpty<T>(array: T[] | undefined | null, defaultArray: T[]): T[] {
+        // @ts-ignore
         return this.isEmpty(array) ? defaultArray : array;
     }
 

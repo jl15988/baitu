@@ -1,4 +1,4 @@
-import DateTime, {DateField} from "./DateTime";
+import DateTime, {DateField, WeekDay} from "./DateTime";
 import NumberUtil from "../number/NumberUtil";
 import ObjectUtil from "../object/ObjectUtil";
 
@@ -442,6 +442,116 @@ class DateUtil {
 
         // 如果函数运行到这里，说明日期不在目标月份中（这通常不会发生，除非输入错误）
         throw new Error("date error");
+    }
+
+    /**
+     * 获取年份中的所有周末日期
+     * @param year 年份
+     */
+    getAllWeekend(year: number): string[] {
+        const weekEndList: string[] = []
+        for (let i = 0; i <= 11; i++) {
+            const monthDateTime = new DateTime(year, i)
+            for (let j = 1; j <= monthDateTime.getMonthDayNumber(); j++) {
+                const dayDateTime = new DateTime(year, i, j)
+                if (dayDateTime.isWeekEnd()) {
+                    weekEndList.push(dayDateTime.formatDate())
+                }
+            }
+        }
+        return weekEndList
+    }
+
+    /**
+     * 获取当前日期当天开始时间
+     * @returns {DateTime}
+     */
+    beginOfDay(date: Date | DateTime): DateTime {
+        const values = new DateTime(date).objectValues()
+        return new DateTime(values.year, values.monthIndex, values.day, 0, 0, 0, 0)
+    }
+
+    /**
+     * 获取当前日期当天结束时间
+     * @returns {DateTime}
+     */
+    endOfDay(date: Date | DateTime): DateTime {
+        const values = new DateTime(date).objectValues()
+        return new DateTime(values.year, values.monthIndex, values.day, 23, 59, 59, 999)
+    }
+
+    /**
+     * 获取当前日期当周开始时间
+     * @returns {DateTime}
+     */
+    beginOfWeek(date: Date | DateTime, firstWeek: keyof typeof WeekDay): DateTime {
+        const values = new DateTime(date).objectValues()
+        const extra = WeekDay[firstWeek] || 0
+        return new DateTime(
+            values.year,
+            values.monthIndex,
+            values.day - values.week + extra,
+            0,
+            0,
+            0,
+            0
+        )
+    }
+
+    /**
+     * 获取当前日期当周结束时间
+     * @returns {DateTime}
+     */
+    endOfWeek(date: Date | DateTime, firstWeek: keyof typeof WeekDay): DateTime {
+        const values = new DateTime(date).objectValues()
+        const extra = WeekDay[firstWeek] || 0
+        return new DateTime(
+            values.year,
+            values.monthIndex,
+            values.day + (6 - values.week + extra),
+            23,
+            59,
+            59,
+            999
+        )
+    }
+
+    /**
+     * 获取当前日期当月第一天时间
+     * @returns {DateTime}
+     */
+    beginOfMonth(date: Date | DateTime): DateTime {
+        const year = date.getFullYear()
+        const month = date.getMonth()
+        return new DateTime(year, month, 1, 0, 0, 0, 0)
+    }
+
+    /**
+     * 获取当前日期当月最后一天时间
+     * @returns {DateTime}
+     */
+    endOfMonth(date: Date | DateTime): DateTime {
+        const year = date.getFullYear()
+        const month = date.getMonth() + 1
+        return new DateTime(year, month, 0, 23, 59, 59, 999)
+    }
+
+    /**
+     * 获取当前时间当年开始时间
+     * @returns {DateTime}
+     */
+    beginOfYear(date: Date | DateTime): DateTime {
+        const year = date.getFullYear()
+        return new DateTime(year, 0, 1, 0, 0, 0, 0)
+    }
+
+    /**
+     * 获取当前日期当年结束时间
+     * @returns {DateTime}
+     */
+    endOfYear(date: Date | DateTime): DateTime {
+        const year = date.getFullYear()
+        return new DateTime(year + 1, 0, 0, 23, 59, 59, 999)
     }
 }
 
