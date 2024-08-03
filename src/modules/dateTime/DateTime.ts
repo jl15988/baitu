@@ -5,13 +5,14 @@ import StrUtil from "../string/StrUtil";
  * 日期属性
  */
 export enum DateField {
-    YEAR = "year",
-    MONTH = "month",
-    DAY = "day",
-    WEEK = "week",
-    HOURS = "hours",
-    MINUTES = "minutes",
-    SECONDS = "seconds"
+    year = "year",
+    month = "month",
+    day = "day",
+    week = "week",
+    hours = "hours",
+    min = "minutes",
+    sec = "seconds",
+    ms = "milliseconds"
 }
 
 /**
@@ -26,6 +27,11 @@ export enum WeekDay {
     FRI = 5,
     SAT = 6
 }
+
+/**
+ * 星期
+ */
+export type WeekDayType = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 /**
  * 月份属性
@@ -167,12 +173,32 @@ class DateTime {
         return this.date.getFullYear();
     }
 
+    setFullYear(year: number, month?: number, date?: number) {
+        if (month && date) {
+            return this.date.setFullYear(year, month, date);
+        } else if (month) {
+            return this.date.setFullYear(year, month);
+        }
+        return this.date.setFullYear(year);
+    }
+
     getMonth() {
         return this.date.getMonth();
     }
 
+    setMonth(month: number, date?: number) {
+        if (date) {
+            return this.date.setMonth(month, date);
+        }
+        return this.date.setMonth(month);
+    }
+
     getDate() {
         return this.date.getDate();
+    }
+
+    setDate(date: number) {
+        return this.date.setDate(date);
     }
 
     getDay() {
@@ -183,16 +209,47 @@ class DateTime {
         return this.date.getHours();
     }
 
+    setHours(hours: number, min?: number, sec?: number, ms?: number) {
+        if (min && sec && ms) {
+            return this.date.setHours(hours, min, sec, ms);
+        } else if (min && sec) {
+            return this.date.setHours(hours, min, sec);
+        } else if (min) {
+            return this.date.setHours(hours, min);
+        }
+        return this.date.setHours(hours);
+    }
+
     getMinutes() {
         return this.date.getMinutes();
+    }
+
+    setMinutes(min: number, sec?: number, ms?: number) {
+        if (sec && ms) {
+            return this.date.setMinutes(min, sec, ms);
+        } else if (sec) {
+            return this.date.setHours(min, sec);
+        }
+        return this.date.setMinutes(min);
     }
 
     getSeconds() {
         return this.date.getSeconds();
     }
 
+    setSeconds(sec: number, ms?: number) {
+        if (ms) {
+            return this.date.setSeconds(sec, ms);
+        }
+        return this.date.setSeconds(sec);
+    }
+
     getMilliseconds() {
         return this.date.getMilliseconds();
+    }
+
+    setMilliseconds(ms: number) {
+        return this.date.setMilliseconds(ms);
     }
 
     /**
@@ -344,24 +401,25 @@ class DateTime {
 
     /**
      * 设置周开始周数
-     * @param type 周数，见：{@link WeekDay}
+     * @param weekDay 星期，0 为周日，6 为周六
      */
-    setFirstWeek(type: keyof typeof WeekDay): void {
-        this.firstWeek = WeekDay[type];
+    setFirstWeek(weekDay: WeekDayType): void {
+        this.firstWeek = weekDay;
     }
 
     /**
      * 日期偏移操作
-     * @param type 偏移类型，见：{@link DateField}
+     * @param dateField 偏移类型，见：{@link DateField}
      * @param offset 偏移大小
      * @returns {DateTime}
      */
-    offset(type: keyof typeof DateField, offset: number): DateTime {
-        if (!type) return this;
+    offset(dateField: keyof typeof DateField, offset: number): DateTime {
+        if (!dateField) return this;
         const newDateTime = new DateTime(this);
         const values = newDateTime.objectValues();
         offset = offset || 0;
-        if (DateField.YEAR === DateField[type]) {
+        const dateType = DateField[dateField]
+        if (DateField.year === dateType) {
             const tempDateTime = new DateTime(newDateTime);
             newDateTime.date.setFullYear(values.year + Number(offset));
             if (newDateTime.date.getMonth() !== tempDateTime.date.getMonth()
@@ -369,7 +427,7 @@ class DateTime {
                 // 如果偏移年份后月份不等于原来的月份，则说明月份超出了，取当月最后一天
                 newDateTime.date.setDate(0);
             }
-        } else if (DateField.MONTH === DateField[type]) {
+        } else if (DateField.month === dateType) {
             const tempDateTime = new DateTime(newDateTime);
             newDateTime.date.setMonth(values.monthIndex + Number(offset));
             if (newDateTime.date.getMonth() !== tempDateTime.date.getMonth() + Number(offset)
@@ -377,13 +435,13 @@ class DateTime {
                 // 如果月份-1后，月份不等于上个月数，则说明上个月天数超出了，取上月最后一天
                 newDateTime.date.setDate(0);
             }
-        } else if (DateField.DAY === DateField[type]) {
+        } else if (DateField.day === dateType) {
             newDateTime.date.setDate(values.day + Number(offset));
-        } else if (DateField.WEEK === DateField[type]) {
+        } else if (DateField.week === dateType) {
             newDateTime.date.setDate(values.day + 7 * offset);
-        } else if (DateField.HOURS === DateField[type]) {
+        } else if (DateField.hours === dateType) {
             newDateTime.date.setHours(values.hours = Number(offset));
-        } else if (DateField.MINUTES === DateField[type]) {
+        } else if (DateField.min === dateType) {
             newDateTime.date.setMinutes(values.minutes = Number(offset));
         } else {
             newDateTime.date.setSeconds(values.seconds = Number(offset));

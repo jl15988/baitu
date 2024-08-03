@@ -1,4 +1,4 @@
-import DateTime, {DateField, WeekDay} from "./DateTime";
+import DateTime, {DateField, WeekDayType} from "./DateTime";
 import NumberUtil from "../number/NumberUtil";
 import ObjectUtil from "../object/ObjectUtil";
 
@@ -37,13 +37,6 @@ class DateUtil {
     static readonly simpleTimeStampLen: number = 10;
 
     /**
-     * 获取当前Date日期
-     */
-    date(): Date {
-        return new Date();
-    }
-
-    /**
      * 获取当前DateTime日期
      */
     dateTime(): DateTime {
@@ -60,38 +53,38 @@ class DateUtil {
     /**
      * 将特定格式转为 DateTime
      * 支持格式：
-     * yyyy年MM月dd日HH(时/点)mm分ss秒
-     * yyyy年MM月dd日 HH(时/点)mm分ss秒
-     * yyyy年MM月dd日HH(时/点)mm分
-     * yyyy年MM月dd日HH(时/点)
-     * yyyy年MM月dd日
-     * yyyy年MM月
-     * yyyy年
-     * yyyyMMddHHmmss
-     * yyyyMMddHHmm
-     * 不支持yyyyMMddHH，将判定为10位的时间戳
-     * yyyyMMdd
-     * 不支持yyyyMM
-     * yyyy
-     * yyyy-MM-dd HH:mm:ss
-     * yyyy/MM/dd HH:mm:ss
-     * yyyy.MM.dd HH:mm:ss
-     * yyyy-MM-ddTHH:mm:ss
-     * yyyy-MM-dd HH:mm
-     * yyyy/MM/dd HH:mm
-     * yyyy.MM.dd HH:mm
-     * yyyy-MM-dd
-     * yyyy/MM/dd
-     * yyyy.MM.dd
-     * yyyy-MM
-     * yyyy/MM
-     * yyyy.MM
-     * HH:mm:ss
-     * HH(时/点)mm分ss秒
-     * HH:mm
-     * HH(时/点)mm分
-     * HH(时/点)
-     * 13位或10位时间戳
+     * - yyyy年MM月dd日HH(时/点)mm分ss秒
+     * - yyyy年MM月dd日 HH(时/点)mm分ss秒
+     * - yyyy年MM月dd日HH(时/点)mm分
+     * - yyyy年MM月dd日HH(时/点)
+     * - yyyy年MM月dd日
+     * - yyyy年MM月
+     * - yyyy年
+     * - yyyyMMddHHmmss
+     * - yyyyMMddHHmm
+     * - 不支持 yyyyMMddHH，将判定为 10 位的时间戳
+     * - yyyyMMdd
+     * - 不支持 yyyyMM
+     * - yyyy
+     * - yyyy-MM-dd HH:mm:ss
+     * - yyyy/MM/dd HH:mm:ss
+     * - yyyy.MM.dd HH:mm:ss
+     * - yyyy-MM-ddTHH:mm:ss
+     * - yyyy-MM-dd HH:mm
+     * - yyyy/MM/dd HH:mm
+     * - yyyy.MM.dd HH:mm
+     * - yyyy-MM-dd
+     * - yyyy/MM/dd
+     * - yyyy.MM.dd
+     * - yyyy-MM
+     * - yyyy/MM
+     * - yyyy.MM
+     * - HH:mm:ss
+     * - HH(时/点)mm分ss秒
+     * - HH:mm
+     * - HH(时/点)mm分
+     * - HH(时/点)
+     * - 13 位或 10 位时间戳
      * @param dateTime 日期
      */
     parse(dateTime: string | number | Date | DateTime): DateTime {
@@ -163,14 +156,6 @@ class DateUtil {
     }
 
     /**
-     * 将参数转为DateTime类型
-     * @param dateTime
-     */
-    toDateTime(dateTime: string | number | Date | DateTime): DateTime {
-        return new DateTime(this.parse(dateTime));
-    }
-
-    /**
      * 格式化日期，默认格式：yyyy-MM-dd HH:mm:ss
      *
      * y年，M月份，d日，H小时，m分钟，s秒，q季度，S毫秒，w周
@@ -181,14 +166,22 @@ class DateUtil {
         const newDate = this.parse(date);
         const objectValues = newDate.objectValues();
         const timeSource = {
-            "M+": objectValues.month,     //月份
-            "d+": objectValues.day,     //日
-            "H+": objectValues.hours,     //小时
-            "m+": objectValues.minutes,     //分
-            "s+": objectValues.seconds,     //秒
-            "q+": Math.floor((objectValues.monthIndex + 3) / 3), //季度
-            "SSS": objectValues.milliseconds,    //毫秒
-            "w+": objectValues.week // 周
+            // 月份
+            "M+": objectValues.month,
+            // 日
+            "d+": objectValues.day,
+            // 小时
+            "H+": objectValues.hours,
+            // 分
+            "m+": objectValues.minutes,
+            // 秒
+            "s+": objectValues.seconds,
+            // 季度
+            "q+": Math.floor((objectValues.monthIndex + 3) / 3),
+            // 毫秒
+            "SSS": objectValues.milliseconds,
+            // 周
+            "w+": objectValues.week
         }
         return format.replace(/(\w+)/g, (match) => {
             // @ts-ignore
@@ -216,17 +209,27 @@ class DateUtil {
     }
 
     /**
-     * 格式化为yyyy-MM-dd HH:mm:ss格式，默认当前时间
+     * 格式化为 yyyy-MM-dd HH:mm:ss 格式，默认当前时间
+     * @param date 要格式化的日期
      */
     formatDateTime(date: (string | number | Date | DateTime) = new Date()): string {
         return this.format(date);
     }
 
     /**
-     * 格式化为yyyy-MM-dd，默认当前时间
+     * 格式化为 yyyy-MM-dd，默认当前时间
+     * @param date 要格式化的日期
      */
     formatDate(date: (string | number | Date | DateTime) = new Date()): string {
         return this.format(date, "yyyy-MM-dd");
+    }
+
+    /**
+     * 格式化为 HH:mm:ss，默认当前时间
+     * @param date 要格式化的日期
+     */
+    formatTime(date: (string | number | Date | DateTime) = new Date()): string {
+        return this.format(date, "HH:mm:ss");
     }
 
     /**
@@ -239,6 +242,7 @@ class DateUtil {
 
     /**
      * 获取当年天数
+     * @param date 日期
      */
     daysOfYear(date: Date | DateTime): number {
         return new DateTime(date).daysOfYear();
@@ -246,15 +250,19 @@ class DateUtil {
 
     /**
      * 是否闰年
+     * @param date 日期
      */
     isLeapYear(date: Date | DateTime): boolean {
         return new DateTime(date).isLeapYear();
     }
 
     /**
-     * 获取日期1减日期2的差值
+     * 获取日期 1 减日期 2 的差值
+     * @param date1 被减日期
+     * @param date2 减日期
+     * @param dateField 日期类型，默认毫秒
      */
-    compare(date1: Date | DateTime, date2: Date | DateTime, dateField?: keyof typeof DateField): number {
+    compare(date1: Date | DateTime, date2: Date | DateTime, dateField: keyof typeof DateField = "ms"): number {
         if (date1 instanceof DateTime) {
             date1 = date1.date
         }
@@ -265,18 +273,19 @@ class DateUtil {
         const time2 = date2.getTime();
         const diff = time1 - time2;
         let result = diff;
-        if (dateField) {
-            if (DateField.SECONDS === DateField[dateField]) {
+        if (dateField && DateField.ms !== DateField[dateField]) {
+            const dateType = DateField[dateField]
+            if (DateField.sec === dateType) {
                 result = diff / DateUtil.secondsMillis;
-            } else if (DateField.MINUTES === DateField[dateField]) {
+            } else if (DateField.min === dateType) {
                 result = diff / DateUtil.minutesMillis;
-            } else if (DateField.HOURS === DateField[dateField]) {
+            } else if (DateField.hours === dateType) {
                 result = diff / DateUtil.hoursMillis;
-            } else if (DateField.DAY === DateField[dateField]) {
+            } else if (DateField.day === dateType) {
                 result = diff / DateUtil.dayMillis;
-            } else if (DateField.WEEK === DateField[dateField]) {
+            } else if (DateField.week === dateType) {
                 result = diff / DateUtil.weekMillis;
-            } else if (DateField.MONTH === DateField[dateField] || DateField.YEAR === DateField[dateField]) {
+            } else if (DateField.month === dateType || DateField.year === dateType) {
                 if (diff < 0) {
                     // 若date2大于date1，交换位置
                     const tempDate = date1;
@@ -299,7 +308,7 @@ class DateUtil {
                     result = num;
                 } else if (compareDay < 0) {
                     // 差值小于零，则说明小日期月份天数补全后，大日期月份天数不够了，所以取大日期的上个月
-                    const monthDays = tempDate2.offset("MONTH", -1).daysOfMonth();
+                    const monthDays = tempDate2.offset("month", -1).daysOfMonth();
                     result = num - 1 + (monthDays + compareDay) / monthDays;
                 } else {
                     // 差值大于零，则直接用差值除大日期月份天数
@@ -314,7 +323,7 @@ class DateUtil {
         } else {
             return NumberUtil.fixed(diff, 2);
         }
-        if (DateField.YEAR === DateField[dateField]) {
+        if (DateField.year === DateField[dateField]) {
             // 年份直接用月份除12
             result = result / 12;
         }
@@ -349,23 +358,23 @@ class DateUtil {
 
     /**
      * 获取秒数含有多少天、小时、分钟、秒
-     * @param secondsValue 秒数
+     * @param sec 秒数
      */
-    convertSeconds(secondsValue: number) {
-        if (secondsValue === DateUtil.simpleTimeStampLen) {
-            secondsValue = secondsValue * 1000;
+    convertSeconds(sec: number) {
+        if (sec === DateUtil.simpleTimeStampLen) {
+            sec = sec * 1000;
         }
         // 计算天数
-        const days = Math.floor(secondsValue / (60 * 60 * 24));
-        secondsValue %= (60 * 60 * 24);
+        const days = Math.floor(sec / (60 * 60 * 24));
+        sec %= (60 * 60 * 24);
         // 计算小时数
-        const hours = Math.floor(secondsValue / (60 * 60));
-        secondsValue %= (60 * 60);
+        const hours = Math.floor(sec / (60 * 60));
+        sec %= (60 * 60);
         // 计算分钟数
-        const minutes = Math.floor(secondsValue / 60);
-        secondsValue %= 60;
+        const minutes = Math.floor(sec / 60);
+        sec %= 60;
         // 计算秒数
-        const seconds = Math.floor(secondsValue);
+        const seconds = Math.floor(sec);
 
         return {
             days,
@@ -377,14 +386,14 @@ class DateUtil {
 
     /**
      * 格式化秒数为 xx天xx时xx分xx秒，如果达不到某一单位则不添加
-     * @param secondsValue 秒数
+     * @param sec 秒数
      * @param labels 天、小时、分钟、秒的属性名，默认天、时、分、秒
      * @param pad 是否补零
      */
-    formatSeconds(secondsValue: number,
+    formatSeconds(sec: number,
                   labels: { day: string, hour: string, minute: string, second: string },
                   pad: boolean = true) {
-        const convert = this.convertSeconds(secondsValue);
+        const convert = this.convertSeconds(sec);
         const days = convert.days;
         const hours = convert.hours;
         const minutes = convert.minutes;
@@ -412,7 +421,7 @@ class DateUtil {
      * 获取日期为当月第几个星期几
      * @param date 日期
      */
-    getWeekdayWhichOfMonth(date?: Date) {
+    getWeekdayWhichOfMonth(date?: Date | DateTime) {
         date = date || new Date();
         // 获取月份的第一天
         let firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -445,7 +454,7 @@ class DateUtil {
     }
 
     /**
-     * 获取年份中的所有周末日期
+     * 获取年份中的所有周末（周六周日）日期
      * @param year 年份
      */
     getAllWeekend(year: number): string[] {
@@ -464,94 +473,78 @@ class DateUtil {
 
     /**
      * 获取当前日期当天开始时间
-     * @returns {DateTime}
+     * @param date 日期
      */
     beginOfDay(date: Date | DateTime): DateTime {
-        const values = new DateTime(date).objectValues()
-        return new DateTime(values.year, values.monthIndex, values.day, 0, 0, 0, 0)
+        const dateTime = new DateTime(date);
+        return dateTime.beginOfDay();
     }
 
     /**
      * 获取当前日期当天结束时间
-     * @returns {DateTime}
+     * @param date 日期
      */
     endOfDay(date: Date | DateTime): DateTime {
-        const values = new DateTime(date).objectValues()
-        return new DateTime(values.year, values.monthIndex, values.day, 23, 59, 59, 999)
+        const dateTime = new DateTime(date);
+        return dateTime.endOfDay();
     }
 
     /**
      * 获取当前日期当周开始时间
-     * @returns {DateTime}
+     * @param date 日期
+     * @param firstWeek 设置周起始星期，0 为周日，6 为周六
      */
-    beginOfWeek(date: Date | DateTime, firstWeek: keyof typeof WeekDay): DateTime {
-        const values = new DateTime(date).objectValues()
-        const extra = WeekDay[firstWeek] || 0
-        return new DateTime(
-            values.year,
-            values.monthIndex,
-            values.day - values.week + extra,
-            0,
-            0,
-            0,
-            0
-        )
+    beginOfWeek(date: Date | DateTime, firstWeek: WeekDayType): DateTime {
+        const dateTime = new DateTime(date);
+        dateTime.setFirstWeek(firstWeek);
+        return dateTime.beginOfWeek();
     }
 
     /**
      * 获取当前日期当周结束时间
-     * @returns {DateTime}
+     * @param date 日期
+     * @param firstWeek 设置周起始星期，0 为周日，6 为周六
      */
-    endOfWeek(date: Date | DateTime, firstWeek: keyof typeof WeekDay): DateTime {
-        const values = new DateTime(date).objectValues()
-        const extra = WeekDay[firstWeek] || 0
-        return new DateTime(
-            values.year,
-            values.monthIndex,
-            values.day + (6 - values.week + extra),
-            23,
-            59,
-            59,
-            999
-        )
+    endOfWeek(date: Date | DateTime, firstWeek: WeekDayType): DateTime {
+        const dateTime = new DateTime(date);
+        dateTime.setFirstWeek(firstWeek);
+        return dateTime.endOfWeek();
     }
 
     /**
      * 获取当前日期当月第一天时间
-     * @returns {DateTime}
+     * @param date 日期
      */
     beginOfMonth(date: Date | DateTime): DateTime {
-        const year = date.getFullYear()
-        const month = date.getMonth()
-        return new DateTime(year, month, 1, 0, 0, 0, 0)
+        const dateTime = new DateTime(date);
+        return dateTime.beginOfMonth();
     }
 
     /**
      * 获取当前日期当月最后一天时间
-     * @returns {DateTime}
+     * @param date 日期
      */
     endOfMonth(date: Date | DateTime): DateTime {
-        const year = date.getFullYear()
-        const month = date.getMonth() + 1
-        return new DateTime(year, month, 0, 23, 59, 59, 999)
+        const dateTime = new DateTime(date);
+        return dateTime.endOfMonth();
     }
 
     /**
      * 获取当前时间当年开始时间
-     * @returns {DateTime}
+     * @param date 日期
      */
     beginOfYear(date: Date | DateTime): DateTime {
-        const year = date.getFullYear()
-        return new DateTime(year, 0, 1, 0, 0, 0, 0)
+        const dateTime = new DateTime(date);
+        return dateTime.beginOfYear();
     }
 
     /**
      * 获取当前日期当年结束时间
-     * @returns {DateTime}
+     * @param date 日期
      */
     endOfYear(date: Date | DateTime): DateTime {
-        const year = date.getFullYear()
-        return new DateTime(year + 1, 0, 0, 23, 59, 59, 999)
+        const dateTime = new DateTime(date);
+        return dateTime.endOfYear();
     }
 }
 
