@@ -1,14 +1,15 @@
-import {createApp, defineComponent} from 'vue'
-import {DateTime} from "../src/index";
+import {createApp} from 'vue'
+import App from "./App.vue";
+import router from './router'
 
-const App = defineComponent({
-    setup() {
-        var dateTime = new DateTime(2024, 7, 17);
-        console.log(dateTime.toString())
-    }
-})
+// const App = defineComponent({
+//     setup() {
+//         var dateTime = new DateTime(2024, 7, 17);
+//         console.log(dateTime.toString())
+//     }
+// })
 
-createApp(App).mount('#root')
+createApp(App).use(router).mount('#root')
 
 function requestGet(url: string, callback: Function) {
     try {

@@ -60,6 +60,10 @@ export type DateTimeObjectValues = {
      */
     year: number,
     /**
+     * 两位数年
+     */
+    simpleYear: number,
+    /**
      * 月下标
      */
     monthIndex: number,
@@ -68,9 +72,17 @@ export type DateTimeObjectValues = {
      */
     month: number,
     /**
+     * 补零月
+     */
+    fullMonth: string,
+    /**
      * 日
      */
     day: number,
+    /**
+     * 补零日
+     */
+    fullDay: string,
     /**
      * 星期
      */
@@ -80,17 +92,37 @@ export type DateTimeObjectValues = {
      */
     hours: number,
     /**
+     * 补零小时
+     */
+    fullHours: string,
+    /**
      * 分钟
      */
     minutes: number,
+    /**
+     * 补零分钟
+     */
+    fullMinutes: string,
     /**
      * 秒
      */
     seconds: number,
     /**
+     * 补零秒
+     */
+    fullSeconds: string,
+    /**
      * 毫秒
      */
-    milliseconds: number
+    milliseconds: number,
+    /**
+     * 补零毫秒
+     */
+    fullMilliseconds: string,
+    /**
+     * 季度
+     */
+    quarter: number,
 }
 
 /**
@@ -167,6 +199,14 @@ class DateTime {
      */
     month() {
         return this.date.getMonth() + 1
+    }
+
+    getTime() {
+        return this.date.getTime();
+    }
+
+    setTime(time: number) {
+        return this.date.setTime(time);
     }
 
     getFullYear() {
@@ -264,16 +304,25 @@ class DateTime {
         const minutes = this.date.getMinutes();
         const seconds = this.date.getSeconds();
         const milliseconds = this.date.getMilliseconds();
+        const quarter = Math.floor((monthIndex + 3) / 3);
         return {
             year,
+            simpleYear: Number(year.toString().substring(2)),
             monthIndex,
             month: (monthIndex + 1),
+            fullMonth: (monthIndex + 1).toString().padStart(2, '0'),
             day,
+            fullDay: day.toString().padStart(2, '0'),
             week,
             hours,
+            fullHours: hours.toString().padStart(2, '0'),
             minutes,
+            fullMinutes: minutes.toString().padStart(2, '0'),
             seconds,
-            milliseconds
+            fullSeconds: seconds.toString().padStart(2, '0'),
+            milliseconds,
+            fullMilliseconds: milliseconds.toString().padStart(3, '0'),
+            quarter,
         }
     }
 
@@ -311,15 +360,20 @@ class DateTime {
 
     /**
      * 格式化当前日期为年-月-日
-     * @returns {string}
      */
     formatDate(): string {
         return this.format("yyyy-MM-dd");
     }
 
     /**
+     * 格式化当前日期为时-分-秒
+     */
+    formatTime(): string {
+        return this.format("HH:mm:ss");
+    }
+
+    /**
      * 格式化当前日期为年-月-日 时:分:秒
-     * @returns {string}
      */
     formatDateTime(): string {
         return this.format("yyyy-MM-dd HH:mm:ss");
@@ -403,8 +457,9 @@ class DateTime {
      * 设置周开始周数
      * @param weekDay 星期，0 为周日，6 为周六
      */
-    setFirstWeek(weekDay: WeekDayType): void {
+    setFirstWeek(weekDay: WeekDayType): DateTime {
         this.firstWeek = weekDay;
+        return this;
     }
 
     /**

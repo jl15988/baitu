@@ -165,47 +165,132 @@ class DateUtil {
     format(date: string | number | Date | DateTime, format: string = "yyyy-MM-dd HH:mm:ss"): string {
         const newDate = this.parse(date);
         const objectValues = newDate.objectValues();
-        const timeSource = {
+        const dateKeyMap = {
+            // 年份
+            "yyyy": objectValues.year,
+            "yy": objectValues.simpleYear,
             // 月份
-            "M+": objectValues.month,
+            "MM": objectValues.fullMonth,
+            "M": objectValues.month,
             // 日
-            "d+": objectValues.day,
+            "dd": objectValues.fullDay,
+            "d": objectValues.day,
             // 小时
-            "H+": objectValues.hours,
+            "HH": objectValues.fullHours,
+            "H": objectValues.hours,
             // 分
-            "m+": objectValues.minutes,
+            "mm": objectValues.fullMinutes,
+            "m": objectValues.minutes,
             // 秒
-            "s+": objectValues.seconds,
+            "ss": objectValues.fullSeconds,
+            "s": objectValues.seconds,
             // 季度
-            "q+": Math.floor((objectValues.monthIndex + 3) / 3),
+            "q": objectValues.quarter,
             // 毫秒
             "SSS": objectValues.milliseconds,
             // 周
-            "w+": objectValues.week
+            "w": objectValues.week,
         }
-        return format.replace(/(\w+)/g, (match) => {
-            // @ts-ignore
-            const val = timeSource[match];
-            if (/(y+)/.test(match)) {
-                if ('yy' === match) {
-                    return val.toString().substring(2)
+        return this.formatWithMap(format, dateKeyMap)
+    }
+
+    // /**
+    //  * 格式化日期，默认格式：yyyy-MM-dd HH:mm:ss
+    //  *
+    //  * y年，M月份，d日，H小时，m分钟，s秒，q季度，S毫秒，w周
+    //  * @param date 日期
+    //  * @param format 格式
+    //  */
+    // format(date: string | number | Date | DateTime, format: string = "yyyy-MM-dd HH:mm:ss"): string {
+    //     const newDate = this.parse(date);
+    //     const objectValues = newDate.objectValues();
+    //     const dateKeyMap = {
+    //         "y+": objectValues.year,
+    //         // 月份
+    //         "M+": objectValues.month,
+    //         // 日
+    //         "d+": objectValues.day,
+    //         // 小时
+    //         "H+": objectValues.hours,
+    //         // 分
+    //         "m+": objectValues.minutes,
+    //         // 秒
+    //         "s+": objectValues.seconds,
+    //         // 季度
+    //         "q+": Math.floor((objectValues.monthIndex + 3) / 3),
+    //         // 毫秒
+    //         "SSS": objectValues.milliseconds,
+    //         // 周
+    //         "w+": objectValues.week
+    //     }
+    //     return this.formatWithMap(format, dateKeyMap, (dateKey, match, formatedVal) => {
+    //         if ('y' === dateKey) {
+    //             // 对两位数年份单独处理
+    //             if (match[0].length === 2) {
+    //                 return formatedVal.substring(2);
+    //             }
+    //         }
+    //         return formatedVal;
+    //     })
+    //     // return format.replace(/(y)+|(M)+|(d)+/g, (match, t) => {
+    //     //     // @ts-ignore
+    //     //     const val = timeSource[t];
+    //     //     if (/(y+)/.test(match)) {
+    //     //         if ('yy' === match) {
+    //     //             return val.toString().substring(2)
+    //     //         }
+    //     //         return val
+    //     //     }
+    //     //     if (val) {
+    //     //         if (match.length === 1) {
+    //     //             return val
+    //     //         }
+    //     //         return val.toString().padStart(2, '0');
+    //     //     }
+    //     //     return match;
+    //     // })
+    //     // if (/(y+)/.test(format))
+    //     //     format = format.replace(RegExp.$1, (objectValues.year + "").substr(4 - RegExp.$1.length));
+    //     // for (let k in timeSource)
+    //     //     if (new RegExp("(" + k + ")").test(format))
+    //     //         format = format.replace(RegExp.$1, (RegExp.$1.length == 1) ? (timeSource[k]) : (("00" + timeSource[k]).substr(("" + timeSource[k]).length)));
+    //     // return format;
+    // }
+
+    /**
+     * 根据日期关键字映射格式化格式字符串
+     * @param format 格式字符串
+     * @param dateKeyMap 日期关键字映射
+     * @param valueHandler 格式化值处理函数，对格式化值进行最后的处理
+     */
+    formatWithMap<M extends Record<string, string | number | (() => string | number)>>(format: string, dateKeyMap: M, valueHandler?: (dateKey: keyof M, match: RegExpExecArray, formatedVal: string, nowRes: string) => string) {
+        const funMapVal: Record<keyof M, string | number> = {} as Record<keyof M, string | number>
+        for (let dateKey in dateKeyMap) {
+            const typeReg = new RegExp(`(${dateKey})`);
+            const match = typeReg.exec(format);
+            if (match) {
+                const mapVal = dateKeyMap[dateKey];
+                if (ObjectUtil.isEmpty(mapVal)) continue;
+
+                let val: string | number = '';
+                if (typeof mapVal === 'function') {
+                    // 处理函数类型
+                    if (funMapVal.hasOwnProperty(dateKey)) {
+                        val = funMapVal[dateKey];
+                    } else {
+                        funMapVal[dateKey] = mapVal();
+                    }
+                } else {
+                    val = mapVal;
                 }
-                return val
-            }
-            if (val) {
-                if (match.length === 1) {
-                    return val
+                let formatedVal = match[0].length === 1 ? val.toString() : val.toString().padStart(2, '0');
+                if (valueHandler) {
+                    formatedVal = valueHandler(dateKey, match, formatedVal, format);
                 }
-                return val.toString().padStart(2, '0');
+                format = format.replace(new RegExp(`(${dateKey})`, 'g'), formatedVal);
             }
-            return match;
-        })
-        // if (/(y+)/.test(format))
-        //     format = format.replace(RegExp.$1, (objectValues.year + "").substr(4 - RegExp.$1.length));
-        // for (let k in timeSource)
-        //     if (new RegExp("(" + k + ")").test(format))
-        //         format = format.replace(RegExp.$1, (RegExp.$1.length == 1) ? (timeSource[k]) : (("00" + timeSource[k]).substr(("" + timeSource[k]).length)));
-        // return format;
+        }
+        return format;
     }
 
     /**

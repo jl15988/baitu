@@ -1,6 +1,7 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import {VueLoaderPlugin} from "vue-loader";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -18,9 +19,11 @@ const config = (env, { mode = 'production' }) => {
             filename: isProd ? '[name].[contenthash].js' : '[name].js',
         },
         resolve: {
-            extensions: ['.ts', '.js'],
+            // 自动补全后缀
+            extensions: [".vue", '.ts', '.js'],
             mainFields: ['module', 'main'],
             alias: {
+                // "@": path.resolve(__dirname, "src"),
                 vue$: isProd
                     ? 'vue/dist/vue.esm-browser.prod.js'
                     : 'vue/dist/vue.esm-browser.js'
@@ -36,8 +39,18 @@ const config = (env, { mode = 'production' }) => {
                     test: /\.ts$/,
                     loader: 'ts-loader',
                     options: {
+                        // 需要对单文件做特殊处理
+                        configFile: path.resolve(process.cwd(), "tsconfig.json"),
                         appendTsSuffixTo: [/\.vue$/],
                     }
+                },
+                {
+                    test: /\.css$/, //解析css
+                    use: ["style-loader", "css-loader"],
+                },
+                {
+                    test: /\.scss$/,
+                    use: ["style-loader", "css-loader", "sass-loader"],
                 },
                 {
                     test: /\.svg$/,
@@ -59,12 +72,15 @@ const config = (env, { mode = 'production' }) => {
                     useShortDoctype: true,
                 },
             }),
+            // 解析vue
+            new VueLoaderPlugin(),
         ],
         devServer: {
             hot: true,
             client: {
                 overlay: true,
                 progress: true,
+                logging: 'none', // 禁用控制台的日志输出
             },
             historyApiFallback: true,
         },
