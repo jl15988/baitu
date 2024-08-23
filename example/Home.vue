@@ -10,7 +10,7 @@ const modules = computed(() => {
 <template>
   <div class="home-container">
     <div class="banner">
-      <div class="banner-title">Baitu 一个小而全的全端工具包</div>
+      <div class="banner-title">Baitu 一个小而全的前端工具包</div>
       <div class="banner-desc">测试示例</div>
     </div>
     <div class="module-list">
@@ -61,7 +61,7 @@ const modules = computed(() => {
   margin: 10px auto 0;
 
   .module-item {
-
+    margin-bottom: 30px;
   }
 
   .module-title {

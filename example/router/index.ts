@@ -25,6 +25,17 @@ export const routes: Array<RouteRecordRaw> = [
                         component: () => import('../modules/dateTime/DateUtil.vue'),
                     }
                 ]
+            },
+            {
+                path: 'file',
+                name: 'File',
+                children: [
+                    {
+                        path: 'FileUtil',
+                        name: 'FileUtil',
+                        component: () => import('../modules/file/FileUtil.vue'),
+                    }
+                ]
             }
         ]
     }
