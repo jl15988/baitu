@@ -103,7 +103,7 @@ class TreeUtil {
         for (let item of list) {
             const level = this.LEVEL_BEGIN;
             // @ts-ignore
-            if (item[this.BUILT_TAG]) return;
+            if (item[this.BUILT_TAG]) continue;
             mapper && mapper(item, undefined, [], level);
             this.toTreeMapper(list, item, idName, parentName, mapper, leafMapper, level);
         }
