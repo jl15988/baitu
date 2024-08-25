@@ -293,6 +293,17 @@ class DateTime {
     }
 
     /**
+     * 获取时区偏移量
+     * @param separator 是否带有间隔
+     */
+    timeZone(separator?: boolean) {
+        const offset = this.date.getTimezoneOffset();
+        const hours = Math.abs(Math.floor(offset / 60));
+        const minutes = Math.abs(offset % 60);
+        return `${offset < 0 ? '+' : '-'}${hours.toString().padStart(2, '0')}${separator ? ':' : ''}${minutes.toString().padStart(2, '0')}`;
+    }
+
+    /**
      * 日期年，月，日，周，时，分，秒对象数据
      */
     objectValues(): DateTimeObjectValues {
@@ -600,6 +611,13 @@ class DateTime {
      */
     isAfterOrEquals(date: Date | DateTime) {
         return DateUtil.compare(this, date) >= 0
+    }
+
+    /**
+     * 获取纪元日
+     */
+    getEpochDay() {
+        return DateUtil.getEpochDay(this);
     }
 }
 

@@ -190,8 +190,39 @@ class DateUtil {
             "SSS": objectValues.milliseconds,
             // 周
             "w": objectValues.week,
+            // 时区偏移
+            "Z": newDate.timeZone(),
+            "X": newDate.timeZone(true)
         }
-        return this.formatWithMap(format, dateKeyMap)
+        const quotedIndex: number[] = []
+        const matchMap: {
+            match: string
+            index: number
+            length: number
+        }[] = []
+        let match;
+        // const regex = /"([^"]*)"|'([^']*)'/g;
+        const regex = /\[([^\[]*)]/g;
+        while ((match = regex.exec(format)) !== null) {
+            quotedIndex.push(match.index)
+            const len = match[0].length
+            for (let i = 1; i < len - 1; i++) {
+                quotedIndex.push(match.index + i)
+            }
+            matchMap.push({
+                match: match[0],
+                index: match.index,
+                length: match[0].length
+            })
+        }
+        return this.formatWithMap(format, dateKeyMap, (dateKey, match, index, formatedVal) => {
+            if (quotedIndex.includes(index - 1)) {
+                return match;
+            }
+            return formatedVal;
+        }).replace(regex, (m) => {
+            return m.substring(1, m.length - 1);
+        })
     }
 
     // /**
@@ -263,14 +294,13 @@ class DateUtil {
      * @param dateKeyMap 日期关键字映射
      * @param valueHandler 格式化值处理函数，对格式化值进行最后的处理
      */
-    formatWithMap<M extends Record<string, string | number | (() => string | number)>>(format: string, dateKeyMap: M, valueHandler?: (dateKey: keyof M, match: RegExpExecArray, formatedVal: string, nowRes: string) => string) {
+    formatWithMap<M extends Record<string, string | number | (() => string | number)>>(format: string, dateKeyMap: M, valueHandler?: (dateKey: keyof M, match: string, index: number, formatedVal: string) => string) {
         const funMapVal: Record<keyof M, string | number> = {} as Record<keyof M, string | number>
         for (let dateKey in dateKeyMap) {
-            const typeReg = new RegExp(`(${dateKey})`);
-            const match = typeReg.exec(format);
-            if (match) {
+            const typeReg = new RegExp(`${dateKey}`, 'g');
+            format = format.replace(typeReg, (m, index) => {
                 const mapVal = dateKeyMap[dateKey];
-                if (ObjectUtil.isEmpty(mapVal)) continue;
+                if (ObjectUtil.isEmpty(mapVal)) return m;
 
                 let val: string | number = '';
                 if (typeof mapVal === 'function') {
@@ -283,12 +313,34 @@ class DateUtil {
                 } else {
                     val = mapVal;
                 }
-                let formatedVal = match[0].length === 1 ? val.toString() : val.toString().padStart(2, '0');
+                let formatedVal = m.length === 1 ? val.toString() : val.toString().padStart(2, '0');
                 if (valueHandler) {
-                    formatedVal = valueHandler(dateKey, match, formatedVal, format);
+                    formatedVal = valueHandler(dateKey, m, index, formatedVal);
                 }
-                format = format.replace(new RegExp(`(${dateKey})`, 'g'), formatedVal);
-            }
+                return formatedVal;
+            })
+            // const match = typeReg.exec(format);
+            // if (match) {
+            //     const mapVal = dateKeyMap[dateKey];
+            //     if (ObjectUtil.isEmpty(mapVal)) continue;
+            //
+            //     let val: string | number = '';
+            //     if (typeof mapVal === 'function') {
+            //         // 处理函数类型
+            //         if (funMapVal.hasOwnProperty(dateKey)) {
+            //             val = funMapVal[dateKey];
+            //         } else {
+            //             funMapVal[dateKey] = mapVal();
+            //         }
+            //     } else {
+            //         val = mapVal;
+            //     }
+            //     let formatedVal = match[0].length === 1 ? val.toString() : val.toString().padStart(2, '0');
+            //     if (valueHandler) {
+            //         formatedVal = valueHandler(dateKey, match, formatedVal, format);
+            //     }
+            //     format = StrUtil.replaceBetween(format, match.index, Math.min(match.index + match[0].length, format.length), formatedVal);
+            // }
         }
         return format;
     }
@@ -630,6 +682,19 @@ class DateUtil {
     endOfYear(date: Date | DateTime): DateTime {
         const dateTime = new DateTime(date);
         return dateTime.endOfYear();
+    }
+
+    /**
+     * 获取纪元日
+     * @param date 日期
+     */
+    getEpochDay(date: Date | DateTime): number {
+        // Unix纪元是1970年1月1日UTC
+        const epochStart = new Date(1970, 0, 1); // 注意月份是从0开始的，所以0代表1月
+        // 计算时间差（毫秒）
+        const diff = date.getTime() - epochStart.getTime();
+        // 将毫秒转换为天
+        return Math.floor(diff / (1000 * 60 * 60 * 24));
     }
 }
 

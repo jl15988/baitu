@@ -324,6 +324,10 @@ class StrUtil {
         }
         return val1 - val2;
     }
+
+    replaceBetween(str: string, start: number, end: number, newChar: string): string {
+        return str.substring(0, start) + newChar + str.substring(end);
+    }
 }
 
 export default new StrUtil();

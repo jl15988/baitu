@@ -1,183 +1,133 @@
-import ChineseDateUtil, {
-    DayAllInfo,
-    DynastyInfo,
-    FestivalInfo,
-    MonthInfo,
-    SolarTermsInfo,
-    YearInfo
-} from "./ChineseDateUtil";
+import DateTime from "../DateTime";
+import LunarInfo from "./LunarInfo";
+import GanZhi from "./GanZhi";
+import ChineseDateUtil from "./ChineseDateUtil";
+import NumberUtil from "../../number/NumberUtil";
+import DateZodiac from "../DateZodiac";
 
 class ChineseDate {
-    year: number;
-    month: number;
-    day: number;
-    dayAllInfo: DayAllInfo;
 
-    constructor(yearOrDate: number | Date);
-    constructor(yearOrDate: number | Date, month: number);
-    constructor(yearOrDate: number | Date, month: number, day: number);
+    // 农历年
+    chineseYear: number
 
-    constructor(yearOrDate: number | Date, month?: number, day?: number) {
-        if (yearOrDate instanceof Date) {
-            this.year = yearOrDate.getFullYear();
-            this.month = yearOrDate.getMonth() + 1;
-            this.day = yearOrDate.getDate();
-        } else {
-            this.year = yearOrDate;
-            this.month = month || 1;
-            this.day = day || 1;
+    // 农历月
+    chineseMonth: number
+
+    // 农历天
+    chineseDay: number
+
+    // 公历日期
+    date: DateTime
+
+    // 月名
+    MONTH = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二']
+
+    // 月名
+    MONTH_NAME = ['正', '二', '三', '四', '五', '六', '七', '八', '九', '十', '冬', '腊']
+
+    // 日名
+    DAY_NAME = ['初一', '初二', '初三', '初四', '初五', '初六', '初七', '初八', '初九', '初十', '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十', '廿一', '廿二', '廿三', '廿四', '廿五', '廿六', '廿七', '廿八', '廿九', '三十', '卅一']
+
+    constructor(date: Date | DateTime);
+    constructor(chineseYear: number, chineseMonth: number, chineseDay: number);
+
+    constructor(chineseYearOrDate: number | Date | DateTime, chineseMonth?: number, chineseDay?: number) {
+        if (chineseYearOrDate instanceof Date || chineseYearOrDate instanceof DateTime) {
+            this.date = new DateTime(chineseYearOrDate);
+            const chineseDate = ChineseDateUtil.solarToLunar(chineseYearOrDate.getFullYear(), chineseYearOrDate.getMonth() + 1, chineseYearOrDate.getDate());
+            this.chineseYear = chineseDate.chineseYear;
+            this.chineseMonth = chineseDate.chineseMonth;
+            this.chineseDay = chineseDate.chineseDay;
+            return this;
+        } else if (NumberUtil.isEmpty(chineseMonth) || NumberUtil.isEmpty(chineseDay)) {
+            throw new Error("ChineseMonth and chineseDay must has.");
         }
-        this._check();
-        return this;
+        this.chineseYear = chineseYearOrDate;
+        this.chineseMonth = chineseMonth!;
+        this.chineseDay = chineseDay!;
+        this.date = ChineseDateUtil.lunarToSolar(chineseYearOrDate, chineseMonth!, chineseDay!);
+    }
+
+    toDate() {
+        return this.date;
     }
 
     /**
-     * 通过农历构建
-     * @param chineseYear 农历年
-     */
-    static fromLunar(chineseYear: number);
-    /**
-     * 通过农历构建
-     * @param chineseYear 农历年
-     * @param chineseMonth 农历月
-     */
-    static fromLunar(chineseYear: number, chineseMonth: number);
-    /**
-     * 通过农历构建
+     * 判断是否闰月
      * @param chineseYear 农历年
      * @param chineseMonth 农历月
-     * @param chineseDay 农历日
      */
-    static fromLunar(chineseYear: number, chineseMonth: number, chineseDay: number);
+    isLeapMonth(chineseYear: number, chineseMonth: number): boolean {
+        return LunarInfo.leapMonth(chineseYear) === chineseMonth;
+    }
 
     /**
-     * 通过农历构建
+     * 判断是否闰年
      * @param chineseYear 农历年
-     * @param chineseMonth 农历月
-     * @param chineseDay 农历日
      */
-    static fromLunar(chineseYear: number, chineseMonth?: number, chineseDay?: number) {
-        const date = ChineseDateUtil.lunar2solar(chineseYear, chineseMonth || 1, chineseDay || 1);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        return new ChineseDate(year, month, day);
-    }
-
-    _check(): void {
-        if (!this.dayAllInfo) {
-            this.dayAllInfo = ChineseDateUtil.getDayAllInfo(this.year, this.month, this.day)
-        }
-    }
-
-    /**
-     * 获取日的所有信息
-     */
-    getAllInfo(): DayAllInfo {
-        this._check();
-        return this.dayAllInfo;
-    }
-
-    /**
-     * 获取公历月所有日的农历信息
-     */
-    getMonthDays(): DayAllInfo[] {
-        return ChineseDateUtil.getMonthDays(this.year, this.month);
-    }
-
-    /**
-     * 获取月信息
-     */
-    getMonth(): MonthInfo {
-        this._check();
-        return this.dayAllInfo.month;
-    }
-
-    /**
-     * 获取年信息
-     */
-    getYear(): YearInfo {
-        this._check();
-        return this.dayAllInfo.year;
-    }
-
-    /**
-     * 获取农历节日
-     * 其中 super 为重要节日，如：“春节”
-     * common 为普通节日，如：“重阳节”
-     * other 为其他节日
-     */
-    getFestival(): FestivalInfo {
-        return ChineseDateUtil.getFestival(this.year, this.month, this.day);
+    isLeapYear(chineseYear: number): boolean {
+        return LunarInfo.leapDays(chineseYear) !== 0;
     }
 
     /**
      * 获取生肖
+     * @param year 年份
      */
-    getChineseZodiac(): string {
-        this._check();
-        return ChineseDateUtil.getChineseZodiac(this.dayAllInfo.year.order);
+    getChineseZodiac(year: number): string {
+        return DateZodiac.getChineseZodiac(year);
     }
 
     /**
      * 获取天干
+     * @param chineseYear 农历年
      */
-    getGan(): string {
-        this._check();
-        return ChineseDateUtil.getGan(this.dayAllInfo.year.order);
+    getGan(chineseYear: number): string {
+        return GanZhi.getGan(chineseYear);
     }
 
     /**
      * 获取地支
+     * @param chineseYear 农历年
      */
-    getZhi(): string {
-        this._check();
-        return ChineseDateUtil.getZhi(this.dayAllInfo.year.order);
+    getZhi(chineseYear: number): string {
+        return GanZhi.getZhi(chineseYear);
     }
 
     /**
      * 获取干支纪年
+     * @param chineseYear 农历年
      */
-    getCyclical(): string {
-        return this.getGan() + this.getZhi();
+    getCyclical(chineseYear: number): string {
+        return this.getGan(chineseYear) + this.getZhi(chineseYear);
     }
 
     /**
-     * 获取黄帝纪年
+     * 获取月名
+     * @param chineseMonth 农历月
      */
-    getHuangdiYear(): number {
-        this._check();
-        return ChineseDateUtil.getHuangdiYear(this.dayAllInfo.year.order);
+    getMonthName(chineseMonth: number): string {
+        return this.MONTH[chineseMonth - 1];
     }
 
     /**
-     * 获取朝代
+     * 获取传统月名
+     * @param chineseMonth 农历月
      */
-    getDynasty(): DynastyInfo {
-        return ChineseDateUtil.getDynasty(this.year);
+    getMonthTraditionalName(chineseMonth: number): string {
+        return this.MONTH_NAME[chineseMonth - 1];
     }
 
     /**
-     * 获取节气
+     * 获取农历日
+     * @param chineseDay 农历日名
      */
-    getSolarTerms(): SolarTermsInfo {
-        return ChineseDateUtil.getSolarTermsInfo(this.year, this.month, this.day);
-    }
-
-    /**
-     * 获取干支纪日
-     */
-    getCyclicalYMD(): string {
-        this._check();
-        const dayInfo = this.dayAllInfo;
-        return dayInfo.year.gan.concat(dayInfo.year.zhi, dayInfo.year.shx, '年', ' ', dayInfo.month.gan, dayInfo.month.zhi, '月', dayInfo.gan, dayInfo.zhi, '日');
+    getDayName(chineseDay: number): string {
+        return this.DAY_NAME[chineseDay - 1];
     }
 
     toString() {
-        this._check();
-        const dayInfo = this.dayAllInfo;
-        return dayInfo.year.gan.concat(dayInfo.year.zhi, dayInfo.year.shx, '年', ' ', dayInfo.month.name, '月', dayInfo.name);
+        return GanZhi.getYearGanZhi(this.date.getFullYear()).concat('年', ' ', this.getMonthTraditionalName(this.chineseMonth), '月', this.getDayName(this.chineseDay));
     }
 }
 
-export default ChineseDate;
+export default ChineseDate

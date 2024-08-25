@@ -23,6 +23,11 @@ export const routes: Array<RouteRecordRaw> = [
                         path: 'DateUtil',
                         name: 'DateUtil',
                         component: () => import('../modules/dateTime/DateUtil.vue'),
+                    },
+                    {
+                        path: 'DateFestival',
+                        name: 'DateFestival',
+                        component: () => import('../modules/dateTime/DateFestival.vue'),
                     }
                 ]
             },

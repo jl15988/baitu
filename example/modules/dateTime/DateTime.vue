@@ -143,6 +143,18 @@ const dateTime = new DateTime()
       yyyy年MM月dd日第q季：
       {{new DateTime().format('yyyy年MM月dd日第q季')}}
     </div>
+    <div>
+      yyyy-MM-dd[T]HH:mm:ss.SSSZ：
+      {{new DateTime().format('yyyy-MM-dd[T]HH:mm:ss.SSSZ')}}
+    </div>
+    <div>
+      yyyy-MM-dd HH:mm:ss,SSS：
+      {{new DateTime().format('yyyy-MM-dd HH:mm:ss,SSS')}}
+    </div>
+    <div>
+      EEE, dd MMM yyyy HH:mm:ss z：
+      {{new DateTime().format('EEE, dd MMM yyyy HH:mm:ss z')}}
+    </div>
   </div>
 </template>
 
