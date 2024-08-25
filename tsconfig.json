@@ -8,5 +8,5 @@
     "declaration": true,
     "baseUrl": "./"
   },
-  "exclude": ["src/modules/common/Ternary.ts", "src/modules/dateTime/chinese", "src/modules/common/TreeUtil2.ts"]
+  "exclude": ["src/modules/common/Ternary.ts", "src/modules/common/TreeUtil2.ts"]
 }
