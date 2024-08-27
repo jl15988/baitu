@@ -99,9 +99,17 @@ class NumberUtil {
      * 判断数字是否为空
      * @param number 数字
      */
-    isEmpty(number: number | undefined | null): boolean {
+    isEmpty(number: number | undefined | null): number is (undefined | null) {
         // 不能使用!，0 不算空
-        return number === undefined || number === null;
+        return typeof number !== 'number' || Number.isNaN(number);
+    }
+
+    /**
+     * 判断数字不为空
+     * @param number 数字
+     */
+    isNotEmpty(number: number | undefined | null): number is number {
+        return !this.isEmpty(number);
     }
 
     /**

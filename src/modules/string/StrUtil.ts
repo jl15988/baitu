@@ -9,15 +9,15 @@ class StrUtil {
      * 判断字符串是否为：null、undefined、空字符串或者只包含空白字符（如空格、制表符、换行符等）
      * @param str 字符串
      */
-    isBlank(str: string): boolean {
-        return !str || /^\s*$/.test(str.trim());
+    isBlank(str?: string | null): str is (undefined | null | '') {
+        return this.isEmpty(str) || /^\s*$/.test(str.trim());
     }
 
     /**
      * 判断字符串为非：null、undefined、空字符串或者只包含空白字符（如空格、制表符、换行符等）
      * @param str 字符串
      */
-    isNotBlank(str: string): boolean {
+    isNotBlank(str?: string | null): str is string {
         return !this.isBlank(str);
     }
 
@@ -25,15 +25,15 @@ class StrUtil {
      * 判断字符串为空字符串
      * @param str 字符串
      */
-    isEmpty(str: string): boolean {
-        return !str;
+    isEmpty(str?: string | null): str is (undefined | null | '') {
+        return typeof str !== 'string' || str.length === 0;
     }
 
     /**
      * 判断字符串非空字符串
      * @param str 字符串
      */
-    isNotEmpty(str: string): boolean {
+    isNotEmpty(str?: string | null): str is string {
         return !this.isEmpty(str);
     }
 
@@ -42,8 +42,8 @@ class StrUtil {
      * @param str 字符串
      * @param defaultStr 默认值
      */
-    defaultIfNull(str: string, defaultStr: string): string {
-        if (str === null) {
+    defaultIfNull(str: string | undefined | null, defaultStr: string): string {
+        if (str == undefined || str === null) {
             return defaultStr;
         }
         return str;
@@ -54,7 +54,7 @@ class StrUtil {
      * @param str 字符串
      * @param defaultStr 默认值
      */
-    defaultIfBlank(str: string, defaultStr: string): string {
+    defaultIfBlank(str: string | undefined | null, defaultStr: string): string {
         if (this.isBlank(str)) {
             return defaultStr;
         }
@@ -66,7 +66,7 @@ class StrUtil {
      * @param str 字符串
      * @param defaultStr 默认值
      */
-    defaultIfEmpty(str: string, defaultStr: string): string {
+    defaultIfEmpty(str: string | undefined | null, defaultStr: string): string {
         if (this.isEmpty(str)) {
             return defaultStr;
         }

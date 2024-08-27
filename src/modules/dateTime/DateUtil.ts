@@ -300,7 +300,7 @@ class DateUtil {
             const typeReg = new RegExp(`${dateKey}`, 'g');
             format = format.replace(typeReg, (m, index) => {
                 const mapVal = dateKeyMap[dateKey];
-                if (ObjectUtil.isEmpty(mapVal)) return m;
+                if (ObjectUtil.isNull(mapVal)) return m;
 
                 let val: string | number = '';
                 if (typeof mapVal === 'function') {
@@ -519,39 +519,6 @@ class DateUtil {
             minutes,
             seconds
         }
-    }
-
-    /**
-     * 格式化秒数为 xx天xx时xx分xx秒，如果达不到某一单位则不添加
-     * @param sec 秒数
-     * @param labels 天、小时、分钟、秒的属性名，默认天、时、分、秒
-     * @param pad 是否补零
-     */
-    formatSeconds(sec: number,
-                  labels: { day: string, hour: string, minute: string, second: string },
-                  pad: boolean = true) {
-        const convert = this.convertSeconds(sec);
-        const days = convert.days;
-        const hours = convert.hours;
-        const minutes = convert.minutes;
-        const seconds = convert.seconds;
-
-        const defaultLabels = Object.assign({day: '天', hour: '时', minute: '分', second: '秒'}, labels);
-
-        function toPad(n: number) {
-            if (n) {
-                if (pad) {
-                    return n.toString().padStart(2, '0');
-                }
-                return n;
-            }
-            return '';
-        }
-
-        return ObjectUtil.appendIfNotEmpty(toPad(days), defaultLabels.day)
-            + ObjectUtil.appendIfNotEmpty(toPad(hours), defaultLabels.hour)
-            + ObjectUtil.appendIfNotEmpty(toPad(minutes), defaultLabels.minute)
-            + ObjectUtil.appendIfNotEmpty(toPad(seconds), defaultLabels.second);
     }
 
     /**

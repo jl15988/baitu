@@ -6,13 +6,21 @@ import StrUtil from "../string/StrUtil";
  */
 class ObjectUtil {
 
+    isNull(obj: any): obj is (undefined | null) {
+        return obj === undefined || obj === null;
+    }
+
+    isNotNull<T>(obj: T): obj is T {
+        return !this.isNull(obj);
+    }
+
     /**
      * 判断任意一种类型数据是否为空：字符串、null、undefined、数组、对象等
      * @param value 数据
      */
-    isEmpty(value: any): boolean {
+    isEmpty(value: any): value is (undefined | null | '' | [] | {}) {
         // 如果值未定义或者为null，返回true
-        if (value == null) {
+        if (value === undefined || value == null) {
             return true;
         }
 
@@ -33,6 +41,10 @@ class ObjectUtil {
 
         // 其他情况，返回false
         return false;
+    }
+
+    isNotEmpty<T>(value: T): value is T {
+        return !this.isEmpty(value);
     }
 
     /**
@@ -117,18 +129,6 @@ class ObjectUtil {
         }
         // @ts-ignore
         return this.deepAssign(target[targetKey], ...sources);
-    }
-
-    /**
-     * 当对象不为空时追加对应的值
-     * @param obj 对象
-     * @param appends 追加的值
-     */
-    appendIfNotEmpty(obj: any, appends: any): string {
-        if (!this.isEmpty(obj)) {
-            return obj.toString().concat(appends);
-        }
-        return '';
     }
 
     /**

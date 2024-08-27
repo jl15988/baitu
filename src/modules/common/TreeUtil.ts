@@ -61,7 +61,7 @@ class TreeUtil {
         this.buildTreeMapper(
             newList,
             (current, parent, parentChildList, level) => {
-                if (level !== this.LEVEL_BEGIN) {
+                if (level !== this.LEVEL_BEGIN && parent) {
                     // 根节点遍历时没有父级
                     parent[childName] = parentChildList as T[keyof T]
                 }

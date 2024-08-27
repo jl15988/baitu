@@ -1,3 +1,5 @@
+import NumberUtil from "../number/NumberUtil";
+
 /**
  * 脱敏参数
  */
@@ -55,7 +57,7 @@ class DesensitizedUtil {
      * @param pad 填充符号，默认*
      */
     of(str: string, startIndex?: number, length?: number, pad: string = "*"): string {
-        if (!startIndex && startIndex !== 0) {
+        if (NumberUtil.isEmpty(startIndex)) {
             return str;
         }
         if (!length) {
