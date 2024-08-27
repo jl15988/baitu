@@ -72,5 +72,5 @@ export {
     SolarTerms
 };
 
-const Baitu = values;
-export default Baitu;
+const baitu = values;
+export default baitu;

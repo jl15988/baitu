@@ -1,3 +1,3 @@
-import * as Baitu from './index'
+import * as baitu from './index'
 
-export default Baitu;
+export default baitu;

@@ -1,7 +1,7 @@
 {
   "name": "baitu",
   "private": false,
-  "version": "1.1.8",
+  "version": "2.0.0-alpha.1",
   "description": "A small and comprehensive front-end toolkit.",
   "type": "module",
   "main": "./dist/baitu.esm.js",
