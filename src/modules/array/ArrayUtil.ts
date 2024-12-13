@@ -6,33 +6,32 @@ import ObjectUtil from "../object/ObjectUtil";
 class ArrayUtil {
 
     /**
-     * 将数组循环拼接
-     * @param arr 数组
-     * @param count 循环次数
+     * 获取数组最后的元素，如果没有则返回 undefined
+     * @param array 数组
      */
-    repeat(arr: any[], count: number): string {
-        return arr.join('').repeat(count);
+    final<D>(array: D[]): D | undefined {
+        const res = this.finals(array)
+        if (this.isNotEmpty(res)) return res[0];
+        return undefined;
     }
 
     /**
      * 获取数组后面的元素
-     * <p>默认获取数组最后一项，可通过 count 指定获取数量，如果只获取一项，则直接返回**该项**，如果获取的大于一项，则返回**数组**</p>
-     * @param arr 数组
+     *
+     * 默认获取数组最后一项，可通过 count 指定获取数量，如果没有则返回空数组
+     * @param array 数组
      * @param count 获取的项数
      */
-    finals<D>(arr: D[], count: number = 1): D | D[] | undefined {
-        if (count === 0) return undefined;
-        if (this.isEmpty(arr)) {
-            return undefined;
+    finals<D>(array: D[], count: number = 1): D[] {
+        if (count === 0) return [];
+        if (this.isEmpty(array)) {
+            return [];
         }
-        let finals = []
+        let finals: D[] = []
         if (count > 0) {
-            finals = arr.slice(-count);
+            finals = array.slice(-count);
         } else {
-            finals = arr.slice(0, -count);
-        }
-        if (count === 1) {
-            return finals[0] || undefined
+            finals = array.slice(0, -count);
         }
         return finals;
     }
@@ -41,25 +40,24 @@ class ArrayUtil {
      * 判断数组是否为空数组
      * @param array 数组
      */
-    isEmpty(array?: any[] | null): boolean {
-        return !array || array.length === 0;
+    isEmpty<T>(array: T[] | undefined | null): array is (undefined | null | []) {
+        return !this.isNotEmpty(array);
     }
 
     /**
      * 判断数组为非空数组
      * @param array 数组
      */
-    isNotEmpty(array?: any[] | null): boolean {
-        return !this.isEmpty(array);
+    isNotEmpty<T>(array: T[] | undefined | null): array is T[] {
+        return Array.isArray(array) && array.length > 0;
     }
 
     /**
-     * 如果数组为空则替换，否则直接返回
+     * 如果数组为空，则返回默认的数组
      * @param array 判空的数组
-     * @param defaultArray 替换的数组
+     * @param defaultArray 默认的数组
      */
     defaultIfEmpty<T>(array: T[] | undefined | null, defaultArray: T[]): T[] {
-        // @ts-ignore
         return this.isEmpty(array) ? defaultArray : array;
     }
 
@@ -71,16 +69,16 @@ class ArrayUtil {
      *      <li>如果追加元素后不满足长度，则将继续追加最后一项元素，直到满足长度</li>
      * </p>
      * @param array 数组
-     * @param len 固定的长度
+     * @param fixedLen 固定的长度
      * @param items 要添加的元素
      */
-    fixedUnshift(array: any[], len: number, ...items: any[]) {
+    fixedUnshift<T>(array: T[], fixedLen: number, ...items: T[]) {
         array.unshift(...items.reverse());
-        let deleteArr = [];
-        if (array.length > len) {
-            deleteArr = array.splice(len, array.length - len);
-        } else if (array.length < len) {
-            for (let i = 0; i < len - array.length; i++) {
+        let deleteArr: T[] = [];
+        if (array.length > fixedLen) {
+            deleteArr = array.splice(fixedLen, array.length - fixedLen);
+        } else if (array.length < fixedLen) {
+            for (let i = 0; i < fixedLen - array.length; i++) {
                 array.unshift(items.reverse()[0])
             }
         }

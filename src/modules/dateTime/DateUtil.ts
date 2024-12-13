@@ -215,7 +215,7 @@ class DateUtil {
                 length: match[0].length
             })
         }
-        return this.formatWithMap(format, dateKeyMap, (dateKey, match, index, formatedVal) => {
+        return this.formatWithMap(format, dateKeyMap, ({match, index, formatedVal}) => {
             if (quotedIndex.includes(index - 1)) {
                 return match;
             }
@@ -294,7 +294,16 @@ class DateUtil {
      * @param dateKeyMap 日期关键字映射
      * @param valueHandler 格式化值处理函数，对格式化值进行最后的处理
      */
-    formatWithMap<M extends Record<string, string | number | (() => string | number)>>(format: string, dateKeyMap: M, valueHandler?: (dateKey: keyof M, match: string, index: number, formatedVal: string) => string) {
+    formatWithMap<M extends Record<string, string | number | (() => string | number)>>(
+        format: string,
+        dateKeyMap: M,
+        valueHandler?: (params: {
+            dateKey: keyof M,
+            match: string,
+            index: number,
+            formatedVal: string
+        }) => string
+    ) {
         const funMapVal: Record<keyof M, string | number> = {} as Record<keyof M, string | number>
         for (let dateKey in dateKeyMap) {
             const typeReg = new RegExp(`${dateKey}`, 'g');
@@ -315,7 +324,7 @@ class DateUtil {
                 }
                 let formatedVal = m.length === 1 ? val.toString() : val.toString().padStart(2, '0');
                 if (valueHandler) {
-                    formatedVal = valueHandler(dateKey, m, index, formatedVal);
+                    formatedVal = valueHandler({dateKey, match: m, index, formatedVal});
                 }
                 return formatedVal;
             })
