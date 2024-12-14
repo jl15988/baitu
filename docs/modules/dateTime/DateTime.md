@@ -6,176 +6,123 @@ tag:
  - 日期时间对象
 ---
 
+从 `2.0` 版本开始，时间对象开始拥抱 [dayjs](https://day.js.org/)，对 `dayjs` 进行增强，降低使用门槛，提升开发效率。
+
 为了避免连续性日期操作使得代码过长且繁杂，引入了日期时间对象概念，通过该对象你可以对日期时间进行连续操作，以获得最终结果。
 
-因为DateTime继承了Date，所以你同样可以调用Date的方法。
+在新版本中，为了兼容性等原因，DateTime 已经不再继承 Date
 
 为了使得当前对象更加灵活，对象提供的方法返回的DateTime对象都为新的实例，不会对原实例造成影响。
 
-## 1. 创建实例
+## 存在的意义
 
-创建DateTime实例提供了多种方式
+DateTime 对象存在的意思是为了增强对日期的获取、操作等功能。再者，虽然 dayjs 已经很好用了，但是在使用方面感觉还是差点儿意思，通过对 dayjs 的增强使得对日期的操作更上一层楼。
+
+----
+
+## 创建实例
+
+可以直接通过 `new DateTime` 创建实例，参数与 `new Date` 一致
 
 ```js
-let dateTime = new Baitu.DateTime();
-dateTime = new Baitu.DateTime(1710400022302);
-dateTime = new Baitu.DateTime(2024, 3, 14, 15, 07, 30);
+import {DateTime} from 'baitu';
+
+let dateTime = new DateTime();
+dateTime = new DateTime(1710400022302);
+dateTime = new DateTime(2024, 3, 14, 15, 07, 30);
 ```
 
-上面这种方式看起来怪怪的，所以我们提供了静态的create方法
+另外，你也可以通过 create 方法来创建 DateTime 实例，不过注意的是此时月份需要的不再是下标，而是月数。
 
 ```js
-let dateTime = Baitu.DateTime.create();
-dateTime = Baitu.DateTime.create(1710400022302);
-dateTime = Baitu.DateTime.create(2024, 3, 14, 15, 7, 30); // 输出2024-02-14 15:07:30
+dateTime = DateTime.create();
+dateTime = DateTime.create(1710400022302);
+// 这里的月为月数，时间为2024-02-14 15:07:30
+dateTime = DateTime.create(2024, 3, 14, 15, 7, 30);
 ```
 
-create方法与new Date参数一致，但这种方式月份参数为月份下标，也就是从零开始，所以我们又提供了new方法，其中的月份参数就是月份名称，不用再对月份额外操作
+## 格式化
+
+格式化日期，默认格式：YYYY-MM-DD HH:mm:ss，遵循 `dayjs` 格式化格式
+
+|        |                  |                          |
+| ------ | ---------------- | ------------------------ |
+| 占位符 | 输出             | 详情                     |
+| `YY`   | 18               | 两位数的年份             |
+| `YYYY` | 2018             | 四位数的年份             |
+| `M`    | 1-12             | 月份，从 1 开始          |
+| `MM`   | 01-12            | 月份，两位数             |
+| `MMM`  | Jan-Dec          | 缩写的月份名称           |
+| `MMMM` | January-December | 完整的月份名称           |
+| `D`    | 1-31             | 月份里的一天             |
+| `DD`   | 01-31            | 月份里的一天，两位数     |
+| `d`    | 0-6              | 一周中的一天，星期天是 0 |
+| `dd`   | Su-Sa            | 最简写的星期几           |
+| `ddd`  | Sun-Sat          | 简写的星期几             |
+| `dddd` | Sunday-Saturday  | 星期几                   |
+| `H`    | 0-23             | 小时                     |
+| `HH`   | 00-23            | 小时，两位数             |
+| `h`    | 1-12             | 小时, 12 小时制          |
+| `hh`   | 01-12            | 小时, 12 小时制, 两位数  |
+| `m`    | 0-59             | 分钟                     |
+| `mm`   | 00-59            | 分钟，两位数             |
+| `s`    | 0-59             | 秒                       |
+| `ss`   | 00-59            | 秒 两位数                |
+| `SSS`  | 000-999          | 毫秒 三位数              |
+| `Z`    | +05:00           | UTC 的偏移量，±HH:mm     |
+| `ZZ`   | +0500            | UTC 的偏移量，±HHmm      |
+| `A`    | AM PM            |                          |
+| `a`    | am pm            |                          |
+
+更多
+
+| 模版   | 输出                  | 详情                                                         |
+| ------ | --------------------- | ------------------------------------------------------------ |
+| `Q`    | 1-4                   | 季度                                                         |
+| `Do`   | 1st 2nd ... 31st      | 带序数词的月份里的一天                                       |
+| `k`    | 1-24                  | 时：由 1 开始                                                |
+| `kk`   | 01-24                 | 时：由 1 开始，两位数                                        |
+| `X`    | 1360013296            | 秒为单位的 Unix 时间戳                                       |
+| `x`    | 1360013296123         | 毫秒单位的 Unix 时间戳                                       |
+| `w`    | 1 2 ... 52 53         | 周数 ( 依赖 [`WeekOfYear` ](https://day.js.org/docs/zh-CN/plugin/week-of-year)插件 ) |
+| `ww`   | 01 02 ... 52 53       | 周数，两位数 ( 依赖 [`WeekOfYear` ](https://day.js.org/docs/zh-CN/plugin/week-of-year)插件 ) |
+| `W`    | 1 2 ... 52 53         | ISO 周数 ( 依赖 [`IsoWeek` ](https://day.js.org/docs/zh-CN/plugin/iso-week)插件 ) |
+| `WW`   | 01 02 ... 52 53       | ISO 周数，两位数 ( 依赖 [`IsoWeek` ](https://day.js.org/docs/zh-CN/plugin/iso-week)插件 ) |
+| `wo`   | 1st 2nd ... 52nd 53rd | 带序号周数 ( 依赖 [`WeekOfYear` ](https://day.js.org/docs/zh-CN/plugin/week-of-year)插件 ) |
+| `gggg` | 2017                  | 按周计算的年份 ( 依赖 [`WeekYear` ](https://day.js.org/docs/zh-CN/plugin/week-year)插件 ) |
+| `GGGG` | 2017                  | ISO 按周计算的年份 ( 依赖 [`IsoWeek` ](https://day.js.org/docs/zh-CN/plugin/iso-week)插件 ) |
+| `z`    | EST                   | UTC 偏移量的缩写 ( 依赖 [`Timezone` ](https://day.js.org/docs/zh-CN/plugin/timezone)插件 ) |
+| `zzz`  | Eastern Standard Time | UTC 偏移量的全名 ( 依赖 [`Timezone` ](https://day.js.org/docs/zh-CN/plugin/timezone)插件 ) |
+
 
 ```js
-let dateTime = Baitu.DateTime.new();
-dateTime = Baitu.DateTime.new(1710400022302);
-dateTime = Baitu.DateTime.new(2024, 3, 14, 15, 7, 30); // 输出2024-03-14 15:07:30
-```
-
-## 2. objectValues()
-
-获取日期年，月，日，周，时，分，秒对象数据
-
-```js
-
-const objectValues = dateTime.objectValues();
-console.log(objectValues);
-/*
-输出：
-{
-    year: 2024,
-    monthIndex: 2,
-    month: 3,
-    day: 14,
-    week: 4,
-    hours: 15,
-    minutes: 11,
-    seconds: 30
-}
- */
-```
-
-## 3. toDate()
-
-转为年-月-日类型的日期
-
-## 4. format(format?: string)
-
-格式化日期，默认格式：yyyy-MM-dd HH:mm:ss
-
-|符号|含义|
-|-|-|
-|yyyy|年|
-|yy|年后两位数|
-|M|月不补零|
-|M|月补零|
-|d|日不补零|
-|dd|日补零|
-|H|时不补零|
-|HH|时补零|
-|m|分不补零|
-|mm|分补零|
-|s|秒不补零|
-|ss|秒补零|
-|q|季度|
-|S|毫秒|
-
-```js
-dateTime.format("yyyy-MM-dd");
+dateTime.format("YYYY-MM-DD");
 // 输出：2024-03-14
 ```
 
-## 5. formatDate()
+## 转换
 
-格式化当前日期为年-月-日
+可以通过静态方法 `parse` 方法对日期内容，如字符串、数字等内容转换为 DateTime 对象，也可以像创建 dayjs 对象一样，传入格式来进行格式化。
 
-## 6. formatDateTime()
-
-格式化当前日期为年-月-日 时:分:秒
-
-## 7. beginOfDay()
-
-获取当前日期当天开始时间
+另外也可以通过 new DateTime 直接将内容转为 DateTime
 
 ```js
-dateTime.beginOfDay().formatDateTime();
-// 输出：2023-03-14 00:00:00
+DateTime.parse('2024-12-14')
+new DateTime('2024-12-15')
 ```
 
-## 8. endOfDay()
+## 设置与获取
 
-获取当前日期当天结束时间
+对 dayjs 的 set 方法做了增强处理，value 可以为空值（null或undefined），此时不进行赋值
+
+另外可以传入对象来进行多个字段赋值
 
 ```js
-dateTime.endOfDay().formatDateTime();
-// 输出：2023-03-14 23:59:59
+const date = new DateTime()
+date.set({
+    year: 2024,
+    date: 3
+})
 ```
 
-## 9. beginOfWeek()
-
-获取当前日期当周开始时间
-
-## 10. endOfWeek()
-
-获取当前日期当周结束时间
-
-## 11. beginOfMonth()
-
-获取当前日期当月第一天时间
-
-## 12. endOfMonth()
-
-获取当前日期当月最后一天时间
-
-## 13. beginOfYear()
-
-获取当前时间当年开始时间
-
-## 14. endOfYear()
-
-获取当前日期当年结束时间
-
-## 15. setFirstWeek(type: WeekDay)
-
-设置周开始周数，默认从周日开始
-
-设置当前时间的周开始是哪一天，主要针对获取周内开始时间或结束时间
-
-```js
-dateTime.setFirstWeek(Baitu.WeekDay.SUN);
-```
-
-## 16. offset(type: DateField, offset: number)
-
-日期偏移操作
-
-通过该方法，可以实现对于年、月、日、时、分、秒、周进行偏移操作
-
-```js
-dateTime.offset(Baitu.DateField.YEAR, -2).formatDate();
-// 输出：2022-03-14
-```
-
-## 17. daysOfMonth()
-
-获取当月天数
-
-## 18. compare(date: Date | DateTime, dateField: DateField)
-
-获取当前日期与指定日期之间的差值，当前-参数
-
-```js
-const date = new Date("2023-05-16");
-dateTime.compare(date, Baitu.DateField.DAY);
-// 输出：303.3
-```
-
-## 19. age
-
-获取当前日期年龄（周岁）
+也可以通过 `getFullYear`、`setFullYear` 这种方法获取和设置日期时间，与 Date 中的方法及参数一致

@@ -1,6 +1,7 @@
 import DateTime from "../DateTime";
 import LunarInfo from "./LunarInfo";
 import ChineseDate from "./ChineseDate";
+import DateUtil from "../DateUtil";
 
 class ChineseDateUtil {
 
@@ -11,7 +12,8 @@ class ChineseDateUtil {
      * @param day 公历天
      */
     solarToLunar(year: number, month: number, day: number): ChineseDate {
-        let offset = new DateTime(year, month, day).getEpochDay() - LunarInfo.BASE_DATE.getEpochDay();
+        let offset = DateUtil.getEpochDay(new DateTime(year, month, day)) - DateUtil.getEpochDay(LunarInfo.BASE_DATE);
+
 
         let iYear = 1900;
         while (iYear <= LunarInfo.MAX_YEAR) {

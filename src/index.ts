@@ -1,6 +1,7 @@
 import values from "./values";
 import Str from "./modules/string/Str";
 import StrUtil from "./modules/string/StrUtil";
+import "./modules/dateTime/dayjsPluginExtends"
 import DateTime, {DateField, MonthField, WeekDay} from "./modules/dateTime/DateTime";
 import DateUtil from "./modules/dateTime/DateUtil";
 import NumberUtil from "./modules/number/NumberUtil";

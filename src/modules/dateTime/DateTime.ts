@@ -1,5 +1,4 @@
-import DateUtil from "./DateUtil";
-import StrUtil from "../string/StrUtil";
+import dayjs, {Dayjs, OpUnitType, QUnitType, UnitType} from "dayjs";
 
 /**
  * 日期属性
@@ -130,53 +129,47 @@ export type DateTimeObjectValues = {
  */
 class DateTime {
     firstWeek: number = 0
-    date: Date
+    dayjs: Dayjs
 
     toString() {
-        return this.date.toString()
+        return this.dayjs.toDate().toString()
+    }
+
+    toDate(): Date {
+        return this.dayjs.toDate()
     }
 
     constructor();
-    constructor(value: string | number | DateTime | Date);
+    constructor(value: dayjs.ConfigType | DateTime);
     constructor(year: number, monthIndex: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number);
 
-    constructor(yearOrValue?: number | string | DateTime | Date, monthIndex?: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number) {
+    constructor() {
+        let date: Date | null = null;
         if (arguments.length === 0) {
-            this.date = new Date()
-            return this;
-        }
-        if (arguments.length === 1) {
-            if (yearOrValue instanceof Date) {
-                this.date = new Date(yearOrValue);
-            } else if (yearOrValue instanceof DateTime) {
-                this.date = new Date(yearOrValue.date);
+            date = new Date()
+        } else if (arguments.length === 1) {
+            if (arguments[0] instanceof Date) {
+                date = new Date(arguments[0]);
+            } else if (arguments[0] instanceof DateTime) {
+                date = new Date(arguments[0].dayjs.valueOf());
             } else {
-                this.date = new Date(yearOrValue!);
+                date = dayjs(arguments[0]).toDate();
             }
-            return this;
+        } else {
+            const args: number[] = []
+            for (let i = 0; i < arguments.length; i++) {
+                if (typeof arguments[i] !== "number") {
+                    throw new Error("Date constructor argument must be a number");
+                }
+                if (i < 7) {
+                    args[i] = arguments[i];
+                }
+            }
+            // @ts-ignore
+            date = dayjs(new Date(...args))
         }
-        switch (arguments.length) {
-            case 2:
-                this.date = new Date(<number>yearOrValue, monthIndex!);
-                return this;
-            case 3:
-                this.date = new Date(<number>yearOrValue, monthIndex!, date);
-                return this;
-            case 4:
-                this.date = new Date(<number>yearOrValue, monthIndex!, date, hours);
-                return this;
-            case 5:
-                this.date = new Date(<number>yearOrValue, monthIndex!, date, hours, minutes);
-                return this;
-            case 6:
-                this.date = new Date(<number>yearOrValue, monthIndex!, date, hours, minutes, seconds);
-                return this;
-            case 7:
-                this.date = new Date(<number>yearOrValue, monthIndex!, date, hours, minutes, seconds, ms);
-                return this;
-            default:
-                this.date = new Date();
-        }
+
+        this.dayjs = dayjs(date)
         return this;
     }
 
@@ -195,185 +188,218 @@ class DateTime {
     }
 
     /**
+     * 通过 dayjs 转换
+     * @param dayjs
+     */
+    static fromDayjs(dayjs: Dayjs): DateTime {
+        return new DateTime(dayjs.toDate());
+    }
+
+    /**
+     * 转换为 dayjs 对象
+     */
+    toDayjs(): Dayjs {
+        return this.dayjs.clone()
+    }
+
+    /**
+     * 格式化为 dayjs 对象
+     * @param date 日期
+     * @param format 格式
+     * @param strict 是否严格
+     */
+    static parseDayjs(date?: dayjs.ConfigType | DateTime, format?: dayjs.OptionType | string, strict?: boolean): Dayjs {
+        return dayjs(date instanceof DateTime ? date.getDate() : date, format, strict);
+    }
+
+    /**
+     * 日期内容转 DateTime
+     * @param date 日期
+     * @param format 格式
+     * @param strict 是否严格
+     */
+    static parse(date?: dayjs.ConfigType | DateTime, format?: dayjs.OptionType | string, strict?: boolean): DateTime {
+        return DateTime.fromDayjs(DateTime.parseDayjs(date, format, strict));
+    }
+
+    /**
      * 获取月份
      */
     month() {
-        return this.date.getMonth() + 1
+        return this.dayjs.month() + 1
     }
 
     getTime() {
-        return this.date.getTime();
+        return this.dayjs.valueOf();
     }
 
-    setTime(time: number) {
-        return this.date.setTime(time);
+    get(unit: UnitType) {
+        return this.dayjs.get(unit)
+    }
+
+    set(unit: UnitType, value?: number): DateTime;
+    set(obj: Partial<Record<UnitType, number>>): DateTime;
+
+    set(unitOrObj: UnitType | Partial<Record<UnitType, number>>, value?: number): DateTime {
+        if (!unitOrObj) return this
+        if (typeof unitOrObj === 'string') {
+            if (value && typeof value === "number") {
+                this.dayjs = this.dayjs.set(unitOrObj, value);
+            }
+        } else if (typeof unitOrObj === 'object') {
+            let newDayjs = this.dayjs;
+            for (let [key, value] of Object.entries(unitOrObj)) {
+                if (value && typeof value === "number") {
+                    newDayjs = newDayjs.set(key as UnitType, value)
+                }
+            }
+            this.dayjs = newDayjs
+        }
+        return this
+    };
+
+    setTime(time: number): DateTime {
+        this.dayjs = dayjs(time);
+        return this;
     }
 
     getFullYear() {
-        return this.date.getFullYear();
+        return this.dayjs.year();
     }
 
-    setFullYear(year: number, month?: number, date?: number) {
-        if (month && date) {
-            return this.date.setFullYear(year, month, date);
-        } else if (month) {
-            return this.date.setFullYear(year, month);
-        }
-        return this.date.setFullYear(year);
+    setFullYear(year: number, month?: number, date?: number): DateTime {
+        this.set({
+            year,
+            month,
+            date
+        })
+        return this;
     }
 
     getMonth() {
-        return this.date.getMonth();
+        return this.dayjs.month();
     }
 
-    setMonth(month: number, date?: number) {
-        if (date) {
-            return this.date.setMonth(month, date);
-        }
-        return this.date.setMonth(month);
+    setMonth(month: number, date?: number): DateTime {
+        this.set({
+            month,
+            date
+        })
+        return this;
     }
 
     getDate() {
-        return this.date.getDate();
+        return this.dayjs.date();
     }
 
-    setDate(date: number) {
-        return this.date.setDate(date);
+    setDate(date: number): DateTime {
+        this.set({
+            date
+        })
+        return this;
     }
 
     getDay() {
-        return this.date.getDay();
+        return this.dayjs.day();
+    }
+
+    setDay(day: number) {
+        this.set({
+            day
+        })
+        return this
     }
 
     getHours() {
-        return this.date.getHours();
+        return this.dayjs.hour();
     }
 
-    setHours(hours: number, min?: number, sec?: number, ms?: number) {
-        if (min && sec && ms) {
-            return this.date.setHours(hours, min, sec, ms);
-        } else if (min && sec) {
-            return this.date.setHours(hours, min, sec);
-        } else if (min) {
-            return this.date.setHours(hours, min);
-        }
-        return this.date.setHours(hours);
+    setHours(hours: number, min?: number, sec?: number, ms?: number): DateTime {
+        this.set({
+            hour: hours,
+            minute: min,
+            second: sec,
+            millisecond: ms
+        })
+        return this;
     }
 
     getMinutes() {
-        return this.date.getMinutes();
+        return this.dayjs.minute();
     }
 
-    setMinutes(min: number, sec?: number, ms?: number) {
-        if (sec && ms) {
-            return this.date.setMinutes(min, sec, ms);
-        } else if (sec) {
-            return this.date.setHours(min, sec);
-        }
-        return this.date.setMinutes(min);
+    setMinutes(min: number, sec?: number, ms?: number): DateTime {
+        this.set({
+            minute: min,
+            second: sec,
+            millisecond: ms
+        })
+        return this;
     }
 
     getSeconds() {
-        return this.date.getSeconds();
+        return this.dayjs.second();
     }
 
     setSeconds(sec: number, ms?: number) {
-        if (ms) {
-            return this.date.setSeconds(sec, ms);
-        }
-        return this.date.setSeconds(sec);
+        this.set({
+            second: sec,
+            millisecond: ms
+        })
+        return this;
     }
 
     getMilliseconds() {
-        return this.date.getMilliseconds();
+        return this.dayjs.millisecond();
     }
 
     setMilliseconds(ms: number) {
-        return this.date.setMilliseconds(ms);
+        this.set({
+            millisecond: ms
+        })
+        return this;
     }
 
     /**
-     * 获取时区偏移量
-     * @param separator 是否带有间隔
+     * 获取时区
      */
-    timeZone(separator?: boolean) {
-        const offset = this.date.getTimezoneOffset();
-        const hours = Math.abs(Math.floor(offset / 60));
-        const minutes = Math.abs(offset % 60);
-        return `${offset < 0 ? '+' : '-'}${hours.toString().padStart(2, '0')}${separator ? ':' : ''}${minutes.toString().padStart(2, '0')}`;
-    }
-
-    /**
-     * 日期年，月，日，周，时，分，秒对象数据
-     */
-    objectValues(): DateTimeObjectValues {
-        const year = this.date.getFullYear();
-        const monthIndex = this.date.getMonth();
-        const day = this.date.getDate();
-        const week = this.date.getDay();
-        const hours = this.date.getHours();
-        const minutes = this.date.getMinutes();
-        const seconds = this.date.getSeconds();
-        const milliseconds = this.date.getMilliseconds();
-        const quarter = Math.floor((monthIndex + 3) / 3);
-        return {
-            year,
-            simpleYear: Number(year.toString().substring(2)),
-            monthIndex,
-            month: (monthIndex + 1),
-            fullMonth: (monthIndex + 1).toString().padStart(2, '0'),
-            day,
-            fullDay: day.toString().padStart(2, '0'),
-            week,
-            hours,
-            fullHours: hours.toString().padStart(2, '0'),
-            minutes,
-            fullMinutes: minutes.toString().padStart(2, '0'),
-            seconds,
-            fullSeconds: seconds.toString().padStart(2, '0'),
-            milliseconds,
-            fullMilliseconds: milliseconds.toString().padStart(3, '0'),
-            quarter,
-        }
+    timeZone() {
+        return dayjs.tz.guess()
     }
 
     /**
      * 转为年-月-日类型的日期
      * @returns {DateTime}
      */
-    toDate(): DateTime {
-        const values = this.objectValues();
-        return new DateTime(values.year, values.monthIndex, values.day);
+    toDateObj(): DateTime {
+        return new DateTime(this.dayjs.year(), this.dayjs.month(), this.dayjs.date());
     }
 
     /**
      * 转为时-分-秒类型的时间
      * @returns {DateTime}
      */
-    toTime(): DateTime {
+    toTimeObj(): DateTime {
         const dateTime = new DateTime(0);
-        const values = this.objectValues();
-        dateTime.date.setHours(values.hours);
-        dateTime.date.setMinutes(values.minutes);
-        dateTime.date.setSeconds(values.seconds);
+        dateTime.dayjs.hour(this.dayjs.hour()).minute(this.dayjs.minute()).second(this.dayjs.second())
         return dateTime;
     }
 
     /**
-     * 格式化日期，默认格式：yyyy-MM-dd HH:mm:ss
+     * 格式化日期，默认格式：YYYY-MM-DD HH:mm:ss
      *
-     * y年，M月份，d日，H小时，m分钟，s秒，q季度，S毫秒，w周
+     * 遵循 [dayjs]{@link https://day.js.org/docs/en/display/format} 格式化规则
      * @param format 格式
      */
-    format(format?: string) {
-        return DateUtil.format(this, format);
+    format(format: string = "YYYY-MM-DD HH:mm:ss"): string {
+        return this.dayjs.format(format);
     }
 
     /**
      * 格式化当前日期为年-月-日
      */
     formatDate(): string {
-        return this.format("yyyy-MM-dd");
+        return this.format("YYYY-MM-DD");
     }
 
     /**
@@ -387,7 +413,7 @@ class DateTime {
      * 格式化当前日期为年-月-日 时:分:秒
      */
     formatDateTime(): string {
-        return this.format("yyyy-MM-dd HH:mm:ss");
+        return this.format("YYYY-MM-DD HH:mm:ss");
     }
 
     /**
@@ -395,8 +421,7 @@ class DateTime {
      * @returns {DateTime}
      */
     beginOfDay(): DateTime {
-        const values = this.objectValues();
-        return new DateTime(values.year, values.monthIndex, values.day, 0, 0, 0);
+        return new DateTime(this.dayjs.startOf('day'));
     }
 
     /**
@@ -404,8 +429,7 @@ class DateTime {
      * @returns {DateTime}
      */
     endOfDay(): DateTime {
-        const values = this.objectValues();
-        return new DateTime(values.year, values.monthIndex, values.day, 23, 59, 59, 999);
+        return new DateTime(this.dayjs.endOf('day'));
     }
 
     /**
@@ -413,9 +437,7 @@ class DateTime {
      * @returns {DateTime}
      */
     beginOfWeek(): DateTime {
-        const values = this.objectValues();
-        const extra = this.firstWeek || 0;
-        return new DateTime(values.year, values.monthIndex, values.day - values.week + extra, 0, 0, 0);
+        return new DateTime(this.dayjs.startOf('week'));
     }
 
     /**
@@ -423,9 +445,7 @@ class DateTime {
      * @returns {DateTime}
      */
     endOfWeek(): DateTime {
-        const values = this.objectValues();
-        const extra = this.firstWeek || 0;
-        return new DateTime(values.year, values.monthIndex, values.day + (6 - values.week + extra), 23, 59, 59);
+        return new DateTime(this.dayjs.endOf('week'));
     }
 
     /**
@@ -433,8 +453,7 @@ class DateTime {
      * @returns {Date}
      */
     beginOfMonth(): DateTime {
-        const values = this.objectValues();
-        return new DateTime(values.year, values.monthIndex, 1, 0, 0, 0)
+        return new DateTime(this.dayjs.startOf('month'))
     }
 
     /**
@@ -442,8 +461,7 @@ class DateTime {
      * @returns {Date}
      */
     endOfMonth(): DateTime {
-        const values = this.objectValues();
-        return new DateTime(values.year, values.monthIndex + 1, 0, 23, 59, 59, 999);
+        return new DateTime(this.dayjs.endOf('month'));
     }
 
     /**
@@ -451,8 +469,7 @@ class DateTime {
      * @returns {DateTime}
      */
     beginOfYear(): DateTime {
-        const year = this.date.getFullYear();
-        return new DateTime(year, 0, 1, 0, 0, 0);
+        return new DateTime(this.dayjs.startOf('year'));
     }
 
     /**
@@ -460,8 +477,7 @@ class DateTime {
      * @returns {DateTime}
      */
     endOfYear(): DateTime {
-        const year = this.date.getFullYear();
-        return new DateTime(year + 1, 0, 0, 23, 59, 59, 999);
+        return new DateTime(this.dayjs.endOf('year'));
     }
 
     /**
@@ -469,57 +485,26 @@ class DateTime {
      * @param weekDay 星期，0 为周日，6 为周六
      */
     setFirstWeek(weekDay: WeekDayType): DateTime {
-        this.firstWeek = weekDay;
+        this.dayjs.weekday(weekDay)
         return this;
     }
 
     /**
      * 日期偏移操作
-     * @param dateField 偏移类型，见：{@link DateField}
+     * @param dateField 偏移类型
      * @param offset 偏移大小
      * @returns {DateTime}
      */
-    offset(dateField: keyof typeof DateField, offset: number): DateTime {
-        if (!dateField) return this;
-        const newDateTime = new DateTime(this);
-        const values = newDateTime.objectValues();
-        offset = offset || 0;
-        const dateType = DateField[dateField]
-        if (DateField.year === dateType) {
-            const tempDateTime = new DateTime(newDateTime);
-            newDateTime.date.setFullYear(values.year + Number(offset));
-            if (newDateTime.date.getMonth() !== tempDateTime.date.getMonth()
-                && newDateTime.date.getFullYear() === tempDateTime.date.getFullYear()) {
-                // 如果偏移年份后月份不等于原来的月份，则说明月份超出了，取当月最后一天
-                newDateTime.date.setDate(0);
-            }
-        } else if (DateField.month === dateType) {
-            const tempDateTime = new DateTime(newDateTime);
-            newDateTime.date.setMonth(values.monthIndex + Number(offset));
-            if (newDateTime.date.getMonth() !== tempDateTime.date.getMonth() + Number(offset)
-                && newDateTime.date.getFullYear() === tempDateTime.date.getFullYear()) {
-                // 如果月份-1后，月份不等于上个月数，则说明上个月天数超出了，取上月最后一天
-                newDateTime.date.setDate(0);
-            }
-        } else if (DateField.day === dateType) {
-            newDateTime.date.setDate(values.day + Number(offset));
-        } else if (DateField.week === dateType) {
-            newDateTime.date.setDate(values.day + 7 * offset);
-        } else if (DateField.hours === dateType) {
-            newDateTime.date.setHours(values.hours = Number(offset));
-        } else if (DateField.min === dateType) {
-            newDateTime.date.setMinutes(values.minutes = Number(offset));
-        } else {
-            newDateTime.date.setSeconds(values.seconds = Number(offset));
-        }
-        return newDateTime;
+    offset(dateField: dayjs.ManipulateType | undefined, offset: number): DateTime {
+        const newDayjs = this.dayjs.subtract(offset, dateField)
+        return new DateTime(newDayjs)
     }
 
     /**
      * 获取当月天数
      */
     daysOfMonth(): number {
-        return new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0).getDate();
+        return this.dayjs.daysInMonth();
     }
 
     /**
@@ -533,91 +518,91 @@ class DateTime {
      * 是否闰年
      */
     isLeapYear(): boolean {
-        const year = this.date.getFullYear();
-        return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+        return this.dayjs.isLeapYear()
     }
 
     /**
-     * 获取当前日期与指定日期之间的差值，当前-参数
+     * 获取当前日期与指定日期之间的差值
+     *
+     * @param date 日期
+     * @param unit 单位
+     * @param float 是否显示小数
      */
-    compare(date: Date | DateTime, dateField: keyof typeof DateField): number {
-        return DateUtil.compare(this, date, dateField);
+    compare(date: dayjs.ConfigType | DateTime, unit?: QUnitType | OpUnitType, float?: boolean): number {
+        return this.dayjs.diff(date instanceof DateTime ? date.dayjs : date, unit, float)
     }
 
     /**
      * 获取当前日期年龄（周岁）
      */
     age(): number {
-        return DateUtil.age(this);
-    }
-
-    /**
-     * 年月数
-     */
-    yearMonthNumber() {
-        return parseInt(this.date.getFullYear() + StrUtil.padStart(String(this.date.getMonth() + 1), 2, "0"))
-    }
-
-    /**
-     * 年月日数
-     */
-    yearMonthDayNumber() {
-        const month = StrUtil.padStart(String(this.date.getMonth() + 1), 2, "0");
-        const day = StrUtil.padStart(String(this.date.getDate()), 2, "0");
-        return parseInt(this.date.getFullYear() + month + day);
+        const nowDate = dayjs();
+        const curDate = this.dayjs;
+        const nowYear = nowDate.year();
+        const nowMonth = nowDate.month();
+        const nowDay = nowDate.date();
+        const birthYear = curDate.year();
+        const birthMonth = curDate.month();
+        const birthDay = curDate.date();
+        // 现在年-出生日期年
+        let age = nowYear - birthYear;
+        if (nowMonth === birthMonth) {
+            // 若月份相等判断，若当前天小于出生日期天则未到出生日期，则减一
+            if (nowDay < birthDay) {
+                --age;
+            }
+        } else if (nowMonth < birthMonth) {
+            // 若月份小于出生日期月份，未到出生日期，则减一
+            --age;
+        }
+        return age;
     }
 
     /**
      * 获取月天数
      */
     getMonthDayNumber() {
-        return this.endOfMonth().date.getDate()
+        return this.endOfMonth().dayjs.date()
     }
 
     /**
-     * 判断当天是否为周末
+     * 判断指定时间是否与当前时间相等
+     * @param date 指定时间
      */
-    isWeekEnd() {
-        return WeekDay.SUN === this.date.getDay() || WeekDay.SAT === this.date.getDay()
+    equals(date: dayjs.ConfigType | DateTime): boolean {
+        return this.getTime() === new DateTime(date).getTime();
     }
 
     /**
      * 判断当前时间是否在指定时间之前
      * @param date 指定时间
      */
-    isBefore(date: Date | DateTime) {
-        return DateUtil.compare(this, date) < 0
+    isBefore(date: dayjs.ConfigType | DateTime) {
+        return this.dayjs.isBefore(date instanceof DateTime ? date.dayjs : date)
     }
 
     /**
      * 判断当前时间是否在指定时间之前或等于
      * @param date 指定时间
      */
-    isBeforeOrEquals(date: Date | DateTime) {
-        return DateUtil.compare(this, date) <= 0
+    isBeforeOrEquals(date: dayjs.ConfigType | DateTime) {
+        return this.dayjs.isSameOrBefore(date instanceof DateTime ? date.dayjs : date)
     }
 
     /**
      * 判断当前时间是否在指定时间之后
      * @param date 指定时间
      */
-    isAfter(date: Date | DateTime) {
-        return DateUtil.compare(this, date) > 0
+    isAfter(date: dayjs.ConfigType | DateTime) {
+        return this.dayjs.isAfter(date instanceof DateTime ? date.dayjs : date)
     }
 
     /**
      * 判断当前时间是否在指定时间之后或等于
      * @param date 指定时间
      */
-    isAfterOrEquals(date: Date | DateTime) {
-        return DateUtil.compare(this, date) >= 0
-    }
-
-    /**
-     * 获取纪元日
-     */
-    getEpochDay() {
-        return DateUtil.getEpochDay(this);
+    isAfterOrEquals(date: dayjs.ConfigType | DateTime) {
+        return this.dayjs.isSameOrAfter(date instanceof DateTime ? date.dayjs : date)
     }
 }
 

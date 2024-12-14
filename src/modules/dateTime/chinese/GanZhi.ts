@@ -1,6 +1,7 @@
 import SolarTerms from "./SolarTerms";
 import DateTime from "../DateTime";
 import LunarInfo from "./LunarInfo";
+import DateUtil from "../DateUtil";
 
 /**
  * 干支工具
@@ -119,8 +120,8 @@ class GanZhi {
      */
     getDayIndex(year: number, month: number, day: number): number {
         // 1900 年 2 月 20 日为甲子日，1900 年 1 月 31 日与之相差 19 天，故加 41 补全
-        const days = new DateTime(year, month - 1, day).getEpochDay() - 1
-        return days - LunarInfo.BASE_DATE.getEpochDay() + 41
+        const days = DateUtil.getEpochDay(new DateTime(year, month - 1, day)) - 1
+        return days - DateUtil.getEpochDay(LunarInfo.BASE_DATE) + 41
     }
 
     /**

@@ -71,6 +71,7 @@
     "webpack-dev-server": "^5.0.4"
   },
   "dependencies": {
+    "dayjs": "^1.11.13",
     "js-md5": "^0.8.3",
     "long": "^5.2.3"
   }

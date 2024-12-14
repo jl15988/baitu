@@ -37,16 +37,6 @@ npm安装
 npm install baitu;
 ```
 
-vue2
-```js
-import Baitu from "baitu";
-
-Vue.prototype.$bu = Baitu;
-```
-
-
-组合式
-
 ```js
 import {DateTime} from "baitu"
 
