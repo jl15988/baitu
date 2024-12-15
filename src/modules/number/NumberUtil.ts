@@ -120,6 +120,37 @@ class NumberUtil {
     defaultIfEmpty(number: number | undefined | null, defaultNumber: number): number {
         return this.isEmpty(number) ? defaultNumber : number!;
     }
+
+    /**
+     * 随机生成 min 到 max 的随机数
+     * @param min 最小值
+     * @param max 最大值
+     */
+    random(min: number, max: number): number;
+    /**
+     * 随机生成 0 到 max 的随机数
+     * @param max 最大值
+     */
+    random(max: number): number;
+
+    /**
+     * 随机生成 min 到 max 的随机数
+     * @param minOrMax 最小值或最大值
+     * @param max 最大值
+     */
+    random(minOrMax: number, max?: number): number {
+        let min = minOrMax
+        if (!max) {
+            max = min;
+            min = 0;
+        }
+        if (min > max) {
+            let hold = max;
+            max = min;
+            min = hold;
+        }
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 }
 
 export default new NumberUtil();

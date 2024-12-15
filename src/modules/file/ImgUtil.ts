@@ -267,6 +267,23 @@ class ImgUtil {
         const contentType = this.getBase64ContentType(base64Data);
         return new File([blob], filename, {type: contentType});
     }
+
+    /**
+     * 获取文件的图片数据
+     * @param file 文件
+     */
+    async getImageData(file: File) {
+        const res = await FileUtil.toImage(file)
+        const img = res.img
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return null;
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        return ctx.getImageData(0, 0, img.width, img.height)
+    }
 }
 
 export default new ImgUtil();
