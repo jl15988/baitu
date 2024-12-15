@@ -1,4 +1,5 @@
 import ObjectUtil from "../object/ObjectUtil";
+import {uniq, uniqBy, uniqWith} from "lodash-es";
 
 /**
  * 数组工具
@@ -114,18 +115,8 @@ class ArrayUtil {
      * 深拷贝
      * @param array 数组
      */
-    deepCopy(array: any[]): any[] {
-        if (!Array.isArray(array)) {
-            return [];
-        }
-        return array.map(item => {
-            if (Array.isArray(item)) {
-                return this.deepCopy(item);
-            } else if (typeof item === 'object' && item !== null) {
-                return ObjectUtil.deepCopy(item);
-            }
-            return item;
-        });
+    deepClone<T>(array: T[]): T[] {
+        return ObjectUtil.deepClone(array)
     }
 
     /**
@@ -133,45 +124,29 @@ class ArrayUtil {
      * @param targets 目标数组
      * @param sources 源数组
      */
-    deepAssign(targets: (object | object[])[], sources: (object | object[])[]): any[] {
-        if (!sources || !Array.isArray(sources)) {
-            return targets
-        }
-        return sources.map((item, index) => {
-            if (item === undefined || item === null) {
-                return targets[index]
-            }
-            if (Array.isArray(item)) {
-                if (!!targets[index] && !Array.isArray(targets[index])) {
-                    return this.deepAssign([], item)
-                }
-                // @ts-ignore
-                return this.deepAssign(targets[index] || [], item);
-            } else if (typeof item === 'object') {
-                if (!!targets[index] && Array.isArray(targets[index])) {
-                    return ObjectUtil.deepAssign({}, item)
-                }
-                return ObjectUtil.deepAssign(targets[index] || {}, item);
-            }
-            return item;
-        });
+    deepAssign(targets: any[], ...sources: (any[])[]): any[] {
+        return ObjectUtil.deepAssign(targets, sources);
     }
 
     /**
      * 去重
      * @param arr 要去重的数组
-     * @param uniMapper 去重处理器，默认按当前元素去重，或者自定义，如：(cur: any) => cur.id
+     * @param comparator 比较函数
      */
-    unique<T>(arr: T[], uniMapper?: (cur: T) => any): T[] {
-        const uniArr: any[] = [];
-        return arr.reduce((acc: T[], cur: T) => {
-            const uniK = uniMapper ? uniMapper(cur) : cur;
-            if (!uniArr.includes(uniK)) {
-                acc.push(cur);
-                uniArr.push(uniK);
-            }
-            return acc;
-        }, []);
+    unique<T>(arr: T[], comparator?: (a: T, b: T) => boolean): T[] {
+        if (comparator) {
+            return uniqWith(arr, comparator);
+        }
+        return uniq(arr);
+    }
+
+    /**
+     * 去重
+     * @param arr 要去重的数组
+     * @param iteratee 迭代函数
+     */
+    uniqueBy<T>(arr: T[], iteratee: ((value: T) => unknown) | string | number): T[] {
+        return uniqBy(arr, iteratee);
     }
 
     /**
@@ -261,7 +236,7 @@ class ArrayUtil {
      * @param orderKey 排序的字段
      */
     orderByDesc<T>(arr: T[], orderKey?: keyof T): T[] {
-        arr = this.deepCopy(arr);
+        arr = this.deepClone(arr);
         return arr.sort((a, b) => {
             let v1: T | any = a, v2: T | any = b;
             if (orderKey) {

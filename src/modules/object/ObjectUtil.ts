@@ -1,5 +1,5 @@
-import ArrayUtil from "../array/ArrayUtil";
 import StrUtil from "../string/StrUtil";
+import {cloneDeep, merge} from "lodash-es";
 
 /**
  * 对象工具
@@ -48,22 +48,11 @@ class ObjectUtil {
     }
 
     /**
-     * 深拷贝
+     * 深拷贝，深克隆
      * @param obj 对象
      */
-    deepCopy(obj: any): any {
-        if (typeof obj !== 'object' || obj === null) {
-            return obj;
-        }
-        const copy = Array.isArray(obj) ? [] : {};
-        for (const key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                const value = obj[key];
-                // @ts-ignore
-                copy[key] = Array.isArray(value) ? ArrayUtil.deepCopy(obj[key]) : this.deepCopy(value);
-            }
-        }
-        return copy;
+    deepClone<T>(obj: T): T {
+        return cloneDeep(obj)
     }
 
     /**
@@ -71,64 +60,8 @@ class ObjectUtil {
      * @param target 目标对象
      * @param sources 源对象
      */
-    deepAssign(target: object, ...sources: object[]): object {
-        if (!sources) {
-            return target;
-        }
-        for (let source of sources) {
-            if (typeof source !== "object") {
-                continue
-            }
-            for (const key in source) {
-                if (source.hasOwnProperty(key)) {
-                    // @ts-ignore
-                    const value = source[key];
-                    if (value === undefined || value === null) continue
-                    if (Array.isArray(value)) {
-                        if (!!value && !Array.isArray(value)) {
-                            // @ts-ignore
-                            target[key] = ArrayUtil.deepAssign([], source[key])
-                        } else {
-                            // @ts-ignore
-                            target[key] = ArrayUtil.deepAssign(target[key] || [], source[key])
-                        }
-                    } else {
-                        if (typeof value !== 'object') {
-                            // @ts-ignore
-                            target[key] = value
-                        } else {
-                            // @ts-ignore
-                            if (!!target[key] && Array.isArray(target[key])) {
-                                // @ts-ignore
-                                target[key] = this.deepAssign({}, value)
-                            } else {
-                                // @ts-ignore
-                                target[key] = this.deepAssign(target[key] || {}, value)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return target;
-    }
-
-    /**
-     * 深合并，target 不可为空，target[targetKey] 可为空，默认赋值为 {}
-     * @param target 目标对象
-     * @param targetKey 目标对象 key
-     * @param sources 源对象
-     */
-    deepAssignByKey<T extends object>(target: T, targetKey: keyof T, ...sources: object[]): object {
-        if (!sources) {
-            return target;
-        }
-        if (!target[targetKey]) {
-            // @ts-ignore
-            target[targetKey] = {}
-        }
-        // @ts-ignore
-        return this.deepAssign(target[targetKey], ...sources);
+    deepAssign(target: any, ...sources: any[]): any {
+        return merge(target, ...sources);
     }
 
     /**
