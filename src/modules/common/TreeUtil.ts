@@ -53,7 +53,7 @@ class TreeUtil {
      */
     buildTree<T extends Record<string, any>>(list: T[], options?: BuildTreeLevelOptionType<T>): T[] {
         if (!list) return []
-        const newList = ArrayUtil.deepCopy(list) as T[]
+        const newList = ArrayUtil.deepClone(list) as T[]
         const {idName, parentName, mapper, leafMapper} = options || {}
         let {childName, levelName} = options || {}
         childName = childName || 'children'

@@ -11,6 +11,17 @@ export const routes: Array<RouteRecordRaw> = [
         name: 'Modules',
         children: [
             {
+                path: 'string',
+                name: 'string',
+                children: [
+                    {
+                        path: 'StrUtil',
+                        name: 'StrUtil',
+                        component: () => import('../modules/string/StrUtil.vue')
+                    }
+                ]
+            },
+            {
                 path: 'dateTime',
                 name: 'dateTime',
                 children: [

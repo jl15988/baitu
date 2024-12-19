@@ -1,4 +1,5 @@
 import ArrayUtil from "../array/ArrayUtil";
+import NumberUtil from "../number/NumberUtil";
 
 /**
  * 字符串工具
@@ -325,8 +326,75 @@ class StrUtil {
         return val1 - val2;
     }
 
-    replaceBetween(str: string, start: number, end: number, newChar: string): string {
-        return str.substring(0, start) + newChar + str.substring(end);
+    replaceBetween(str: string, startIndex: number, endIndex: number, newChar: string): string {
+        return str.substring(0, startIndex) + newChar + str.substring(endIndex);
+    }
+
+    /**
+     * 截取 startIndex 到 endIndex - 1 字符串，支持大小纠正（endIndex > startIndex），支持负数下标
+     *
+     * 对于非字符串或者为空的字符串，将返回空字符串
+     *
+     * 当下标为负数时，注意由于左闭右开，最后一位截取不到
+     * @param str 字符串
+     * @param startIndex 开始下标，支持负数
+     * @param endIndex 结束下标，支持负数
+     */
+    sub(str: string, startIndex: number, endIndex?: number): string {
+        if (this.isEmpty(str)) {
+            return "";
+        }
+        const len = str.length
+        if (len === 0) return "";
+        if (NumberUtil.isEmpty(endIndex)) endIndex = len
+        startIndex = NumberUtil.turnOverZeroBetweenMax(startIndex, len)
+        endIndex = NumberUtil.turnOverZeroBetweenMax(endIndex, len)
+        if (startIndex > endIndex) {
+            let tmp = startIndex
+            startIndex = endIndex
+            endIndex = tmp
+        }
+        return str.substring(startIndex, endIndex);
+    }
+
+    /**
+     * 截取指定长度字符串
+     * @param str 字符串
+     * @param subLen 截取长度
+     * @param fromIndex 截取的开始下标，支持负数，为负数时注意左闭右开（fromIndex 位截取不到）
+     */
+    subLen(str: string, subLen: number, fromIndex?: number) {
+        fromIndex = fromIndex || 0;
+        const endIndex = fromIndex < 0 ? fromIndex - subLen : subLen + fromIndex
+        return this.sub(str, fromIndex, endIndex)
+    }
+
+    /**
+     * 反向截取字符串，注意截取规则为左开右闭，不支持负数下标
+     * @param str 字符串
+     * @param startIndex 开始下标
+     * @param endIndex 结束下标
+     */
+    subReverse(str: string, startIndex: number, endIndex?: number) {
+        if (this.isEmpty(str)) return "";
+        const len = str.length
+        if (NumberUtil.isEmpty(endIndex)) endIndex = len
+        endIndex = len - endIndex
+        if (endIndex < 0) endIndex = 0
+        if (endIndex > len) endIndex = len
+        return this.sub(str, endIndex, len - startIndex)
+    }
+
+    /**
+     * 反向截取指定长度字符串
+     * @param str 字符串
+     * @param subLen 截取长度
+     * @param fromIndex 截取的开始下标，非负数
+     */
+    subReverseLen(str: string, subLen: number, fromIndex?: number) {
+        fromIndex = fromIndex || 0;
+        const endIndex = fromIndex < 0 ? fromIndex - subLen : subLen + fromIndex
+        return this.subReverse(str, fromIndex, endIndex)
     }
 }
 

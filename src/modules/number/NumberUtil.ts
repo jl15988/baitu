@@ -151,6 +151,47 @@ class NumberUtil {
         }
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
+    /**
+     * 调整数字到 a 和 b 之间
+     *
+     * 当数字大于或小于 a/b 时返回 a/b
+     * @param num 数字
+     * @param a 数字 a
+     * @param b 数字 b
+     */
+    turnBetween(num: number, a: number, b: number): number {
+        if (b < a) {
+            let hold = b;
+            b = a
+            a = hold
+        }
+        if (num < a) {
+            return a;
+        } else if (num > b) {
+            return b;
+        }
+        return num;
+    }
+
+    /**
+     * 调整数字到 0 和 maxNum 之间，但是当数字 小于 0 时，取 maxNum-num 值，若此时仍为负数，则直接返回 0，大于 maxNum 时返回 maxNum
+     *
+     * @param num 数字
+     * @param maxNum 最大值
+     */
+    turnOverZeroBetweenMax(num: number, maxNum: number): number {
+        if (num < 0) {
+            num = num + maxNum
+            if (num < 0) {
+                return 0;
+            }
+            return num;
+        } else if (num > maxNum) {
+            return maxNum;
+        }
+        return num;
+    }
 }
 
 export default new NumberUtil();
