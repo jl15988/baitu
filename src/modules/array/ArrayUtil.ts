@@ -1,5 +1,5 @@
 import ObjectUtil from "../object/ObjectUtil";
-import {uniq, uniqBy, uniqWith} from "lodash-es";
+import {uniq, uniqBy, uniqWith, orderBy} from "lodash-es";
 
 /**
  * 数组工具
@@ -236,15 +236,7 @@ class ArrayUtil {
      * @param orderKey 排序的字段
      */
     orderByDesc<T>(arr: T[], orderKey?: keyof T): T[] {
-        arr = this.deepClone(arr);
-        return arr.sort((a, b) => {
-            let v1: T | any = a, v2: T | any = b;
-            if (orderKey) {
-                v1 = a[orderKey];
-                v2 = b[orderKey];
-            }
-            return ObjectUtil.compare(v2, v1);
-        })
+        return orderBy(arr, orderKey, "desc");
     }
 
     /**
@@ -259,6 +251,50 @@ class ArrayUtil {
             i++;
         }
         return i;
+    }
+
+    remove<T>(arr: T[], index: number): T | null;
+    remove<T>(arr: T[], obj: T): boolean;
+    remove<T>(arr: T[], obj: T[]): boolean[];
+    remove<T>(arr: T[], indexOrObj: number | T | T[]): boolean | T | boolean[] | null {
+        if (typeof indexOrObj === "number") {
+            const removeds = arr.splice(indexOrObj, 1);
+            if (removeds.length > 0) {
+                return removeds[0];
+            }
+            return null;
+        } else if (Array.isArray(indexOrObj)) {
+            if (indexOrObj.length === 0) {
+                return false;
+            }
+            return indexOrObj.map(value => {
+                const index = arr.indexOf(value);
+                if (index >= 0) {
+                    const removeds = arr.splice(index, 1);
+                    return removeds.length === indexOrObj.length
+                }
+                return false;
+            })
+        }
+        const index = arr.indexOf(indexOrObj);
+        if (index >= 0) {
+            const removeds = arr.splice(index, 1);
+            return removeds.length > 0;
+        } else {
+            return false;
+        }
+    }
+
+    removeBy<T>(arr: T[], predicate: (value: T, index: number, array: T[]) => boolean): T[] {
+        if (typeof predicate === "function") {
+            const removeds = arr.filter(predicate);
+            removeds.forEach(removed => {
+                const index = arr.indexOf(removed);
+                arr.splice(index, 1);
+            });
+            return removeds;
+        }
+        return [];
     }
 }
 
