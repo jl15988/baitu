@@ -26,7 +26,9 @@
   "scripts": {
     "example": "webpack serve --config webpack.config.js --mode=development",
     "build": "rollup -c",
-    "toPublish": "npm publish --registry=https://registry.npmjs.org --access=public"
+    "toPublish": "npm publish --registry=https://registry.npmjs.org --access=public",
+    "format": "prettier --write \"src/**/*.{ts,js,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,js,json}\""
   },
   "typings": "/types/index.d.ts",
   "repository": {
@@ -55,6 +57,7 @@
     "css-loader": "^7.1.2",
     "html-webpack-plugin": "^5.6.0",
     "jsencrypt": "^3.3.2",
+    "prettier": "^3.2.5",
     "rollup": "^4.18.0",
     "rollup-plugin-typescript2": "^0.36.0",
     "sass": "^1.77.8",
