@@ -26,6 +26,7 @@ import Executes from "./modules/execute/Executes";
 import Long from "long";
 import RenderUtil from "./modules/common/RenderUtil";
 
+export * from "./modules/builder";
 export * from "./modules/chinesedate";
 export * from "./modules/dateTime";
 
