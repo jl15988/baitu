@@ -1,12 +1,11 @@
-import DateTime from "../dateTime/DateTime";
+import { DateTime, DateUtil } from "../dateTime";
 import NumberUtil from "../number/NumberUtil";
-import DateUtil from "../dateTime/DateUtil";
-import ChineseDateUtil from "./ChineseDateUtil";
+import { ChineseDateUtil } from "./ChineseDateUtil";
 
 /**
  * 农历节气工具
  */
-class SolarTerms {
+export class SolarTerms {
 	// 农历节气表，包含农历的节气公历天，一段表示一年的
 	static SOLAR_TERMS_INFO = [
 		"9778397bd097c36b0b6fc9274c91aa", "97b6b97bd19801ec9210c965cc920e", "97bcf97c3598082c95f8c965cc920f", "97bd0b06bdb0722c965ce1cfcc920f", "b027097bd097c36b0b6fc9274c91aa", "97b6b97bd19801ec9210c965cc920e", "97bcf97c359801ec95f8c965cc920f", "97bd0b06bdb0722c965ce1cfcc920f", "b027097bd097c36b0b6fc9274c91aa", "97b6b97bd19801ec9210c965cc920e",
@@ -179,5 +178,3 @@ class SolarTerms {
 		);
 	}
 }
-
-export default SolarTerms;

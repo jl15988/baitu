@@ -1,5 +1,5 @@
-import StrUtil from "../string/StrUtil";
-import {cloneDeep, merge} from "lodash-es";
+import { StrUtil } from "../string";
+import { cloneDeep, merge } from "lodash-es";
 
 /**
  * 对象工具

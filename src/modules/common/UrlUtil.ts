@@ -1,4 +1,4 @@
-import StrUtil from "../string/StrUtil";
+import { StrUtil } from "../string";
 import ValidateUtil from "../string/ValidateUtil";
 
 /**

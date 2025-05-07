@@ -9,7 +9,7 @@ export interface WatchInfo {
  * 更天 - 中国古代夜间时间计量单位
  * 一般分为五更，每更约为现代计时的两个小时
  */
-class NightWatch {
+export class NightWatch {
 	/**
 	 * 更数数组，包含五更
 	 */
@@ -100,5 +100,3 @@ class NightWatch {
 		}));
 	}
 }
-
-export default NightWatch;

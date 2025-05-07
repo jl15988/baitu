@@ -1,14 +1,13 @@
-import DateTime from "../dateTime/DateTime";
-import LunarInfo from "./LunarInfo";
-import GanZhi from "./GanZhi";
-import ChineseDateUtil from "./ChineseDateUtil";
+import { DateTime, DateZodiac } from "../dateTime";
+import { LunarInfo } from "./LunarInfo";
+import { GanZhi } from "./GanZhi";
+import { ChineseDateUtil } from "./ChineseDateUtil";
 import NumberUtil from "../number/NumberUtil";
-import DateZodiac from "../dateTime/DateZodiac";
 
 /**
  * 农历日期
  */
-class ChineseDate {
+export class ChineseDate {
 	// 农历年
 	chineseYear: number;
 
@@ -167,5 +166,3 @@ class ChineseDate {
 		);
 	}
 }
-
-export default ChineseDate;

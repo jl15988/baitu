@@ -1,10 +1,10 @@
-import DateTime from "../dateTime/DateTime";
+import { DateTime } from "../dateTime";
 
 /**
  * 农历闰月信息表
  * 1900-2100 年的闰月信息
  */
-class LunarInfo {
+export class LunarInfo {
 	// 农历 1900-2100 的闰大小信息表
 	static LUNAR_INFO = [
 		0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2, // 1900-1909
@@ -79,5 +79,3 @@ class LunarInfo {
 		return sum + this.leapDays(chineseYear);
 	}
 }
-
-export default LunarInfo;

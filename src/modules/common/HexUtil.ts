@@ -1,4 +1,4 @@
-import StrUtil from "../string/StrUtil";
+import { StrUtil } from "../string";
 
 /**
  * 16进制工具

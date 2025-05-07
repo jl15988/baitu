@@ -1,12 +1,11 @@
-import SolarTerms from "./SolarTerms";
-import DateTime from "../dateTime/DateTime";
-import LunarInfo from "./LunarInfo";
-import DateUtil from "../dateTime/DateUtil";
+import { SolarTerms } from "./SolarTerms";
+import { DateTime, DateUtil } from "../dateTime";
+import { LunarInfo } from "./LunarInfo";
 
 /**
  * 农历干支工具
  */
-class GanZhi {
+export class GanZhi {
 	// 天干
 	static GAN = [
 		"甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸",
@@ -177,5 +176,3 @@ class GanZhi {
 		);
 	}
 }
-
-export default GanZhi;

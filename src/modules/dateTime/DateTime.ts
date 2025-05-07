@@ -127,7 +127,7 @@ export type DateTimeObjectValues = {
 /**
  * 日期时间对象
  */
-class DateTime {
+export class DateTime {
     firstWeek: number = 0
     dayjs: Dayjs
 
@@ -605,5 +605,3 @@ class DateTime {
         return this.dayjs.isSameOrAfter(date instanceof DateTime ? date.dayjs : date)
     }
 }
-
-export default DateTime;

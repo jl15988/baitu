@@ -1,12 +1,11 @@
-import DateTime from "../dateTime/DateTime";
-import LunarInfo from "./LunarInfo";
-import ChineseDate from "./ChineseDate";
-import DateUtil from "../dateTime/DateUtil";
+import { DateTime, DateUtil } from "../dateTime";
+import { LunarInfo } from "./LunarInfo";
+import { ChineseDate } from "./ChineseDate";
 
 /**
  * 农历日期该工具
  */
-class ChineseDateUtil {
+export class ChineseDateUtil {
 	/**
 	 * 公历转农历，适用于 1900.1.31~2100.12.1
 	 * @param year 公历年
@@ -120,5 +119,3 @@ class ChineseDateUtil {
 		}
 	}
 }
-
-export default ChineseDateUtil;
