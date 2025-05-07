@@ -1,3 +1,10 @@
+export interface WatchInfo {
+	name: string;
+	timeDesc: string;
+	startHour: number;
+	endHour: number;
+}
+
 /**
  * 更天 - 中国古代夜间时间计量单位
  * 一般分为五更，每更约为现代计时的两个小时
@@ -6,28 +13,30 @@ class NightWatch {
 	/**
 	 * 更数数组，包含五更
 	 */
-	static readonly WATCH_NAMES: string[] = ['一更', '二更', '三更', '四更', '五更'];
+	static readonly WATCH_NAMES: string[] = [
+		"一更", "二更", "三更", "四更", "五更",
+	];
 
 	/**
 	 * 每更对应的时辰
 	 */
 	static readonly WATCH_TIME_DESC: string[] = [
-		'戌时至亥时（19:00-23:00）',
-		'子时（23:00-01:00）',
-		'丑时（01:00-03:00）',
-		'寅时（03:00-05:00）',
-		'卯时（05:00-07:00）',
+		"戌时至亥时（19:00-23:00）", "子时（23:00-01:00）", "丑时（01:00-03:00）", "寅时（03:00-05:00）", "卯时（05:00-07:00）",
 	];
 
 	/**
 	 * 每更的开始小时（24小时制）
 	 */
-	static readonly WATCH_HOUR_STARTS: number[] = [19, 23, 1, 3, 5];
+	static readonly WATCH_HOUR_STARTS: number[] = [
+		19, 23, 1, 3, 5,
+	];
 
 	/**
 	 * 每更的结束小时（24小时制）
 	 */
-	static readonly WATCH_HOUR_ENDS: number[] = [23, 1, 3, 5, 7];
+	static readonly WATCH_HOUR_ENDS: number[] = [
+		23, 1, 3, 5, 7,
+	];
 
 	/**
 	 * 根据小时获取对应的更数（0-4，对应一更到五更）
@@ -56,7 +65,7 @@ class NightWatch {
 	 */
 	static getWatchName(hour: number): string {
 		const index = this.getWatchIndex(hour);
-		return index >= 0 ? this.WATCH_NAMES[index] : '';
+		return index >= 0 ? this.WATCH_NAMES[index] : "";
 	}
 
 	/**
@@ -66,7 +75,7 @@ class NightWatch {
 	 */
 	static getWatchTimeDesc(hour: number): string {
 		const index = this.getWatchIndex(hour);
-		return index >= 0 ? this.WATCH_TIME_DESC[index] : '';
+		return index >= 0 ? this.WATCH_TIME_DESC[index] : "";
 	}
 
 	/**
@@ -82,12 +91,7 @@ class NightWatch {
 	 * 获取所有更数信息
 	 * @returns 更数信息数组
 	 */
-	static getAllWatchInfo(): {
-		name: string;
-		timeDesc: string;
-		startHour: number;
-		endHour: number;
-	}[] {
+	static getAllWatchInfo(): WatchInfo[] {
 		return this.WATCH_NAMES.map((name, index) => ({
 			name,
 			timeDesc: this.WATCH_TIME_DESC[index],

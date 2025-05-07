@@ -1,8 +1,8 @@
-import LunarInfo from "./chinese/LunarInfo";
-import SolarTerms from "./chinese/SolarTerms";
-import ChineseDateUtil from "./chinese/ChineseDateUtil";
+import LunarInfo from "../chinesedate/LunarInfo";
+import SolarTerms from "../chinesedate/SolarTerms";
+import ChineseDateUtil from "../chinesedate/ChineseDateUtil";
 import ChineseNumber from "../number/ChineseNumber";
-import GanZhi from "./chinese/GanZhi";
+import GanZhi from "../chinesedate/GanZhi";
 
 export type FestivalResultType = {
     // 重要的
