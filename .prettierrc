@@ -6,5 +6,13 @@
 	"bracketSpacing": true,
 	"semi": true,
 	"arrowParens": "avoid",
-	"endOfLine": "auto"
+	"endOfLine": "auto",
+	"bracketSameLine": false,
+	"singleAttributePerLine": false,
+	"singleQuote": false,
+	"jsxSingleQuote": false,
+	"quoteProps": "as-needed",
+	"plugins": ["prettier-plugin-multiline-arrays"],
+	"multilineArraysWrapThreshold": 10,
+	"multilineArraysLinePattern": "10"
 }
