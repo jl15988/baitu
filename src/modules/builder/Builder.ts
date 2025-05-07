@@ -1,3 +1,5 @@
+import { StrUtil } from "../string";
+
 /**
  * 动态Builder类型，提供属性链式调用方法
  * 使所有属性方法都是必需的，即使原属性是可选的
@@ -8,6 +10,7 @@ export type DynamicBuilder<T, TSet extends keyof T = never> = {
 	set<K extends keyof T>(key: K, value: T[K]): DynamicBuilder<T, TSet | K>;
 	setValues<K extends keyof T>(values: Pick<T, K>): DynamicBuilder<T, TSet | K>;
 	get<K extends keyof T>(key: K): T[K];
+	getOrDefault<K extends keyof T>(key: K, defaultValue: NonNullable<T[K]>): NonNullable<T[K]>;
 	transform(transformer: (instance: Partial<T>) => void): DynamicBuilder<T, TSet>;
 	build(): Pick<T, TSet>;
 };
@@ -74,6 +77,17 @@ export class Builder<T extends Record<string, any>, TSet extends keyof T = never
 	 */
 	get<K extends keyof T>(key: K): T[K] {
 		return this.instance[key];
+	}
+
+	/**
+	 * 获取属性值，如果属性值为null或undefined则返回默认值
+	 * @param key 属性名
+	 * @param defaultValue 默认值
+	 * @returns 属性值或默认值，返回值类型不包含undefined或null
+	 */
+	getOrDefault<K extends keyof T>(key: K, defaultValue: NonNullable<T[K]>): NonNullable<T[K]> {
+		const value = this.instance[key];
+		return StrUtil.isNotEmpty(value) ? (value as NonNullable<T[K]>) : defaultValue;
 	}
 
 	/**

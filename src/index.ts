@@ -1,6 +1,4 @@
 import values from "./values";
-import Str from "./modules/string/Str";
-import StrUtil from "./modules/string/StrUtil";
 import NumberUtil from "./modules/number/NumberUtil";
 import Throttle from "./modules/common/Throttle";
 import Debounce from "./modules/common/Debounce";
@@ -9,10 +7,8 @@ import FileTypeMagicMap from "./modules/file/FileTypeMagicMap";
 import FileTypeMimeMap from "./modules/file/FileTypeMimeMap";
 import HexUtil from "./modules/common/HexUtil";
 import ObjectUtil from "./modules/object/ObjectUtil";
-import DesensitizedUtil from "./modules/string/DesensitizedUtil";
 import ArrayUtil from "./modules/array/ArrayUtil";
 import { definePattern } from "./modules/common/PatternPool";
-import ValidateUtil from "./modules/string/ValidateUtil";
 import ImgUtil from "./modules/file/ImgUtil";
 import IDUtil from "./modules/common/IDUtil";
 import SnowflakeIdWorker from "./modules/common/SnowflakeIdWorker";
@@ -29,10 +25,9 @@ import RenderUtil from "./modules/common/RenderUtil";
 export * from "./modules/builder";
 export * from "./modules/chinesedate";
 export * from "./modules/dateTime";
+export * from "./modules/string";
 
 export {
-	Str,
-	StrUtil,
 	NumberUtil,
 	Throttle,
 	Debounce,
@@ -41,10 +36,8 @@ export {
 	FileTypeMagicMap,
 	FileTypeMimeMap,
 	ObjectUtil,
-	DesensitizedUtil,
 	ArrayUtil,
 	definePattern,
-	ValidateUtil,
 	ImgUtil,
 	IDUtil,
 	SnowflakeIdWorker,
@@ -56,7 +49,7 @@ export {
 	ExePool,
 	Executes,
 	Long,
-	RenderUtil
+	RenderUtil,
 };
 
 const baitu = values;

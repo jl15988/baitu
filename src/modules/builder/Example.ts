@@ -36,6 +36,9 @@ export function builderExamples() {
 		.build();
 	console.log("创建的用户对象:", user);
 
+	// 测试getOrDefault方法
+	var orDefault = Builder.of(User).getOrDefault("age", 0);
+
 	// 示例2: 使用对象创建Builder (set方式)
 	const productTemplate = {
 		id: 0,
